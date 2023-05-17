@@ -18,7 +18,7 @@ const Home = () => {
         <Text textAlign={"right"}>
           {" "}
           <Link to={"/signup"}>
-            <Button>signup</Button>
+            <Button>signup please</Button>
           </Link>
         </Text>
         <Image
