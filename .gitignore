@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-./tinder-frontend/node_modules
-./tinder-backend/node_modules
+tinder-frontend/node_modules
+tinder-backend/node_modules
 /.pnp
 .pnp.js
 
