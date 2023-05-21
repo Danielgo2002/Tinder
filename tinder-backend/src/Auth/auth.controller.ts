@@ -29,14 +29,14 @@ export class AuthController {
     return this.AuthService.signIn(signInDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('addPreferences')
   addPreferences(@Body() preferencesDto: preferencesDto) {
-    // return this.AuthService.addPreferences(preferencesDto);
+    return this.AuthService.addPreferences(preferencesDto);
   }
 
-  @UseGuards(AuthGuard('ref'))
-  @Get('refresh')
-  refresh(@GetUser() account: UserDocument) {
-    return this.AuthService.refresh(account);
-  }
+  // @Get('refresh')
+  // refresh(@GetUser() account: UserDocument) {
+  //   return this.AuthService.refresh(account);
+  // }
 }

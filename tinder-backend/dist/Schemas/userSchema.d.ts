@@ -24,7 +24,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Document, Types } from 'mongoose';
 import { Chat } from './chatSchema';
-import { ageRange, gender, location } from './Enums';
+import { gender, location } from './Enums';
 export type UserDocument = User & Document;
 export declare class User {
     gmail: string;
@@ -40,8 +40,9 @@ export declare class User {
     likesRecived: Types.ObjectId[];
     preferences: {
         gender: gender;
-        age: ageRange;
+        age: number;
         location: location;
+        id: string;
     };
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User>;

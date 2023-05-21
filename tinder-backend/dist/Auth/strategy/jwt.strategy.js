@@ -37,7 +37,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
 };
 JwtStrategy = __decorate([
     (0, common_1.Injectable)(),
-    __param(1, (0, mongoose_1.InjectModel)('users')),
+    __param(1, (0, mongoose_1.InjectModel)('User')),
     __metadata("design:paramtypes", [config_1.ConfigService,
         mongoose_2.Model])
 ], JwtStrategy);

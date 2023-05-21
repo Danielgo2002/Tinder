@@ -51,12 +51,14 @@ export class User {
       gender: null,
       age: null,
       location: null,
+      id: null,
     },
   })
   preferences: {
     gender: gender;
-    age: ageRange;
+    age: number;
     location: location;
+    id: string;
   };
 }
 

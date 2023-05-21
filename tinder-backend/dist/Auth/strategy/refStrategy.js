@@ -19,7 +19,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const passport_1 = require("@nestjs/passport");
 const mongoose_2 = require("mongoose");
 const passport_jwt_1 = require("passport-jwt");
-let RefStrategy = class RefStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt') {
+let RefStrategy = class RefStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-refresh') {
     constructor(UserModel, configService) {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -38,7 +38,7 @@ let RefStrategy = class RefStrategy extends (0, passport_1.PassportStrategy)(pas
 };
 RefStrategy = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('users')),
+    __param(0, (0, mongoose_1.InjectModel)('User')),
     __metadata("design:paramtypes", [mongoose_2.Model,
         config_1.ConfigService])
 ], RefStrategy);

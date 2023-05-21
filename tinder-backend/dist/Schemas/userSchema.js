@@ -65,6 +65,7 @@ __decorate([
             gender: null,
             age: null,
             location: null,
+            id: null,
         },
     }),
     __metadata("design:type", Object)

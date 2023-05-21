@@ -11,4 +11,7 @@ export class preferencesDto {
 
   @IsEnum(location)
   location: location;
+
+  @IsString()
+  id: string;
 }

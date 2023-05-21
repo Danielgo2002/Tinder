@@ -26,5 +26,9 @@ __decorate([
     (0, class_validator_1.IsEnum)(Enums_1.location),
     __metadata("design:type", String)
 ], preferencesDto.prototype, "location", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], preferencesDto.prototype, "id", void 0);
 exports.preferencesDto = preferencesDto;
 //# sourceMappingURL=prefrences.Dto.js.map

@@ -7,9 +7,9 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserDocument } from 'src/Schemas/userSchema';
 
 @Injectable()
-export class RefStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class RefStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(
-    @InjectModel('users') private readonly UserModel: Model<UserDocument>,
+    @InjectModel('User') private readonly UserModel: Model<UserDocument>,
     private readonly configService: ConfigService,
   ) {
     super({

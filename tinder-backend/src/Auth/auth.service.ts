@@ -37,11 +37,11 @@ export class AuthService {
       await User.save();
 
       const access_Token = await (
-        await this.accessToken(User.gmail)
+        await this.accessToken(User.id, User.gmail)
       ).access_token;
 
       const refresh_token = await (
-        await this.refreshToken(User.gmail)
+        await this.refreshToken(User.id, User.gmail)
       ).refresh_token;
 
       return {
@@ -70,32 +70,38 @@ export class AuthService {
       };
     }
     const access_Token = await (
-      await this.accessToken(User.gmail)
+      await this.accessToken(User.id, User.gmail)
     ).access_token;
     const refresh_token = await (
-      await this.refreshToken(User.gmail)
+      await this.refreshToken(User.id, User.gmail)
     ).refresh_token;
     return { access_Token, refresh_token, User };
   }
-  // async addPreferences(preferencesDto: preferencesDto) {
-  //   const findUser = await this.UserModel.findById(preferencesDto.id);
-  //   const preferences = {
-  //     gender: preferencesDto.gender,
-  //     age: preferencesDto.age,
-  //     location: preferencesDto.location,
-  //   };
-  //   findUser.preferences = preferences;
-  //   await findUser.save();
-  //   return {
-  //     data: preferences,
-  //     status: statusCode.success,
-  //     message: 'העדפות חדשות נכנסו למערכת...',
-  //   };
-  // }
+  async addPreferences(preferencesDto: preferencesDto) {
+    const findUser = await this.UserModel.findById(preferencesDto.id);
+    const preferences = {
+      gender: preferencesDto.gender,
+      age: preferencesDto.age,
+      location: preferencesDto.location,
+      id: preferencesDto.id,
+    };
+    findUser.preferences = preferences;
 
-  async accessToken(gmail: string): Promise<{ access_token: string }> {
+    await findUser.save();
+    return {
+      data: preferences,
+      status: statusCode.success,
+      message: 'העדפות חדשות נכנסו למערכת...',
+    };
+  }
+
+  async accessToken(
+    id: string,
+    gmail: string,
+  ): Promise<{ access_token: string }> {
     const payload = {
-      sub: gmail,
+      sub: id,
+      gmail,
     };
     const secret = this.config.get('JWT_SECRET');
 
@@ -108,9 +114,13 @@ export class AuthService {
       access_token: token,
     };
   }
-  async refreshToken(gmail: string): Promise<{ refresh_token: string }> {
+  async refreshToken(
+    id: string,
+    gmail: string,
+  ): Promise<{ refresh_token: string }> {
     const payload = {
-      sub: gmail,
+      sub: id,
+      gmail,
     };
     const secret = this.config.get('JWT_SECRET_REFRESH');
 
@@ -121,7 +131,7 @@ export class AuthService {
     return { refresh_token: token };
   }
   async refresh(user) {
-    const access_Token = await this.accessToken(user.email);
+    const access_Token = await this.accessToken(user.id, user.gmail);
     return access_Token;
   }
 }

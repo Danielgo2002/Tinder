@@ -36,6 +36,6 @@ import { RefStrategy } from './strategy/refStrategy';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, ConfigService, RefStrategy],
+  providers: [AuthService, ConfigService, JwtStrategy],
 })
 export class AuthModule {}

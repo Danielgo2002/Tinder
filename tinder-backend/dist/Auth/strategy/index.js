@@ -15,4 +15,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./jwt.strategy"), exports);
+__exportStar(require("./refStrategy"), exports);
 //# sourceMappingURL=index.js.map

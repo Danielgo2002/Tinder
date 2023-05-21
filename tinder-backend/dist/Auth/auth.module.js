@@ -14,7 +14,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const userSchema_1 = require("../Schemas/userSchema");
 const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
-const refStrategy_1 = require("./strategy/refStrategy");
+const strategy_1 = require("./strategy");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -25,7 +25,7 @@ AuthModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: userSchema_1.User.name, schema: userSchema_1.UserSchema }]),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, config_1.ConfigService, refStrategy_1.RefStrategy],
+        providers: [auth_service_1.AuthService, config_1.ConfigService, strategy_1.JwtStrategy],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

@@ -4,6 +4,7 @@ import { User, UserDocument } from 'src/Schemas/userSchema';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { signInDto } from 'src/dto/signIn.Dto';
+import { preferencesDto } from 'src/dto/prefrences.Dto';
 export declare class AuthService {
     private readonly UserModel;
     private config;
@@ -41,10 +42,20 @@ export declare class AuthService {
         status?: undefined;
         message?: undefined;
     }>;
-    accessToken(gmail: string): Promise<{
+    addPreferences(preferencesDto: preferencesDto): Promise<{
+        data: {
+            gender: import("../Schemas/Enums").gender;
+            age: number;
+            location: import("../Schemas/Enums").location;
+            id: string;
+        };
+        status: string;
+        message: string;
+    }>;
+    accessToken(id: string, gmail: string): Promise<{
         access_token: string;
     }>;
-    refreshToken(gmail: string): Promise<{
+    refreshToken(id: string, gmail: string): Promise<{
         refresh_token: string;
     }>;
     refresh(user: any): Promise<{
