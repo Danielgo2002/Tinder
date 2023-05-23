@@ -27,7 +27,6 @@ import { User, UserSchema } from 'src/Schemas/userSchema';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategy';
-import { RefStrategy } from './strategy/refStrategy';
 
 @Module({
   imports: [

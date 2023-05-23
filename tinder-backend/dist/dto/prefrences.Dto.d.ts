@@ -3,5 +3,4 @@ export declare class preferencesDto {
     gender: gender;
     age: number;
     location: location;
-    id: string;
 }

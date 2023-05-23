@@ -31,9 +31,12 @@ export class AuthService {
         };
       }
 
-      const newobj = { ...{ hash: 'hasj', ...signUpDto } };
+      const newobj = { ...{ hash: 'hash', ...signUpDto } };
       delete newobj.password;
+
       const User = new this.UserModel(signUpDto);
+      console.log(typeof User.id);
+
       await User.save();
 
       const access_Token = await (
@@ -62,6 +65,8 @@ export class AuthService {
 
   async signIn(signInDto: signInDto) {
     const User = await this.UserModel.findOne({ gmail: signInDto.gmail });
+    console.log(typeof User.id);
+
     if (!User) {
       return {
         data: undefined,
@@ -69,6 +74,7 @@ export class AuthService {
         message: 'משתמש לא נמצא נסה שנית',
       };
     }
+
     const access_Token = await (
       await this.accessToken(User.id, User.gmail)
     ).access_token;
@@ -77,14 +83,16 @@ export class AuthService {
     ).refresh_token;
     return { access_Token, refresh_token, User };
   }
-  async addPreferences(preferencesDto: preferencesDto) {
-    const findUser = await this.UserModel.findById(preferencesDto.id);
+  async addPreferences(preferencesDto: preferencesDto, userId: string) {
+    const findUser = await this.UserModel.findById(userId);
     const preferences = {
       gender: preferencesDto.gender,
       age: preferencesDto.age,
       location: preferencesDto.location,
-      id: preferencesDto.id,
+      id: userId,
     };
+    console.log(userId);
+
     findUser.preferences = preferences;
 
     await findUser.save();
@@ -125,7 +133,7 @@ export class AuthService {
     const secret = this.config.get('JWT_SECRET_REFRESH');
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
+      expiresIn: '60m',
       secret: secret,
     });
     return { refresh_token: token };

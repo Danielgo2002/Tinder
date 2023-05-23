@@ -16,7 +16,9 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const dto_1 = require("../dto");
+const auth_guard_1 = require("./auth.guard");
 const auth_service_1 = require("./auth.service");
+const decorators_1 = require("./decorators");
 let AuthController = class AuthController {
     constructor(AuthService) {
         this.AuthService = AuthService;
@@ -27,8 +29,11 @@ let AuthController = class AuthController {
     signIn(signInDto) {
         return this.AuthService.signIn(signInDto);
     }
-    addPreferences(preferencesDto) {
-        return this.AuthService.addPreferences(preferencesDto);
+    addPreferences(req, preferencesDto) {
+        return this.AuthService.addPreferences(preferencesDto, req.user.sub);
+    }
+    refresh(account) {
+        return this.AuthService.refresh(account);
     }
 };
 __decorate([
@@ -46,13 +51,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
     (0, common_1.Post)('addPreferences'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.preferencesDto]),
+    __metadata("design:paramtypes", [Object, dto_1.preferencesDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "addPreferences", null);
+__decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt-refresh')),
+    (0, common_1.Get)('refresh'),
+    __param(0, (0, decorators_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "refresh", null);
 AuthController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     (0, common_1.Controller)('auth'),

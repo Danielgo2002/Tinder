@@ -37,9 +37,10 @@ let AuthService = class AuthService {
                     message: 'duplicate error. this email alredy taken...',
                 };
             }
-            const newobj = Object.assign({}, Object.assign({ hash: 'hasj' }, signUpDto));
+            const newobj = Object.assign({}, Object.assign({ hash: 'hash' }, signUpDto));
             delete newobj.password;
             const User = new this.UserModel(signUpDto);
+            console.log(typeof User.id);
             await User.save();
             const access_Token = await (await this.accessToken(User.id, User.gmail)).access_token;
             const refresh_token = await (await this.refreshToken(User.id, User.gmail)).refresh_token;
@@ -61,6 +62,7 @@ let AuthService = class AuthService {
     }
     async signIn(signInDto) {
         const User = await this.UserModel.findOne({ gmail: signInDto.gmail });
+        console.log(typeof User.id);
         if (!User) {
             return {
                 data: undefined,
@@ -72,14 +74,15 @@ let AuthService = class AuthService {
         const refresh_token = await (await this.refreshToken(User.id, User.gmail)).refresh_token;
         return { access_Token, refresh_token, User };
     }
-    async addPreferences(preferencesDto) {
-        const findUser = await this.UserModel.findById(preferencesDto.id);
+    async addPreferences(preferencesDto, userId) {
+        const findUser = await this.UserModel.findById(userId);
         const preferences = {
             gender: preferencesDto.gender,
             age: preferencesDto.age,
             location: preferencesDto.location,
-            id: preferencesDto.id,
+            id: userId,
         };
+        console.log(userId);
         findUser.preferences = preferences;
         await findUser.save();
         return {
@@ -109,7 +112,7 @@ let AuthService = class AuthService {
         };
         const secret = this.config.get('JWT_SECRET_REFRESH');
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: '15m',
+            expiresIn: '60m',
             secret: secret,
         });
         return { refresh_token: token };

@@ -42,7 +42,7 @@ export declare class AuthService {
         status?: undefined;
         message?: undefined;
     }>;
-    addPreferences(preferencesDto: preferencesDto): Promise<{
+    addPreferences(preferencesDto: preferencesDto, userId: string): Promise<{
         data: {
             gender: import("../Schemas/Enums").gender;
             age: number;

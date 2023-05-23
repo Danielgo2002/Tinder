@@ -11,6 +11,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { deleteDto, preferencesDto, signInDto, signUpDto } from 'src/dto';
 import { UserDocument } from 'src/Schemas/userSchema';
+import { AUthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorators';
 
@@ -29,14 +30,20 @@ export class AuthController {
     return this.AuthService.signIn(signInDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AUthGuard)
   @Post('addPreferences')
-  addPreferences(@Body() preferencesDto: preferencesDto) {
-    return this.AuthService.addPreferences(preferencesDto);
+  addPreferences(@Request() req, @Body() preferencesDto: preferencesDto) {
+    return this.AuthService.addPreferences(preferencesDto, req.user.sub);
   }
-
-  // @Get('refresh')
-  // refresh(@GetUser() account: UserDocument) {
-  //   return this.AuthService.refresh(account);
+  // @UseGuards(AuthGuard('jwt'))
+  // @Post('addPreferences')
+  // addPreferences(@Request() req: any, @Body() preferencesDto: preferencesDto) {
+  //   return this.AuthService.addPreferences(preferencesDto), req.user;
   // }
+
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @Get('refresh')
+  refresh(@GetUser() account: UserDocument) {
+    return this.AuthService.refresh(account);
+  }
 }

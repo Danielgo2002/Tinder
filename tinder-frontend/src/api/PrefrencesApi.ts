@@ -1,7 +1,6 @@
 import axios from "axios";
 import { FormPrefrencesData } from "../Preferences";
-
-const client = axios.create({ baseURL: "http://localhost:3000" });
+import client from "./interseptors";
 
 export const addPrefrences = async (data: FormPrefrencesData) => {
   console.log("work", data);

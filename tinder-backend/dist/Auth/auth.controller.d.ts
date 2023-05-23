@@ -1,4 +1,5 @@
 import { preferencesDto, signInDto, signUpDto } from 'src/dto';
+import { UserDocument } from 'src/Schemas/userSchema';
 import { AuthService } from './auth.service';
 export declare class AuthController {
     private AuthService;
@@ -35,7 +36,7 @@ export declare class AuthController {
         status?: undefined;
         message?: undefined;
     }>;
-    addPreferences(preferencesDto: preferencesDto): Promise<{
+    addPreferences(req: any, preferencesDto: preferencesDto): Promise<{
         data: {
             gender: import("../Schemas/Enums").gender;
             age: number;
@@ -44,5 +45,8 @@ export declare class AuthController {
         };
         status: string;
         message: string;
+    }>;
+    refresh(account: UserDocument): Promise<{
+        access_token: string;
     }>;
 }

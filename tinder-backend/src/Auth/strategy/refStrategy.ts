@@ -18,7 +18,7 @@ export class RefStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
     });
   }
 
-  async validate(payload: { sub: number; gmail: string }) {
+  async validate(payload: { sub: string; gmail: string }) {
     const result = await this.UserModel.findById(payload.sub);
     const user = result;
     if (user.hash) delete user.hash;
