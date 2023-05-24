@@ -20,6 +20,9 @@ const Home = () => {
           <Link to={"/signup"}>
             <Button>signup</Button>
           </Link>
+          <Link to={"/signin"}>
+            <Button>singnin</Button>
+          </Link>
         </Text>
         <Image
           boxSize={"100px"}

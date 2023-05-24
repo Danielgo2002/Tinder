@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Signup from "./signup";
 import Preferences from "./Preferences";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SignIn from "./signIn";
+import Tinder from "./TinderPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,8 +30,16 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
+    path: "/signin",
+    element: <SignIn />,
+  },
+  {
     path: "/preferences",
     element: <Preferences />,
+  },
+  {
+    path: "/tinder",
+    element: <Tinder />,
   },
 ]);
 

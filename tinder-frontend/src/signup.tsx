@@ -23,6 +23,7 @@ import { type } from "os";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "./api/authApi";
+import { Link } from "react-router-dom";
 
 export type FormAuthData = {
   gmail: string;
@@ -108,28 +109,6 @@ function Signup() {
     initialStep: 0,
   });
 
-  // const handleNextStep = async () => {
-  //   let isValid = false;
-  //   console.log(activeStep);
-
-  //   switch (activeStep) {
-  //     case 0:
-  //       isValid = await trigger([
-  //         "email",
-  //         "password",
-  //         "confirmPassword",
-  //         "first_Name",
-  //         "last_Name",
-  //         "age",
-  //         "gender",
-  //         "location",
-  //         "summery",
-  //       ]);
-  //       if (isValid) nextStep();
-  //       break;
-  //   }
-  // };
-
   const required = {
     value: true,
     message: "this field is requierd",
@@ -149,6 +128,15 @@ function Signup() {
         fontWeight="bold"
       >
         <GridItem pl="2" bg="orange.300" area={"header"}>
+          <Text textAlign={"right"}>
+            {" "}
+            <Link to={"/"}>
+              <Button>home</Button>
+            </Link>
+            <Link to={"/signin"}>
+              <Button>singnin</Button>
+            </Link>
+          </Text>
           <Image
             boxSize={"100px"}
             borderRadius={"50"}
