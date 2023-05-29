@@ -11,6 +11,26 @@ export class UserService {
     @InjectModel('User') private readonly UserModel: Model<UserDocument>,
   ) {}
 
+  async getUsers(idUser: string) {
+    try {
+      console.log(idUser);
+
+      const users = await this.UserModel.find({ _id: { $ne: idUser } });
+      console.log(users);
+
+      return {
+        data: users,
+        message: 'pass',
+        status: statusCode.success,
+      };
+    } catch (error) {
+      return {
+        data: [],
+        message: 'לא נמצאו משתמשים',
+        status: statusCode.error,
+      };
+    }
+  }
   async likes(likesDto: likesDto) {
     try {
       const user = await this.UserModel.findById(likesDto.ownerID);

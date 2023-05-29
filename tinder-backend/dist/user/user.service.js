@@ -21,6 +21,25 @@ let UserService = class UserService {
     constructor(UserModel) {
         this.UserModel = UserModel;
     }
+    async getUsers(idUser) {
+        try {
+            console.log(idUser);
+            const users = await this.UserModel.find({ _id: { $ne: idUser } });
+            console.log(users);
+            return {
+                data: users,
+                message: 'pass',
+                status: constants_1.statusCode.success,
+            };
+        }
+        catch (error) {
+            return {
+                data: [],
+                message: 'לא נמצאו משתמשים',
+                status: constants_1.statusCode.error,
+            };
+        }
+    }
     async likes(likesDto) {
         try {
             const user = await this.UserModel.findById(likesDto.ownerID);

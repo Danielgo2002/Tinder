@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { location } from 'src/Schemas/Enums';
+import { gender, location } from 'src/Schemas/Enums';
 
 export class signUpDto {
   @IsNotEmpty()
@@ -28,8 +28,12 @@ export class signUpDto {
   @IsNumber()
   age: number;
 
+
+  @IsEnum(gender)
   @IsString()
-  gender: string;
+  gender: gender;
+
+  
 
   @IsString()
   @IsNotEmpty()

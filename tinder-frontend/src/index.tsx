@@ -9,6 +9,7 @@ import Preferences from "./Preferences";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SignIn from "./signIn";
 import Tinder from "./TinderPage";
+import NavaBar from "./navBar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/tinder",
     element: <Tinder />,
+  },
+  {
+    path: "/navbar",
+    element: <NavaBar />,
   },
 ]);
 

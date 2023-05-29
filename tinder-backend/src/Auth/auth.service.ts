@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { signInDto } from 'src/dto/signIn.Dto';
 import { preferencesDto } from 'src/dto/prefrences.Dto';
 import { deleteDto } from 'src/dto';
+import * as argon from 'argon2';
 
 @Injectable()
 export class AuthService {
@@ -31,10 +32,12 @@ export class AuthService {
         };
       }
 
-      const newobj = { ...{ hash: 'hash', ...signUpDto } };
-      delete newobj.password;
+      const hash = await argon.hash(signUpDto.password);
+      delete signUpDto.password;
+      const newobj = { ...signUpDto, ...{ hash } };
 
-      const User = new this.UserModel(signUpDto);
+      const User = new this.UserModel(newobj);
+
       console.log(typeof User.id);
 
       await User.save();
@@ -65,7 +68,6 @@ export class AuthService {
 
   async signIn(signInDto: signInDto) {
     const User = await this.UserModel.findOne({ gmail: signInDto.gmail });
-    console.log(typeof User.id);
 
     if (!User) {
       return {
@@ -74,6 +76,14 @@ export class AuthService {
         message: 'משתמש לא נמצא נסה שנית',
       };
     }
+
+    const pwMatches = await argon.verify(User.hash, signInDto.password); // checks if the password entered matches with the matching user
+    if (!pwMatches)
+      return {
+        data: undefined,
+        status: statusCode.error,
+        message: 'משתמש לא נמצא נסה שנית',
+      };
 
     const access_Token = await (
       await this.accessToken(User.id, User.gmail)

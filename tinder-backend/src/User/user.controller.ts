@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post ,Request, UseGuards} from '@nestjs/common';
+import { AUthGuard } from 'src/Auth/auth.guard';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UserService } from './user.service';
 
@@ -9,5 +10,12 @@ export class UserController {
   @Post('likes')
   likes(@Body() likesDto: likesDto) {
     return this.UserService.likes(likesDto);
+  }
+  @UseGuards(AUthGuard)
+
+  @Get('getUsers')
+  getUsers(@Request() req){
+    return this.UserService.getUsers(req.user.sub)
+
   }
 }
