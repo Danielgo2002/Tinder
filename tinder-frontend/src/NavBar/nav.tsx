@@ -15,16 +15,23 @@ const Nav = () => {
   const [display, changeDisplay] = useState("none");
 
   return (
-    <Flex  bg={useColorModeValue("white", "gray.800")}
-    color={useColorModeValue("gray.600", "white")}
-    py={{ base: 10 }}
-    px={{ base: 4}}
-    borderBottom={3}
-    borderStyle={"solid"}
-    borderColor={useColorModeValue("gray.200", "gray.900")}
-    align={"center"}>
-        <br />
-        
+    <Flex
+      bg={useColorModeValue("white", "gray.800")}
+      color={useColorModeValue("gray.600", "white")}
+      py={{ base: 8 }}
+      px={{ base: 4 }}
+      borderBottom={3}
+      borderStyle={"solid"}
+      borderColor={useColorModeValue("gray.200", "gray.900")}
+      align={"center"}
+      position="fixed"
+      top={0} // Position the navbar at the top of the page
+      left={0} // Position the navbar at the left side of the page
+      right={0} // Position the navbar at the right side of the page
+      zIndex={999} // Ensure the navbar is on top of other elements
+    >
+      <br />
+
       <Flex pos="fixed" top="1rem" right="1rem  " align={"center"}>
         {/* //////////////////// */}
         <Flex pos="fixed" top="1rem" left="1rem  " align={"left"}>
@@ -35,7 +42,6 @@ const Nav = () => {
               src="https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/tinder-icon.png"
               alt="Dan Abramov"
             />
-            Tinder
           </Text>
         </Flex>
         {/* ////////////////////////// */}
@@ -101,7 +107,7 @@ const Nav = () => {
         bgColor="gray.50"
         zIndex={20}
         h="100%"
-        width={'100%'}
+        width={"100%"}
         pos="fixed"
         top="0"
         left="0"

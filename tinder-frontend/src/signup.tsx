@@ -12,6 +12,7 @@ import {
   GridItem,
   Image,
   Input,
+  Select,
   Text,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -117,39 +118,20 @@ function Signup() {
   return (
     <ChakraProvider theme={theme}>
       <Grid
-        templateAreas={`"header header"
-                  "nav main"
-                  `}
-        gridTemplateRows={"170px 1fr 50px"}
-        gridTemplateColumns={"900px 1fr"}
-        h="950px"
-        gap="1"
-        color="blackAlpha.700"
+        w={"100vw"}
         fontWeight="bold"
-      >
-        <GridItem pl="2" bg="orange.300" area={"header"}>
-          <Text textAlign={"right"}>
-            {" "}
-            <Link to={"/"}>
-              <Button>home</Button>
-            </Link>
-            <Link to={"/signin"}>
-              <Button>singnin</Button>
-            </Link>
-          </Text>
-          <Image
-            boxSize={"100px"}
-            borderRadius={"50"}
-            src="https://logowik.com/content/uploads/images/tinder4318.jpg"
-            alt="tinder"
-          />
-          <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-            {" "}
-            LET'S SIGN UP!!
-          </Text>
-        </GridItem>
 
-        <GridItem pl="3" bg="pink.300" area={"nav"}>
+        // templateAreas={`"header header"
+        //           "nav main"
+        //           `}
+        // gridTemplateRows={"100% 1fr 50px"}
+        // gridTemplateColumns={"100vh 1fr"}
+        // h="100vh"
+        // gap="1"
+        // color="blackAlpha.700"
+        // fontWeight="bold"
+      >
+        <GridItem pl="3" bg="pink.300" area={"nav"} w="100vw" h={"122%"}>
           <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
             {" "}
             STEP 1
@@ -210,47 +192,24 @@ function Signup() {
                     />{" "}
                   </FormField>
                   <FormField label="Location" error={errors?.location?.message}>
-                    <Input
-                      type="text"
-                      {...register("location", { required })}
-                    />
+                    <Select placeholder="Select area" required>
+                      <option>north</option>
+                      <option>center</option>
+                      <option>south</option>
+                    </Select>
                   </FormField>
                   <FormField label="Gender" error={errors?.gender?.message}>
-                    <Input type="text" {...register("gender", { required })} />
+                    <Select placeholder="Select gender" required>
+                      <option>male</option>
+                      <option>female</option>
+                      <option>other</option>
+                    </Select>
                   </FormField>
                   <FormField label="Summery" error={errors?.summery?.message}>
                     <Input type="text" {...register("summery", { required })} />
                   </FormField>
                 </Step>
-                {/* <Step label="Lookin for...">
-                  <FormField
-                    label="Gender"
-                    error={LookingForErrors?.gender?.message}
-                  >
-                    <Input
-                      type="text"
-                      {...LookingRegister("gender", { required })}
-                    />
-                  </FormField>
-                  <FormField label="Age" error={LookingForErrors?.age?.message}>
-                    <Input
-                      type="number"
-                      {...LookingRegister("age", {
-                        valueAsNumber: true,
-                        required,
-                      })}
-                    />{" "}
-                  </FormField>
-                  <FormField
-                    label="Location"
-                    error={LookingForErrors?.location?.message}
-                  >
-                    <Input
-                      type="text"
-                      {...LookingRegister("location", { required })}
-                    />
-                  </FormField>
-                </Step> */}
+
                 <Step label="Submit!" />
               </Steps>
               <br />
@@ -258,157 +217,17 @@ function Signup() {
               <br />
               <br />
               <Flex gap={2} my={2}>
-                {activeStep !== 1 && <Button type="submit">Next</Button>}
+                {activeStep !== 1 && (
+                  <Button color={"black"} type="submit">
+                    Next
+                  </Button>
+                )}
               </Flex>
             </form>
           </Box>
-
-          {/* <form onSubmit={handleSubmit(submitData)}>
-            <label> Email:</label>
-            <Input type="email" {...register("email")} />
-            <br />
-            <br />
-            <label> Password:</label>
-            <Input type="password" {...register("password")} />
-            <br />
-            <br />
-            <label>Confirm Passsword:</label>
-            <Input type="password" {...register("confirmPasssword")} />
-            <br />
-            <label>First Name:</label>
-            <Input type="text" {...register("first_Name")} />
-            <br />
-            <br />
-            <label> Last Name:</label>
-            <Input type="text" {...register("last_Name")} />
-            <br />
-            <br />
-            <label> Age:</label>
-            <Input
-              type="number"
-              {...register("age", { valueAsNumber: true })}
-            />
-            <br />
-            <br />
-            <label> Location:</label>
-            <Input type="text" {...register("location")} />
-            <br />
-            <br />
-            <label> Gender:</label>
-            <Input type="text" {...register("gender")} />
-            <br />
-            <br />
-            <label> summery</label>
-            <Input type="text" {...register("summery")} />
-            <br />
-            <br />
-            <br />
-            <br /> <br />
-          </form> */}
-          {/* <Button
-            dir="rigth"
-            type="submit"
-            loadingText="Submitting"
-            colorScheme="teal"
-            variant="outline"
-            // onClick={navigate("/signup/step2")}
-          >
-            Submit
-          </Button> */}
         </GridItem>
       </Grid>
     </ChakraProvider>
   );
 }
 export default Signup;
-
-// <Grid
-// templateAreas={`"header header"
-//             "nav main"
-//             `}
-// gridTemplateRows={"170px 1fr 50px"}
-// gridTemplateColumns={"650px 1fr"}
-// h="950px"
-// gap="1"
-// color="blackAlpha.700"
-// fontWeight="bold"
-// >
-// <GridItem pl="2" bg="orange.300" area={"header"}>
-//   <Image
-//     boxSize={"100px"}
-//     borderRadius={"50"}
-//     src="https://logowik.com/content/uploads/images/tinder4318.jpg"
-//     alt="tinder"
-//   />
-//   <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-//     {" "}
-//     LET'S SIGN UP!!
-//   </Text>
-// </GridItem>
-
-// <GridItem pl="3" bg="pink.300" area={"nav"}>
-//   <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-//     {" "}
-//     STEP 1
-//   </Text>
-
-//   <form onSubmit={handleSubmit(submitData)}>
-//     <label> Email:</label>
-//     <Input type="email" {...register("email")} />
-//     <br />
-//     <br />
-//     <label> Password:</label>
-//     <Input type="password" {...register("password")} />
-//     <br />
-//     <br />
-//     <label>Confirm Passsword:</label>
-//     <Input type="password" {...register("confirmPasssword")} />
-//     <br />
-//     <br />
-//   </form>
-// </GridItem>
-// <GridItem pl="2" bg="green.300" area={"main"}>
-//   <form onSubmit={handleSubmit(submitData)}>
-//     <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-//       {" "}
-//       About you:
-//     </Text>
-//     <label>First Name:</label>
-//     <Input type="text" {...register("first_Name")} />
-//     <br />
-//     <br />
-//     <label> Last Name:</label>
-//     <Input type="text" {...register("last_Name")} />
-//     <br />
-//     <br />
-//     <label> Age:</label>
-//     <Input type="number" {...register("age", { valueAsNumber: true })} />
-//     <br />
-//     <br />
-//     <label> Location:</label>
-//     <Input type="text" {...register("location")} />
-//     <br />
-//     <br />
-//     <label> Gender:</label>
-//     <Input type="text" {...register("gender")} />
-//     <br />
-//     <br />
-//     <label> summery</label>
-//     <Input type="text" {...register("summery")} />
-//     <br />
-//     <br />
-//     <br />
-//     <br /> <br />
-//   </form>
-//   <Button
-//     dir="rigth"
-//     type="submit"
-//     loadingText="Submitting"
-//     colorScheme="teal"
-//     variant="outline"
-//     // onClick={navigate("/signup/step2")}
-//   >
-//     Submit
-//   </Button>
-// </GridItem>
-// </Grid>

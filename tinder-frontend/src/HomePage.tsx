@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import logo from "./assets/idoLogo.jpg";
-import Nav from "./NavBar/nav";
 
 const Home = () => {
   const isOnComputer = useBreakpointValue({
@@ -25,10 +24,13 @@ const Home = () => {
 
   return (
     <Grid
+    
       flexDir="column"
       justifyContent="center"
       height="calc(var(--chakra-vh) - 92px)"
     >
+      <br/>
+      <br/>
       <GridItem>
         <Heading dir="rtl" fontSize={isOnComputer ? "8xl" : "4xl"} as="h1">
           תמצא. תכיר. תמשגל.

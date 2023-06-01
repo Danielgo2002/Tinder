@@ -24,7 +24,6 @@ import { useMutation } from "@tanstack/react-query";
 import { signIn } from "./api/authApi";
 import { Link } from "react-router-dom";
 
-
 export type SignInData = {
   gmail: string;
   password: string;
@@ -76,39 +75,18 @@ const SignIn = () => {
   return (
     <ChakraProvider theme={theme}>
       <Grid
-        templateAreas={`"header header"
-                  "nav main"
-                  `}
-        gridTemplateRows={"170px 1fr 50px"}
-        gridTemplateColumns={"900px 1fr"}
-        h="950px"
-        gap="1"
-        color="blackAlpha.700"
-        fontWeight="bold"
+        w={"100vw"}
+        // templateAreas={`"header header"
+        //           "nav main"
+        //           `}
+        // gridTemplateRows={"170px 1fr 50px"}
+        // gridTemplateColumns={"900px 1fr"}
+        // h="950px"
+        // gap="1"
+        // color="blackAlpha.700"
+        // fontWeight="bold"
       >
-        <GridItem pl="2" bg="orange.300" area={"header"}>
-        <Text textAlign={"right"}>
-            {" "}
-            <Link to={"/"}>
-              <Button>home</Button>
-            </Link>
-            <Link to={"/signup"}>
-              <Button>singnup</Button>
-            </Link>
-          </Text>
-          <Image
-            boxSize={"100px"}
-            borderRadius={"50"}
-            src="https://logowik.com/content/uploads/images/tinder4318.jpg"
-            alt="tinder"
-          />
-          <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-            {" "}
-            LET'S SIGN UP!!
-          </Text>
-        </GridItem>
-
-        <GridItem pl="3" bg="pink.300" area={"nav"}>
+        <GridItem pl="3" bg="pink.300" area={"nav"} w="100vw" h={"100vh"}>
           <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
             {" "}
             STEP 1
@@ -117,7 +95,7 @@ const SignIn = () => {
             <form onSubmit={handleSubmit(submitData)}>
               {/* <form onSubmit={handleSubmit(submitData)}> */}
               <Steps activeStep={activeStep}>
-                <Step label="Sign Up">
+                <Step label="Sign In">
                   <FormField label="Gmail" error={errors?.gmail?.message}>
                     <Input type="email" {...register("gmail", { required })} />
                     {errors.gmail && (

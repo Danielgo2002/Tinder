@@ -70,14 +70,7 @@ const Preferences = () => {
   return (
     <ChakraProvider theme={theme}>
       <Grid
-        templateAreas={`"header header"
-                  "nav main"
-                  `}
-        gridTemplateRows={"170px 1fr 50px"}
-        gridTemplateColumns={"900px 1fr"}
-        h="950px"
-        gap="1"
-        color="blackAlpha.700"
+        
         fontWeight="bold"
       >
         <GridItem pl="2" bg="orange.300" area={"header"}>
