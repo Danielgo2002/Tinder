@@ -10,11 +10,11 @@ import { UserDocument } from 'src/Schemas/userSchema';
 export class RefStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(
     @InjectModel('User') private readonly UserModel: Model<UserDocument>,
-    private readonly configService: ConfigService,
+    config: ConfigService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get('JWT_SECRET_REFRESH'),
+      secretOrKey: config.get('JWT_SECRET_REFRESH'),
     });
   }
 

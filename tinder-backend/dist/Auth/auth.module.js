@@ -25,7 +25,7 @@ AuthModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: userSchema_1.User.name, schema: userSchema_1.UserSchema }]),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, config_1.ConfigService, strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, config_1.ConfigService, strategy_1.JwtStrategy, strategy_1.RefStrategy],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

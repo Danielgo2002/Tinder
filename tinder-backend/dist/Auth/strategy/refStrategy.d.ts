@@ -28,8 +28,7 @@ import { UserDocument } from 'src/Schemas/userSchema';
 declare const RefStrategy_base: new (...args: any[]) => any;
 export declare class RefStrategy extends RefStrategy_base {
     private readonly UserModel;
-    private readonly configService;
-    constructor(UserModel: Model<UserDocument>, configService: ConfigService);
+    constructor(UserModel: Model<UserDocument>, config: ConfigService);
     validate(payload: {
         sub: string;
         gmail: string;

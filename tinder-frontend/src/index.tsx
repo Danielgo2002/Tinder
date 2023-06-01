@@ -3,13 +3,16 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Signup from "./signup";
 import Preferences from "./Preferences";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SignIn from "./signIn";
 import Tinder from "./TinderPage";
 import NavaBar from "./navBar";
+import Home from "./HomePage";
+import NavBar from "./navBar";
+import Nav from "./NavBar/nav";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,9 +46,13 @@ const router = createBrowserRouter([
     element: <Tinder />,
   },
   {
-    path: "/navbar",
-    element: <NavaBar />,
+    path: "/home",
+    element: <Home />,
   },
+  // {
+  //   path: "/nav",
+  //   element: <Nav />,
+  // },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -55,6 +62,7 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
+        <Nav></Nav>
         <RouterProvider router={router} />
       </ChakraProvider>
     </QueryClientProvider>

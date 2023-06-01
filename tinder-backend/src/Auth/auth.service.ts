@@ -38,8 +38,6 @@ export class AuthService {
 
       const User = new this.UserModel(newobj);
 
-      console.log(typeof User.id);
-
       await User.save();
 
       const access_Token = await (

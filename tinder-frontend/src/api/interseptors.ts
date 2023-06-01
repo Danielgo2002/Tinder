@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { NavigateTo } from "./Navigateto";
+import { UseNavigateTo } from "./Navigateto";
 
 const client = axios.create({ baseURL: "http://localhost:3000" });
 
@@ -16,7 +16,7 @@ function authorizationRequest(config: any, tokenType: string) {
     // config.headers.set("Authorization", "Bearer " + token);
   } else {
     if (tokenType === "refreshToken") {
-      NavigateTo("/");
+      window.location.replace("/");
     }
   }
 }
@@ -39,13 +39,16 @@ client.interceptors.response.use(
   (response) => {
     return response;
   },
-  function (error) {
+  (error) => {
     const originalReq = error.config;
-    if (error.response.ststus === 401 && originalReq.url === "/auth/refresh") {
-      NavigateTo("/");
+    if (
+      error?.response?.status === 401 &&
+      originalReq.url === "/auth/refresh"
+    ) {
+      window.location.replace("/");
       return Promise.reject(error);
     }
-    if (error.response?.status === 401 && !originalReq._retry) {
+    if (error?.response?.status === 401 && !originalReq._retry) {
       originalReq._retry = true;
       return client.get("/auth/refresh").then((res) => {
         if (res?.status === 201) {

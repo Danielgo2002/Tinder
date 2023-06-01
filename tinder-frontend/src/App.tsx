@@ -10,12 +10,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
-import Home from "./homePgae";
+import Home from "./HomePage";
+import NavBar from "./navBar";
 
 function App() {
   return (
     <ChakraProvider>
-      <Home />
+      <Home></Home>
     </ChakraProvider>
   );
 }

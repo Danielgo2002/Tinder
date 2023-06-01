@@ -20,13 +20,12 @@ const passport_1 = require("@nestjs/passport");
 const mongoose_2 = require("mongoose");
 const passport_jwt_1 = require("passport-jwt");
 let RefStrategy = class RefStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-refresh') {
-    constructor(UserModel, configService) {
+    constructor(UserModel, config) {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: configService.get('JWT_SECRET_REFRESH'),
+            secretOrKey: config.get('JWT_SECRET_REFRESH'),
         });
         this.UserModel = UserModel;
-        this.configService = configService;
     }
     async validate(payload) {
         const result = await this.UserModel.findById(payload.sub);

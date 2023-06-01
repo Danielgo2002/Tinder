@@ -14,6 +14,7 @@ import { UserDocument } from 'src/Schemas/userSchema';
 import { AUthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorators';
+import { JwtRefreshTokenGuard } from './strategy/RefreshToken.guard';
 
 @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 @Controller('auth')
@@ -41,7 +42,7 @@ export class AuthController {
   //   return this.AuthService.addPreferences(preferencesDto), req.user;
   // }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(JwtRefreshTokenGuard)
   @Get('refresh')
   refresh(@GetUser() account: UserDocument) {
     return this.AuthService.refresh(account);
