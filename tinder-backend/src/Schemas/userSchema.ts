@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { type } from 'os';
 import { Chat } from './chatSchema';
-import { ageRange, gender, location } from './Enums';
+import {  ageRange, gender, location } from './Enums';
 
 export type UserDocument = User & Document;
 
@@ -23,13 +24,16 @@ export class User {
   age: number;
 
   @Prop()
-  gender: string;
+  gender: gender;
 
   @Prop()
-  location: string;
+  location: location;
 
   @Prop()
   summery: string;
+
+  @Prop()
+  image: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Chat' }] })
   chat: Chat[];
@@ -40,7 +44,7 @@ export class User {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   likesRecived: Types.ObjectId[];
 
-  // @Prop()
+  //  @Prop()
   // sendLikesCount: number;
 
   // @Prop()

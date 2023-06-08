@@ -21,7 +21,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import axios from "axios";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { GetUsers, User, Users } from "./api/Tinder";
 
@@ -40,6 +41,22 @@ const Tinder = () => {
     () => users?.data && users.data[currentUser],
     [currentUser, users]
   );
+
+   const getBase64Url = (image: Blob) => {
+    return new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onload = () => {
+        const base64Url = reader.result as string;
+        resolve(base64Url);
+      };
+    });
+  };
+
+  
+
+
+
 
   if (isLoading) {
     return (
@@ -83,6 +100,7 @@ const Tinder = () => {
           <Image
             borderRadius="150"
             boxSize="300px"
+            {...specificUser?.image}
             src="https://www.looper.com/img/gallery/zekes-beast-titan-powers-from-attack-on-titan-explained/l-intro-1620834206.jpg"
             alt="Ido"
           />

@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  isNotEmpty,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -25,15 +26,13 @@ export class signUpDto {
   last_Name: string;
 
   @IsNotEmpty()
-  @IsNumber()
   age: number;
-
 
   @IsEnum(gender)
   @IsString()
   gender: gender;
 
-  
+  image: Express.Multer.File;
 
   @IsString()
   @IsNotEmpty()
@@ -43,3 +42,5 @@ export class signUpDto {
   @IsString()
   summery: string;
 }
+
+//dto schema

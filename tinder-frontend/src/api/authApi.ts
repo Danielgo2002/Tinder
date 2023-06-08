@@ -31,12 +31,17 @@ import client from "./interseptors";
 // };
 
 export async function signUp(data: AuthData) {
+  console.log('sfdouwrhfouhwrfo');
+  
   try {
-    const response = await client.post("/auth/signUp", data);
+    const response = await client.post("/auth/signUp", data, {headers: {
+      'Content-Type': 'multipart/form-data'
+    }});
     if (response.data.access_Token && response.data.refresh_token) {
       localStorage.setItem("accessToken", response.data.access_Token);
       localStorage.setItem("refreshToken", response.data.refresh_token);
     }
+    console.log(data);
     return response;
   } catch (error) {
     throw error;

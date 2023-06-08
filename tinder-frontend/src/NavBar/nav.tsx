@@ -119,11 +119,11 @@ const Nav = () => {
           <IconButton
             mt={2}
             mr={2}
-            aria-lable="Close Menu"
+            aria-label="Close Menu"
             size="lg"
             icon={<CloseIcon />}
             color={"black"}
-            aria-label={""}
+            // aria-label={""}
             onClick={() => changeDisplay("none")}
           />
         </Flex>

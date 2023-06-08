@@ -5,6 +5,7 @@ import { AuthModule } from './Auth/auth.module';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -12,6 +13,9 @@ import { UserModule } from './user/user.module';
     MongooseModule.forRoot('mongodb://localhost/tinder'),
     AuthModule,
     UserModule,
+    MulterModule.register({dest:'./uploads',})
+
+
   ],
   controllers: [],
   providers: [],

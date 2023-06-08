@@ -36,7 +36,6 @@ __decorate([
 ], signUpDto.prototype, "last_Name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], signUpDto.prototype, "age", void 0);
 __decorate([

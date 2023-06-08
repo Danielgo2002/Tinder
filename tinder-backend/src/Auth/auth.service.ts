@@ -13,13 +13,23 @@ import * as argon from 'argon2';
 
 @Injectable()
 export class AuthService {
+  create(imageData: {
+    filename: string;
+    originalname: string;
+    mimetype: string;
+    size: number;
+  }) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectModel('User') private readonly UserModel: Model<UserDocument>,
     private config: ConfigService,
     private jwt: JwtService,
   ) {}
 
-  async signUp(signUpDto: signUpDto) {
+  async signUp(signUpDto: signUpDto, file:Express.Multer.File) {
+    console.log('dasiojdioajsio',file);
+    
     try {
       const exsistUser = await this.UserModel.findOne({
         gmail: signUpDto.gmail,
@@ -37,6 +47,11 @@ export class AuthService {
       const newobj = { ...signUpDto, ...{ hash } };
 
       const User = new this.UserModel(newobj);
+
+      if (file) {
+        User.image = file.filename;
+      }
+      User.image = file.filename
 
       await User.save();
 

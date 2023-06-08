@@ -32,9 +32,10 @@ export declare class User {
     first_Name: string;
     last_Name: string;
     age: number;
-    gender: string;
-    location: string;
+    gender: gender;
+    location: location;
     summery: string;
+    image: string;
     chat: Chat[];
     likes: Types.ObjectId[];
     likesRecived: Types.ObjectId[];

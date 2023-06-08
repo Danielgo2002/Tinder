@@ -7,14 +7,25 @@ import {
   Request,
   UseGuards,
   Get,
+  UseInterceptors,
+  UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import path from 'path';
 import { deleteDto, preferencesDto, signInDto, signUpDto } from 'src/dto';
 import { UserDocument } from 'src/Schemas/userSchema';
 import { AUthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorators';
 import { JwtRefreshTokenGuard } from './strategy/RefreshToken.guard';
+import { v4 as uuidv4 } from 'uuid';
+import { Observable, of } from 'rxjs';
 
 @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 @Controller('auth')
@@ -22,8 +33,20 @@ export class AuthController {
   constructor(private AuthService: AuthService) {}
 
   @Post('signUp')
-  signUp(@Body() signUpDto: signUpDto) {
-    return this.AuthService.signUp(signUpDto);
+  @UseInterceptors(
+    FileInterceptor('image', {
+      dest: './uploads',
+      
+    }),
+  )
+  async signUp(
+    @Body() signUpDto: signUpDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    signUpDto.image = image
+    console.log(typeof(image));
+
+    return this.AuthService.signUp(signUpDto,image);
   }
 
   @Post('signIn')
@@ -36,11 +59,6 @@ export class AuthController {
   addPreferences(@Request() req, @Body() preferencesDto: preferencesDto) {
     return this.AuthService.addPreferences(preferencesDto, req.user.sub);
   }
-  // @UseGuards(AuthGuard('jwt'))
-  // @Post('addPreferences')
-  // addPreferences(@Request() req: any, @Body() preferencesDto: preferencesDto) {
-  //   return this.AuthService.addPreferences(preferencesDto), req.user;
-  // }
 
   @UseGuards(JwtRefreshTokenGuard)
   @Get('refresh')
