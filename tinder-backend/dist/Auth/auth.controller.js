@@ -20,14 +20,13 @@ const auth_guard_1 = require("./auth.guard");
 const auth_service_1 = require("./auth.service");
 const decorators_1 = require("./decorators");
 const RefreshToken_guard_1 = require("./strategy/RefreshToken.guard");
+const upload_service_1 = require("../utils/upload.service");
 let AuthController = class AuthController {
     constructor(AuthService) {
         this.AuthService = AuthService;
     }
-    async signUp(signUpDto, image) {
-        signUpDto.image = image;
-        console.log(typeof (image));
-        return this.AuthService.signUp(signUpDto, image);
+    async signUp(signUpDto, file) {
+        return this.AuthService.signUp(signUpDto, file);
     }
     signIn(signInDto) {
         return this.AuthService.signIn(signInDto);
@@ -41,9 +40,7 @@ let AuthController = class AuthController {
 };
 __decorate([
     (0, common_1.Post)('signUp'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
-        dest: './uploads',
-    })),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', upload_service_1.storage)),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),

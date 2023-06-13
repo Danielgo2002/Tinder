@@ -38,7 +38,7 @@ export type FormAuthData = {
   location: string;
   gender: string;
   summery: string;
-  image?: any;
+  file: any;
 };
 
 export type AuthData = {
@@ -50,43 +50,45 @@ export type AuthData = {
   location: string;
   gender: string;
   summery: string;
-  image?: Blob;
+  file: any;
 };
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+// const MAX_FILE_SIZE = 5000000;
+// const ACCEPTED_IMAGE_TYPES = [
+//   "image/jpeg",
+//   "image/jpg",
+//   "image/png",
+//   "image/webp",
+// ];
 
 function Signup() {
-  const AuthSchema: ZodType<FormAuthData> = z
-    .object({
-      gmail: z.string().email().min(8).max(30),
-      password: z.string().min(5).max(20),
-      confirmPassword: z.string().min(5).max(20),
-      first_Name: z.string().min(2).max(30),
-      last_Name: z.string().min(2).max(30),
-      age: z.number().min(17).max(99),
-      location: z.string().min(2).max(20),
-      gender: z.string().min(2).max(20),
-      summery: z.string().max(100),
-      image: z
-        .any()
-        .refine(
-          (image) => image[0].size <= MAX_FILE_SIZE,
-          `Max image size is ${MAX_FILE_SIZE / 1000000}MB.`
-        )
-        .refine(
-          (image) => ACCEPTED_IMAGE_TYPES.includes(image[0]?.type),
-          "Only .jpg, .jpeg, .png and .webp formats are supported."
-        ),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: "passwords do not match",
-      path: ["confirmPassword"],
-    });
+  // const fileSchema = z.object({
+  //   fieldname: z.string(),
+  //   originalname: z.string(),
+  //   encoding: z.string(),
+  //   mimetype: z.string(),
+  //   size: z.number(),
+  //   destination: z.string(),
+  //   filename: z.string(),
+  //   path: z.string(),
+  // });
+
+  // const AuthSchema: ZodType<FormAuthData> = z
+  //   .object({
+  //     gmail: z.string().email().min(8).max(30),
+  //     password: z.string().min(5).max(20),
+  //     confirmPassword: z.string().min(5).max(20),
+  //     first_Name: z.string().min(2).max(30),
+  //     last_Name: z.string().min(2).max(30),
+  //     age: z.number().min(17).max(99),
+  //     location: z.string().min(2).max(20),
+  //     gender: z.string().min(2).max(20),
+  //     summery: z.string().max(100),
+  //     file: z.any(),
+  //   })
+  //   .refine((data) => data.password === data.confirmPassword, {
+  //     message: "passwords do not match",
+  //     path: ["confirmPassword"],
+  //   });
 
   const {
     register,
@@ -94,7 +96,7 @@ function Signup() {
     formState: { errors },
     trigger,
   } = useForm<FormAuthData>({
-    resolver: zodResolver(AuthSchema),
+    //resolver: zodResolver(AuthSchema),
   });
 
   const { mutateAsync: signUpUser } = useMutation(signUp, {
@@ -107,11 +109,13 @@ function Signup() {
   });
 
   const submitData = async (data: FormAuthData) => {
+    // console.log("hi");
+
     const { confirmPassword, ...tempData } = data;
 
-    const image = data.image[0];
+    const file = data.file[0];
 
-    const response = await signUpUser({ ...tempData, image: image });
+    const response = await signUpUser({ ...tempData, file });
   };
 
   const theme = extendTheme({
@@ -134,10 +138,10 @@ function Signup() {
   const [iimage, setImage] = useState();
 
   function handleFile(event: any) {
+    console.log(event.target);
+
     setImage(event.target.file);
   }
-
- 
 
   function convertToBase64(e: any) {
     console.log(e);
@@ -239,8 +243,8 @@ function Signup() {
                   <FormField label="file">
                     <Input
                       type="file"
-                      {...register("image")}
-                      onChange={handleFile}
+                      {...register("file")}
+                      // onChange={handleFile}
                     />
                   </FormField>
                 </Step>

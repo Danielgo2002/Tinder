@@ -1,11 +1,10 @@
-/// <reference types="multer" />
 import { preferencesDto, signInDto, signUpDto } from 'src/dto';
 import { UserDocument } from 'src/Schemas/userSchema';
 import { AuthService } from './auth.service';
 export declare class AuthController {
     private AuthService;
     constructor(AuthService: AuthService);
-    signUp(signUpDto: signUpDto, image: Express.Multer.File): Promise<{
+    signUp(signUpDto: signUpDto, file: any): Promise<{
         data: any;
         status: string;
         message: string;

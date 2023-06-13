@@ -32,8 +32,6 @@ export class signUpDto {
   @IsString()
   gender: gender;
 
-  image: Express.Multer.File;
-
   @IsString()
   @IsNotEmpty()
   @IsEnum(location)

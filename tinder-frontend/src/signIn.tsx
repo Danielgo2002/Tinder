@@ -76,15 +76,7 @@ const SignIn = () => {
     <ChakraProvider theme={theme}>
       <Grid
         w={"100vw"}
-        // templateAreas={`"header header"
-        //           "nav main"
-        //           `}
-        // gridTemplateRows={"170px 1fr 50px"}
-        // gridTemplateColumns={"900px 1fr"}
-        // h="950px"
-        // gap="1"
-        // color="blackAlpha.700"
-        // fontWeight="bold"
+        
       >
         <GridItem pl="3" bg="pink.300" area={"nav"} w="100vw" h={"100vh"}>
           <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>

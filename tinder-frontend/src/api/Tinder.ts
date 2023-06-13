@@ -7,6 +7,7 @@ export interface Users {
   status: string;
 }
 export interface User {
+  gender: string;
   first_Name: string;
   last_Name: string;
   age: number;
@@ -15,8 +16,19 @@ export interface User {
   image: File;
 }
 
+export interface Images {
+  Images: Image[];
+}
+export interface Image {
+  Image: File;
+}
+
 export const GetUsers = async (): Promise<Users> => {
   return client.get("user/getUsers").then((res) => res.data);
+};
+
+export const GetImages = async (): Promise<Images> => {
+  return client.get("uploads").then((res) => res.data);
 };
 
 // export const GetUsers = async (): Promise<Users> => {

@@ -26,6 +26,7 @@ import { GetUser } from './decorators';
 import { JwtRefreshTokenGuard } from './strategy/RefreshToken.guard';
 import { v4 as uuidv4 } from 'uuid';
 import { Observable, of } from 'rxjs';
+import { storage } from 'src/utils/upload.service';
 
 @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 @Controller('auth')
@@ -33,20 +34,9 @@ export class AuthController {
   constructor(private AuthService: AuthService) {}
 
   @Post('signUp')
-  @UseInterceptors(
-    FileInterceptor('image', {
-      dest: './uploads',
-      
-    }),
-  )
-  async signUp(
-    @Body() signUpDto: signUpDto,
-    @UploadedFile() image: Express.Multer.File,
-  ) {
-    signUpDto.image = image
-    console.log(typeof(image));
-
-    return this.AuthService.signUp(signUpDto,image);
+  @UseInterceptors(FileInterceptor('file', storage))
+  async signUp(@Body() signUpDto: signUpDto, @UploadedFile() file) {
+    return this.AuthService.signUp(signUpDto, file);
   }
 
   @Post('signIn')

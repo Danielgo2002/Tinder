@@ -27,8 +27,59 @@ export class AuthService {
     private jwt: JwtService,
   ) {}
 
+  // async signUp(signUpDto: signUpDto, file:Express.Multer.File) {
+  //   console.log(file);
+    
+  //   try {
+  //     const exsistUser = await this.UserModel.findOne({
+  //       gmail: signUpDto.gmail,
+  //     });
+  //     if (exsistUser) {
+  //       return {
+  //         data: undefined,
+  //         status: statusCode.error,
+  //         message: 'duplicate error. this email alredy taken...',
+  //       };
+  //     }
+
+  //     const hash = await argon.hash(signUpDto.password);
+  //     delete signUpDto.password;
+  //     const newobj = { ...signUpDto, ...{ hash } };
+
+  //     const User = new this.UserModel(newobj);
+
+  //     if (file) {
+  //       User.image = file.filename;
+  //     }
+  //     User.image = file.filename
+
+  //     await User.save();
+
+  //     const access_Token = await (
+  //       await this.accessToken(User.id, User.gmail)
+  //     ).access_token;
+
+  //     const refresh_token = await (
+  //       await this.refreshToken(User.id, User.gmail)
+  //     ).refresh_token;
+
+  //     return {
+  //       access_Token,
+  //       refresh_token,
+  //       data: User,
+  //       status: statusCode.success,
+  //       message: 'משתמש נוצר בהצלחה',
+  //     };
+  //   } catch (error: any) {
+  //     return {
+  //       data: undefined,
+  //       status: statusCode.error,
+  //       message: 'קרתה בעיה ביצירת משתמש',
+  //     };
+  //   }
+  // }
   async signUp(signUpDto: signUpDto, file:Express.Multer.File) {
-    console.log('dasiojdioajsio',file);
+    console.log(file);
     
     try {
       const exsistUser = await this.UserModel.findOne({
