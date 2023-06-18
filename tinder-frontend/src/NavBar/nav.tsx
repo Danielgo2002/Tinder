@@ -37,6 +37,7 @@ const Nav = () => {
         <Flex pos="fixed" top="1rem" left="1rem  " align={"left"}>
           <Text textAlign={{ base: "left", md: "left" }} fontFamily={"heading"}>
             <Image
+              onClick={() => window.location.replace("/")}
               borderRadius={"25px"}
               boxSize={"50px"}
               src="https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/tinder-icon.png"

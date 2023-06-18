@@ -1,42 +1,23 @@
-import { CheckIcon, CloseIcon, PhoneIcon } from "@chakra-ui/icons";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import {
-  AbsoluteCenter,
   Avatar,
-  Badge,
   Box,
-  Button,
   Center,
-  ChakraProvider,
-  extendTheme,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  GridItem,
   Heading,
-  HStack,
   IconButton,
-  Image,
-  Input,
   Stack,
   Text,
-  theme,
   useBreakpointValue,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import client from "./api/interseptors";
-import { GetImages, GetUsers, Images, Users } from "./api/Tinder";
-import logo from "./assets/idoLogo.jpg";
+
+import { GetUsers, LikeUser, Users } from "./api/Tinder";
 
 const Tinder = () => {
   const [currentUser, setCurrentUser] = useState(0);
-  const [currentImage, setCurrentImage] = useState<number>(0);
+  const [finishedIterating, setFinishedIterating] = useState(false);
 
   const {
     data: users,
@@ -44,17 +25,35 @@ const Tinder = () => {
     isError,
     refetch,
   } = useQuery<Users>(["users"], GetUsers);
-  console.log(users);
 
-
- 
+  console.log("jvdhvcvdjcvjsvcvj", users);
 
   const specificUser = useMemo(
     () => users?.data && users.data[currentUser],
     [currentUser, users]
   );
-  const avatarSize = useBreakpointValue({ base: "150px", md: "250px" });
 
+  useEffect(() => {
+    if (users?.data && currentUser >= users.data.length) {
+      setFinishedIterating(true);
+    } else {
+      setFinishedIterating(false);
+    }
+  }, [users, currentUser]);
+
+  const reciverId = specificUser?._id;
+  console.log(reciverId);
+
+  const avatarSize = useBreakpointValue({ base: "150px", md: "300px" });
+  const buttonSize = useBreakpointValue({ base: "75px", md: "100px" });
+  const buttonSpace = useBreakpointValue({ base: "48", md: "96" });
+
+  const { mutateAsync: Like } = useMutation(LikeUser, {
+    onSuccess: (res) => {
+      if (res.data == "error") alert("alredy liked this user");
+      console.log("ggfdjbvhjdvkv", res.data);
+    },
+  });
 
   if (isLoading) {
     return (
@@ -66,11 +65,9 @@ const Tinder = () => {
 
   return (
     <Center py={20} h={"100vh"}>
-      <br/>
-      <br/>
       <Box
         w={"100vw"}
-        h={"110vh"}
+        h={"100vh"}
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"2xl"}
         rounded={"lg"}
@@ -82,37 +79,49 @@ const Tinder = () => {
         <br />
         <br />
         <br />
-        
+        <br />
+        <br />
+
         <Avatar
-          boxSize={"250px"}
+          boxSize={avatarSize}
           borderRadius={"100"}
           src={`http://localhost:3000/static/${specificUser?.image}`}
         />
+
         <Heading fontSize={"4xl"} fontFamily={"body"}>
           {specificUser?.first_Name} {specificUser?.last_Name}
+          {finishedIterating && (
+            <Heading>אין יותר משתמשים כרגע... נסה שנית מאוחר יותר</Heading>
+            
+          )}
         </Heading>
-        <Text fontSize={'2xl'} fontWeight={600} color={"gray.500"} mb={4}>
+        <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
           Age: {specificUser?.age}
         </Text>
 
-        <Text fontSize={'2xl'} fontWeight={600} color={"gray.500"} mb={4}>
+        <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
           Gender: {specificUser?.gender}
         </Text>
-        <Text fontSize={'2xl'} fontWeight={600} color={"gray.500"} mb={4}>
+        <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
           Location: {specificUser?.location}
         </Text>
         <Text
           textAlign={"center"}
-          fontSize={'2xl'}
+          fontSize={"2xl"}
           color={useColorModeValue("gray.700", "gray.400")}
           px={3}
         >
           {specificUser?.summery}
         </Text>
 
-        <Stack mt={8}  justify={'center'} direction={"row"} spacing={"auto"}>
+        <Stack
+          mt={5}
+          justify={"center"}
+          direction={"row"}
+          spacing={buttonSpace}
+        >
           <IconButton
-            boxSize={"100px"}
+            boxSize={buttonSize}
             colorScheme="red"
             aria-label="ex"
             size={"lg"}
@@ -123,18 +132,21 @@ const Tinder = () => {
             onClick={() => setCurrentUser(currentUser + 1)}
             icon={<CloseIcon />}
           />
-           <IconButton
-      boxSize={"100px"}
-      colorScheme="green"
-      aria-label="ex"
-      size={"lg"}
-      boxShadow={
-        "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-      }
-      fontSize="60px"
-      onClick={() => setCurrentUser(currentUser + 1)}
-      icon={<CheckIcon />}
-    />
+          <IconButton
+            boxSize={buttonSize}
+            colorScheme="green"
+            aria-label="ex"
+            size={"lg"}
+            boxShadow={
+              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+            }
+            fontSize="60px"
+            onClick={() => {
+              Like({ reciverID: reciverId! });
+              setCurrentUser(currentUser + 1);
+            }}
+            icon={<CheckIcon />}
+          />
         </Stack>
       </Box>
     </Center>

@@ -1,23 +1,28 @@
-import { Body, Controller, Get, Post ,Request, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AUthGuard } from 'src/Auth/auth.guard';
 import { likesDto } from 'src/dto/likes.Dto';
-import { storage,  } from 'src/utils/upload.service';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private UserService: UserService) {}
-
+  @UseGuards(AUthGuard)
   @Post('likes')
-  likes(@Body() likesDto: likesDto) {
-    return this.UserService.likes(likesDto);
+  likes(@Request() req, @Body() likesDto: likesDto) {
+    console.log(req);
+
+    return this.UserService.likes(req.user.sub, likesDto);
   }
   @UseGuards(AUthGuard)
-
   @Get('getUsers')
-  getUsers(@Request() req){
-    return this.UserService.getUsers(req.user.sub)
+  getUsers(@Request() req) {
+    return this.UserService.getUsers(req.user.sub);
   }
-
 }

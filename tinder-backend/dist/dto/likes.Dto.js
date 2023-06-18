@@ -16,10 +16,6 @@ class likesDto {
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], likesDto.prototype, "ownerID", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
 ], likesDto.prototype, "reciverID", void 0);
 exports.likesDto = likesDto;
 //# sourceMappingURL=likes.Dto.js.map

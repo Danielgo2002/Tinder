@@ -40,12 +40,10 @@ let UserService = class UserService {
             };
         }
     }
-    async likes(likesDto) {
+    async likes(ownerId, likesDto) {
         try {
-            const user = await this.UserModel.findById(likesDto.ownerID);
+            const user = await this.UserModel.findById(ownerId);
             const recivedUser = await this.UserModel.findById(likesDto.reciverID);
-            const yossi = await this.UserModel.findById(likesDto.reciverID);
-            console.log(yossi);
             if (user.likes.includes(recivedUser._id)) {
                 return {
                     data: undefined,

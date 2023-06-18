@@ -1,4 +1,3 @@
-import axios from "axios";
 import client from "./interseptors";
 
 export interface Users {
@@ -7,6 +6,7 @@ export interface Users {
   status: string;
 }
 export interface User {
+  _id: string;
   gender: string;
   first_Name: string;
   last_Name: string;
@@ -29,6 +29,10 @@ export const GetUsers = async (): Promise<Users> => {
 
 export const GetImages = async (): Promise<Images> => {
   return client.get("uploads").then((res) => res.data);
+};
+
+export const LikeUser = async (data: { reciverID: string }) => {
+  return client.post("/user/likes", data).then((res) => res.data);
 };
 
 // export const GetUsers = async (): Promise<Users> => {

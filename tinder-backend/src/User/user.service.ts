@@ -31,12 +31,10 @@ export class UserService {
       };
     }
   }
-  async likes(likesDto: likesDto) {
+  async likes(ownerId: string, likesDto: likesDto) {
     try {
-      const user = await this.UserModel.findById(likesDto.ownerID);
+      const user = await this.UserModel.findById(ownerId);
       const recivedUser = await this.UserModel.findById(likesDto.reciverID);
-      const yossi = await this.UserModel.findById(likesDto.reciverID);
-      console.log(yossi);
 
       if (user.likes.includes(recivedUser._id)) {
         return {
@@ -74,6 +72,4 @@ export class UserService {
       };
     }
   }
-
-  
 }

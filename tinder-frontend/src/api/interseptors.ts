@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { UseNavigateTo } from "./Navigateto";
+
 
 const client = axios.create({ baseURL: "http://localhost:3000" });
 
