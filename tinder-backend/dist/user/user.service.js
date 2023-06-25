@@ -40,6 +40,63 @@ let UserService = class UserService {
             };
         }
     }
+    async getFilterUsers(userId) {
+        try {
+            const myUser = await this.UserModel.findById(userId);
+            const pref = myUser.preferences;
+            const users = await this.UserModel.find({
+                _id: { $ne: userId },
+                gender: pref ? pref.gender : {},
+            });
+            const likedUsers = users.filter((user) => !user.likesRecived.includes(myUser.id));
+            const UpdatedUsers = likedUsers.map((element) => {
+                let count = 0;
+                if (element.age === (pref === null || pref === void 0 ? void 0 : pref.age) && element.location === (pref === null || pref === void 0 ? void 0 : pref.location)) {
+                    count = 2;
+                }
+                else if (element.age === (pref === null || pref === void 0 ? void 0 : pref.age) ||
+                    element.location === (pref === null || pref === void 0 ? void 0 : pref.location)) {
+                    count = 1;
+                }
+                return Object.assign(Object.assign({}, element.toObject()), { count: count });
+            });
+            const sortedUsers = UpdatedUsers.sort((a, b) => b.count - a.count);
+            if (!pref)
+                return {
+                    data: users,
+                    message: 'pass',
+                    status: constants_1.statusCode.success,
+                };
+            console.log(sortedUsers);
+            return {
+                data: sortedUsers,
+                message: 'pass',
+                status: constants_1.statusCode.success,
+            };
+        }
+        catch (error) {
+            console.log(error);
+            return {
+                data: [],
+                message: 'לא נמצאו משתמשים',
+                status: constants_1.statusCode.error,
+            };
+        }
+    }
+    async getMyUser(userId) {
+        try {
+            const myUser = await this.UserModel.findById(userId);
+            return myUser;
+        }
+        catch (error) {
+            console.log(error);
+            return {
+                data: [],
+                message: 'לא נמצאו משתמשים',
+                status: constants_1.statusCode.error,
+            };
+        }
+    }
     async likes(ownerId, likesDto) {
         try {
             const user = await this.UserModel.findById(ownerId);

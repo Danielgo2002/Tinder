@@ -18,4 +18,25 @@ export declare class UserController {
         message: string;
         status: string;
     }>;
+    getFilterUsers(req: any): Promise<{
+        data: (import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+        message: string;
+        status: string;
+    } | {
+        data: {
+            count: number;
+            _id: unknown;
+        }[];
+        message: string;
+        status: string;
+    }>;
+    getMyUser(req: any): Promise<(import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }) | {
+        data: any[];
+        message: string;
+        status: string;
+    }>;
 }

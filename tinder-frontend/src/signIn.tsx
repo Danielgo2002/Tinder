@@ -46,7 +46,7 @@ const SignIn = () => {
       console.log(res);
       if (res.data.status == "error") alert("no user found");
       // else Navigate("/Tinder");
-      else window.location.href = "/Tinder";
+      else window.location.href = "/MePage";
     },
   });
   const submitData = async (data: SignInData) => {

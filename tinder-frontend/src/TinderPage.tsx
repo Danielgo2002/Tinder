@@ -13,7 +13,8 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
-import { GetUsers, LikeUser, Users } from "./api/Tinder";
+import { GetFilterUsers, GetUsers, LikeUser, Users } from "./api/Tinder";
+import { Blur } from "./signIn";
 
 const Tinder = () => {
   const [currentUser, setCurrentUser] = useState(0);
@@ -24,9 +25,9 @@ const Tinder = () => {
     isLoading,
     isError,
     refetch,
-  } = useQuery<Users>(["users"], GetUsers);
+  } = useQuery<Users>(["users"], GetFilterUsers);
 
-  console.log("jvdhvcvdjcvjsvcvj", users);
+  console.log(users?.data);
 
   const specificUser = useMemo(
     () => users?.data && users.data[currentUser],
@@ -47,6 +48,7 @@ const Tinder = () => {
   const avatarSize = useBreakpointValue({ base: "150px", md: "300px" });
   const buttonSize = useBreakpointValue({ base: "75px", md: "100px" });
   const buttonSpace = useBreakpointValue({ base: "48", md: "96" });
+  // const bgcolor = useBreakpointValue({ base: <Blur />, md: "white" });
 
   const { mutateAsync: Like } = useMutation(LikeUser, {
     onSuccess: (res) => {
@@ -62,13 +64,19 @@ const Tinder = () => {
       </>
     );
   }
+  console.log(specificUser);
 
   return (
     <Center py={20} h={"100vh"}>
       <Box
+        bgGradient={
+          "linear-gradient(45deg, rgba(251, 218, 97, 0.7) 0%, rgba(255, 90, 205, 0.7) 100%)"
+        }
+        position={"relative"}
         w={"100vw"}
         h={"100vh"}
-        bg={useColorModeValue("white", "gray.900")}
+        //  bg={useColorModeValue("white", "gray.900")}
+        // bgColor={bgcolor}
         boxShadow={"2xl"}
         rounded={"lg"}
         p={6}
@@ -92,7 +100,6 @@ const Tinder = () => {
           {specificUser?.first_Name} {specificUser?.last_Name}
           {finishedIterating && (
             <Heading>אין יותר משתמשים כרגע... נסה שנית מאוחר יותר</Heading>
-            
           )}
         </Heading>
         <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
@@ -148,6 +155,19 @@ const Tinder = () => {
             icon={<CheckIcon />}
           />
         </Stack>
+        {/* <Blur
+          position={"fixed"}
+          top={5}
+          right={5}
+          transform={"scaleX(-1)"}
+          style={{ filter: "blur(100px)" }}
+        />
+        <Blur
+          position={"fixed"}
+          top={5}
+          left={-5}
+          style={{ filter: "blur(100px)" }}
+        /> */}
       </Box>
     </Center>
   );

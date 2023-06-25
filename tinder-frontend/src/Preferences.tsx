@@ -1,22 +1,19 @@
 import {
   Box,
   Button,
-  ChakraProvider,
   Container,
   extendTheme,
   Flex,
-  Grid,
-  GridItem,
   Heading,
-  Image,
   Input,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Step, Steps, StepsStyleConfig, useSteps } from "chakra-ui-steps";
+import {  StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { addPrefrences } from "./api/PrefrencesApi";
 import { FormField } from "./FormField";
@@ -59,10 +56,15 @@ const Preferences = () => {
     message: "this field is requierd",
   };
 
+  const Navigate = useNavigate();
+
+
   const { mutateAsync: addPref } = useMutation(addPrefrences, {
     onSuccess: (res) => {
       console.log("mutate", res);
-      alert("prefrences added succesfully");
+      // alert("prefrences added succesfully");
+      Navigate("/signin")
+      
     },
   });
 
@@ -72,67 +74,7 @@ const Preferences = () => {
   };
 
   return (
-    // <ChakraProvider theme={theme}>
-    //   <Grid
-
-    //     fontWeight="bold"
-    //   >
-    //     <GridItem pl="2" bg="orange.300" area={"header"}>
-    //       <Image
-    //         boxSize={"100px"}
-    //         borderRadius={"50"}
-    //         src="https://logowik.com/content/uploads/images/tinder4318.jpg"
-    //         alt="tinder"
-    //       />
-    //       <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-    //         {" "}
-    //         Add Preferences!!
-    //       </Text>
-    //     </GridItem>
-
-    //     <GridItem pl="3" bg="pink.300" area={"nav"}>
-    //       <Box p={5}>
-    //         <form onSubmit={handleSubmit(submitData)}>
-    //           <Steps activeStep={activeStep}>
-    //             <Step label="Add Prefrences">
-    //               <FormField label="Age" error={errors?.age?.message}>
-    //                 <Input
-    //                   type="number"
-    //                   {...register("age", {
-    //                     valueAsNumber: true,
-    //                     required,
-    //                   })}
-    //                 />
-    //               </FormField>
-    //               <br />
-    //               <FormField label="Location" error={errors?.location?.message}>
-    //                 <Input
-    //                   type="text"
-    //                   {...register("location", {
-    //                     required,
-    //                   })}
-    //                 />
-    //               </FormField>
-    //               <br />
-    //               <FormField label="Gender" error={errors.gender?.message}>
-    //                 <Input type="text" {...register("gender", { required })} />
-    //               </FormField>
-    //             </Step>
-    //             <Step label="Submit" />
-    //           </Steps>
-    //           <br />
-    //           <br />
-    //           <br />
-    //           <br />
-    //           <Flex gap={2} my={2}>
-    //             {activeStep !== 1 && <Button type="submit"> Submit </Button>}
-    //           </Flex>
-    //         </form>
-    //       </Box>
-    //     </GridItem>
-    //   </Grid>
-    // </ChakraProvider>
-
+    
     <Box position={"relative"}>
       <Container
         as={Flex}
@@ -204,6 +146,7 @@ const Preferences = () => {
                 _hover={{
                   bgGradient: "linear(to-r, red.400,pink.400)",
                   boxShadow: "xl",
+                  
                 }}
               >
                 Submit

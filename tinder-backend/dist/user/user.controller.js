@@ -28,6 +28,12 @@ let UserController = class UserController {
     getUsers(req) {
         return this.UserService.getUsers(req.user.sub);
     }
+    getFilterUsers(req) {
+        return this.UserService.getFilterUsers(req.user.sub);
+    }
+    getMyUser(req) {
+        return this.UserService.getMyUser(req.user.sub);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
@@ -46,6 +52,22 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUsers", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Get)('getFilterUsers'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getFilterUsers", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Get)('getMyUser'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getMyUser", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

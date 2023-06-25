@@ -13,6 +13,7 @@ import NavaBar from "./navBar";
 import Home from "./HomePage";
 import NavBar from "./navBar";
 import Nav from "./NavBar/nav";
+import MePage from "./MePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,10 +50,10 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
   },
-  // {
-  //   path: "/nav",
-  //   element: <Nav />,
-  // },
+  {
+    path: "/mePage",
+    element: <MePage />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(

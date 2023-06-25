@@ -5,6 +5,11 @@ export interface Users {
   data: User[];
   status: string;
 }
+export interface MyUsers {
+  message: string;
+  data: MyUser[];
+  status: string;
+}
 export interface User {
   _id: string;
   gender: string;
@@ -15,6 +20,17 @@ export interface User {
   summery: string;
   image: File;
 }
+export interface MyUser {
+  _id: string;
+  gender: string;
+  first_Name: string;
+  last_Name: string;
+  age: number;
+  location: string;
+  summery: string;
+  image: File;
+  preferences: Prefrences;
+}
 
 export interface Images {
   Images: Image[];
@@ -23,8 +39,18 @@ export interface Image {
   Image: File;
 }
 
+export interface Prefrences {
+  gender: string;
+  age: number;
+  location: string;
+}
+
 export const GetUsers = async (): Promise<Users> => {
   return client.get("user/getUsers").then((res) => res.data);
+};
+
+export const GetFilterUsers = async (): Promise<Users> => {
+  return client.get("user/getFilterUsers").then((res) => res.data);
 };
 
 export const GetImages = async (): Promise<Images> => {
@@ -33,6 +59,10 @@ export const GetImages = async (): Promise<Images> => {
 
 export const LikeUser = async (data: { reciverID: string }) => {
   return client.post("/user/likes", data).then((res) => res.data);
+};
+
+export const GetMyUser = async (): Promise<MyUser> => {
+  return client.get("user/getMyUser").then((res) => res.data);
 };
 
 // export const GetUsers = async (): Promise<Users> => {

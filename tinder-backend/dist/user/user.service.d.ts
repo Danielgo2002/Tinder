@@ -11,6 +11,27 @@ export declare class UserService {
         message: string;
         status: string;
     }>;
+    getFilterUsers(userId: string): Promise<{
+        data: (import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+        message: string;
+        status: string;
+    } | {
+        data: {
+            count: number;
+            _id: unknown;
+        }[];
+        message: string;
+        status: string;
+    }>;
+    getMyUser(userId: string): Promise<(import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }) | {
+        data: any[];
+        message: string;
+        status: string;
+    }>;
     likes(ownerId: string, likesDto: likesDto): Promise<{
         data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;

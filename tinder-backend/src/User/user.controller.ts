@@ -25,4 +25,17 @@ export class UserController {
   getUsers(@Request() req) {
     return this.UserService.getUsers(req.user.sub);
   }
+
+  @UseGuards(AUthGuard)
+  @Get('getFilterUsers')
+  getFilterUsers(@Request() req) {
+    return this.UserService.getFilterUsers(req.user.sub);
+  }
+  @UseGuards(AUthGuard)
+  @Get('getMyUser')
+  getMyUser(@Request() req) {
+    return this.UserService.getMyUser(req.user.sub);
+  }
+
+
 }
