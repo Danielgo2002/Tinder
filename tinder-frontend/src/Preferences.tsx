@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import {  StepsStyleConfig, useSteps } from "chakra-ui-steps";
+import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -58,13 +58,11 @@ const Preferences = () => {
 
   const Navigate = useNavigate();
 
-
   const { mutateAsync: addPref } = useMutation(addPrefrences, {
     onSuccess: (res) => {
       console.log("mutate", res);
       // alert("prefrences added succesfully");
-      Navigate("/signin")
-      
+      Navigate("/MePage");
     },
   });
 
@@ -74,7 +72,6 @@ const Preferences = () => {
   };
 
   return (
-    
     <Box position={"relative"}>
       <Container
         as={Flex}
@@ -146,7 +143,6 @@ const Preferences = () => {
                 _hover={{
                   bgGradient: "linear(to-r, red.400,pink.400)",
                   boxShadow: "xl",
-                  
                 }}
               >
                 Submit

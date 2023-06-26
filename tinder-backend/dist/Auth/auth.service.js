@@ -139,7 +139,7 @@ let AuthService = class AuthService {
     }
     async createUsers() {
         const hash = await argon.hash('123456');
-        for (let index = 0; index < 100; index++) {
+        for (let index = 0; index < 10; index++) {
             const first_Name = faker_1.faker.person.firstName();
             const last_Name = faker_1.faker.person.lastName();
             const gmail = faker_1.faker.internet.email();

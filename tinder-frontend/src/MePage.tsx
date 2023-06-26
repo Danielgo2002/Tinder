@@ -34,6 +34,7 @@ const MePage = () => {
   const user = Myuser;
 
   const userPref = Myuser?.preferences;
+  console.log(user?.image);
 
   //   const specificUser = useMemo(
   //     () => Myuser?.data && Myuser.data[currentUser],
@@ -52,6 +53,7 @@ const MePage = () => {
   const Buttonsize = useBreakpointValue({ base: "sm", md: "lg" });
 
   const Navigate = useNavigate();
+  console.log(user?.image);
 
   return (
     <Center
@@ -89,7 +91,11 @@ const MePage = () => {
           <Avatar
             boxSize={imageSize}
             boxShadow={"dark-lg"}
-            src={`http://localhost:3000/static/${user?.image}`}
+            src={
+              user?.image.includes("https")
+                ? user.image
+                : `http://localhost:3000/static/${user?.image}`
+            }
             css={{
               border: "2px solid white",
             }}
@@ -168,7 +174,7 @@ const MePage = () => {
                 size={Buttonsize}
                 variant={"outline"}
                 onClick={() => {
-                  window.location.href = "/";
+                  window.location.href = "/Preferences";
                 }}
               >
                 Change prefrences

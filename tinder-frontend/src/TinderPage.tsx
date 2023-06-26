@@ -93,7 +93,11 @@ const Tinder = () => {
         <Avatar
           boxSize={avatarSize}
           borderRadius={"100"}
-          src={`http://localhost:3000/static/${specificUser?.image}`}
+          src={
+            specificUser?.image.includes("https")
+              ? specificUser.image
+              : `http://localhost:3000/static/${specificUser?.image}`
+          }
         />
 
         <Heading fontSize={"4xl"} fontFamily={"body"}>

@@ -171,7 +171,7 @@ export class AuthService {
   async createUsers() {
     const hash = await argon.hash('123456');
 
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index < 10; index++) {
       const first_Name = faker.person.firstName(); // Rowan Nikolaus
       const last_Name = faker.person.lastName(); // Rowan Nikolaus
       const gmail = faker.internet.email(); // Kassandra.Haley@erich.biz

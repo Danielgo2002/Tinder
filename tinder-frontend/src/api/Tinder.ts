@@ -18,7 +18,7 @@ export interface User {
   age: number;
   location: string;
   summery: string;
-  image: File;
+  image: string;
 }
 export interface MyUser {
   _id: string;
@@ -28,7 +28,7 @@ export interface MyUser {
   age: number;
   location: string;
   summery: string;
-  image: File;
+  image: string;
   preferences: Prefrences;
 }
 
