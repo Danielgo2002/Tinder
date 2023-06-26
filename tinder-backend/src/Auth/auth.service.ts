@@ -10,6 +10,8 @@ import { signInDto } from 'src/dto/signIn.Dto';
 import { preferencesDto } from 'src/dto/prefrences.Dto';
 import { deleteDto } from 'src/dto';
 import * as argon from 'argon2';
+import axios from 'axios';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class AuthService {
@@ -27,60 +29,9 @@ export class AuthService {
     private jwt: JwtService,
   ) {}
 
-  // async signUp(signUpDto: signUpDto, file:Express.Multer.File) {
-  //   console.log(file);
-    
-  //   try {
-  //     const exsistUser = await this.UserModel.findOne({
-  //       gmail: signUpDto.gmail,
-  //     });
-  //     if (exsistUser) {
-  //       return {
-  //         data: undefined,
-  //         status: statusCode.error,
-  //         message: 'duplicate error. this email alredy taken...',
-  //       };
-  //     }
-
-  //     const hash = await argon.hash(signUpDto.password);
-  //     delete signUpDto.password;
-  //     const newobj = { ...signUpDto, ...{ hash } };
-
-  //     const User = new this.UserModel(newobj);
-
-  //     if (file) {
-  //       User.image = file.filename;
-  //     }
-  //     User.image = file.filename
-
-  //     await User.save();
-
-  //     const access_Token = await (
-  //       await this.accessToken(User.id, User.gmail)
-  //     ).access_token;
-
-  //     const refresh_token = await (
-  //       await this.refreshToken(User.id, User.gmail)
-  //     ).refresh_token;
-
-  //     return {
-  //       access_Token,
-  //       refresh_token,
-  //       data: User,
-  //       status: statusCode.success,
-  //       message: 'משתמש נוצר בהצלחה',
-  //     };
-  //   } catch (error: any) {
-  //     return {
-  //       data: undefined,
-  //       status: statusCode.error,
-  //       message: 'קרתה בעיה ביצירת משתמש',
-  //     };
-  //   }
-  // }
-  async signUp(signUpDto: signUpDto, file:Express.Multer.File) {
+  async signUp(signUpDto: signUpDto, file: Express.Multer.File) {
     console.log(file);
-    
+
     try {
       const exsistUser = await this.UserModel.findOne({
         gmail: signUpDto.gmail,
@@ -102,7 +53,7 @@ export class AuthService {
       if (file) {
         User.image = file.filename;
       }
-      User.image = file.filename
+      User.image = file.filename;
 
       await User.save();
 
@@ -215,5 +166,38 @@ export class AuthService {
   async refresh(user) {
     const access_Token = await this.accessToken(user.id, user.gmail);
     return access_Token;
+  }
+
+  async createUsers() {
+    const hash = await argon.hash('123456');
+
+    for (let index = 0; index < 100; index++) {
+      const first_Name = faker.person.firstName(); // Rowan Nikolaus
+      const last_Name = faker.person.lastName(); // Rowan Nikolaus
+      const gmail = faker.internet.email(); // Kassandra.Haley@erich.biz
+
+      const gender = faker.person.sex();
+
+      const summery = faker.person.bio();
+
+      const image = faker.image.avatarLegacy();
+      const age = Math.floor(Math.random() * (70 - 18 + 1) + 18);
+      const location =
+        index % 3 === 0 ? 'center' : index % 2 === 0 ? 'north' : 'south';
+      const User = new this.UserModel({
+        first_Name,
+        last_Name,
+        gmail,
+        hash,
+        summery,
+        gender,
+        location,
+        image,
+        age,
+      });
+      await User.save();
+    }
+
+    return 'success';
   }
 }

@@ -168,7 +168,7 @@ const MePage = () => {
                 size={Buttonsize}
                 variant={"outline"}
                 onClick={() => {
-                  window.location.href = "/Preferences";
+                  window.location.href = "/";
                 }}
               >
                 Change prefrences

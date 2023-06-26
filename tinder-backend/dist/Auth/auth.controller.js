@@ -37,6 +37,9 @@ let AuthController = class AuthController {
     refresh(account) {
         return this.AuthService.refresh(account);
     }
+    createUsers() {
+        return this.AuthService.createUsers();
+    }
 };
 __decorate([
     (0, common_1.Post)('signUp'),
@@ -71,6 +74,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "refresh", null);
+__decorate([
+    (0, common_1.Get)('createUsers'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "createUsers", null);
 AuthController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     (0, common_1.Controller)('auth'),

@@ -55,4 +55,8 @@ export class AuthController {
   refresh(@GetUser() account: UserDocument) {
     return this.AuthService.refresh(account);
   }
+  @Get('createUsers')
+  createUsers() {
+    return this.AuthService.createUsers();
+  }
 }
