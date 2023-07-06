@@ -2,7 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { type } from 'os';
 import { Chat } from './chatSchema';
-import {  ageRange, gender, location } from './Enums';
+import { Dislike } from './dislikeSchema';
+import { ageRange, gender, location } from './Enums';
 
 export type UserDocument = User & Document;
 
@@ -43,6 +44,25 @@ export class User {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   likesRecived: Types.ObjectId[];
+
+  // @Prop({type: [{type: Types.ObjectId ,ref: 'User'}] })
+  // dislikes: Dislike[];
+
+  @Prop([
+    {
+      type: Object,
+      default: {
+        _id: null,
+        date: null,
+      },
+    },
+  ])
+  dislikes: [
+    {
+      _id: string;
+      date: number;
+    },
+  ];
 
   //  @Prop()
   // sendLikesCount: number;

@@ -7,18 +7,23 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AUthGuard } from 'src/Auth/auth.guard';
+import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private UserService: UserService) {}
+
   @UseGuards(AUthGuard)
   @Post('likes')
   likes(@Request() req, @Body() likesDto: likesDto) {
-    console.log(req);
-
     return this.UserService.likes(req.user.sub, likesDto);
+  }
+  @UseGuards(AUthGuard)
+  @Post('dislikes')
+  disLikes(@Request() req, @Body() disLikesDto: disLikesDto) {
+    return this.UserService.disLikes(req.user.sub, disLikesDto);
   }
   @UseGuards(AUthGuard)
   @Get('getUsers')
@@ -36,7 +41,4 @@ export class UserController {
   getMyUser(@Request() req) {
     return this.UserService.getMyUser(req.user.sub);
   }
-
-
-
 }

@@ -60,6 +60,9 @@ export const GetImages = async (): Promise<Images> => {
 export const LikeUser = async (data: { reciverID: string }) => {
   return client.post("/user/likes", data).then((res) => res.data);
 };
+export const DislikeUser = async (data: { reciverID: string }) => {
+  return client.post("/user/dislikes", data).then((res) => res.data);
+};
 
 export const GetMyUser = async (): Promise<MyUser> => {
   return client.get("user/getMyUser").then((res) => res.data);

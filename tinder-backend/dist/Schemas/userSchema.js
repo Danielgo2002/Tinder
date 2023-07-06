@@ -64,6 +64,18 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "likesRecived", void 0);
 __decorate([
+    (0, mongoose_1.Prop)([
+        {
+            type: Object,
+            default: {
+                _id: null,
+                date: null,
+            },
+        },
+    ]),
+    __metadata("design:type", Array)
+], User.prototype, "dislikes", void 0);
+__decorate([
     (0, mongoose_1.Prop)({
         type: Object,
         default: {

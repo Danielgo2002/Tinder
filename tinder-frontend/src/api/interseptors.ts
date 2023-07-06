@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const client = axios.create({ baseURL: "http://localhost:3000" });
 
 function authorizationRequest(config: any, tokenType: string) {
@@ -13,15 +12,12 @@ function authorizationRequest(config: any, tokenType: string) {
     }
 
     // config.headers.set("Authorization", "Bearer " + token);
-  } else {
-    if (tokenType === "refreshToken") {
-      window.location.replace("/");
-    }
   }
 }
 
 client.interceptors.request.use(
   (config) => {
+
     if (config.url === "/auth/refresh") {
       authorizationRequest(config, "refreshToken");
     } else {
@@ -39,12 +35,12 @@ client.interceptors.response.use(
     return response;
   },
   (error) => {
+
     const originalReq = error.config;
     if (
       error?.response?.status === 401 &&
       originalReq.url === "/auth/refresh"
     ) {
-      window.location.replace("/");
       return Promise.reject(error);
     }
     if (error?.response?.status === 401 && !originalReq._retry) {

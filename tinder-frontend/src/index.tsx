@@ -3,17 +3,13 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import Signup from "./signup";
-import Preferences from "./Preferences";
+import {
+  BrowserRouter,
+ 
+} from "react-router-dom";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SignIn from "./signIn";
-import Tinder from "./TinderPage";
-import NavaBar from "./navBar";
-import Home from "./HomePage";
-import NavBar from "./navBar";
-import Nav from "./NavBar/nav";
-import MePage from "./MePage";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,36 +21,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/signin",
-    element: <SignIn />,
-  },
-  {
-    path: "/preferences",
-    element: <Preferences />,
-  },
-  {
-    path: "/tinder",
-    element: <Tinder />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/mePage",
-    element: <MePage />,
-  },
-]);
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -63,8 +30,10 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <Nav></Nav>
-        <RouterProvider router={router} />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>

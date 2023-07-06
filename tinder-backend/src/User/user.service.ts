@@ -3,8 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { count } from 'console';
 import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
+import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UserDocument } from 'src/Schemas/userSchema';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UserService {
@@ -51,7 +53,34 @@ export class UserService {
       //   count: 0,
       // }));
 
-      const UpdatedUsers = likedUsers.map((element) => {
+      // const dislikeusers = likedUsers.filter((user) =>
+      //   myUser.dislikes.includes(user._id),
+      // );
+
+      const myOutDatedDislikes = myUser.dislikes.filter((disLike) => {
+        const date = new Date(disLike.date);
+        const twentyFourHoursAgo = new Date();
+        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24); // subtract 24 hours
+        if (date < twentyFourHoursAgo) return disLike;
+      });
+      let usersfilterd = likedUsers;
+      if (myOutDatedDislikes.length !== 0) {
+        usersfilterd = likedUsers.filter((user) => {
+          if (
+            myUser.dislikes.includes(user.id) &&
+            myOutDatedDislikes.includes(user.id)
+          ) {
+            return user;
+          }
+          return user;
+          //check if in the myUser.dislike
+          //check if in the myOutDatedDislikes
+          //if both return user
+          //if none of them also return user
+        });
+      }
+
+      const UpdatedUsers = usersfilterd.map((element) => {
         // console.log({ ...element });
 
         let count = 0;
@@ -158,5 +187,33 @@ export class UserService {
     }
   }
 
+  async disLikes(ownerId: string, disLikesDto: disLikesDto) {
+    try {
+      const User = await this.UserModel.findById(ownerId);
+      const recivedUser = await this.UserModel.findById(disLikesDto.reciverID);
+      const date = new Date().valueOf();
+      // const dislikes = {
+      //   _id: recivedUser._id,
+      //   date: date,
+      // };
 
+      // console.log(ownerId);
+      // console.log(User.dislikes);
+
+      User.dislikes.push({ _id: recivedUser.id, date });
+
+      await User.save();
+      return {
+        data: User,
+        status: statusCode.success,
+        message: 'dislike added',
+      };
+    } catch (error: any) {
+      return {
+        data: undefined,
+        status: statusCode.error,
+        message: 'there is an error',
+      };
+    }
+  }
 }

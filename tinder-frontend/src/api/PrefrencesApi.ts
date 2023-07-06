@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormPrefrencesData } from "../Preferences";
+import { FormPrefrencesData } from "../componnents/Preferences";
 import client from "./interseptors";
 
 export const addPrefrences = async (data: FormPrefrencesData) => {

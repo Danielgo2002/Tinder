@@ -49,7 +49,24 @@ let UserService = class UserService {
                 gender: pref ? pref.gender : {},
             });
             const likedUsers = users.filter((user) => !user.likesRecived.includes(myUser.id));
-            const UpdatedUsers = likedUsers.map((element) => {
+            const myOutDatedDislikes = myUser.dislikes.filter((disLike) => {
+                const date = new Date(disLike.date);
+                const twentyFourHoursAgo = new Date();
+                twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+                if (date < twentyFourHoursAgo)
+                    return disLike;
+            });
+            let usersfilterd = likedUsers;
+            if (myOutDatedDislikes.length !== 0) {
+                usersfilterd = likedUsers.filter((user) => {
+                    if (myUser.dislikes.includes(user.id) &&
+                        myOutDatedDislikes.includes(user.id)) {
+                        return user;
+                    }
+                    return user;
+                });
+            }
+            const UpdatedUsers = usersfilterd.map((element) => {
                 let count = 0;
                 if (element.age === (pref === null || pref === void 0 ? void 0 : pref.age) && element.location === (pref === null || pref === void 0 ? void 0 : pref.location)) {
                     count = 2;
@@ -131,6 +148,27 @@ let UserService = class UserService {
                 status: constants_1.statusCode.error,
                 match: false,
                 message: 'יש בעיה! לא ניתן להשלים את הפעולה',
+            };
+        }
+    }
+    async disLikes(ownerId, disLikesDto) {
+        try {
+            const User = await this.UserModel.findById(ownerId);
+            const recivedUser = await this.UserModel.findById(disLikesDto.reciverID);
+            const date = new Date().valueOf();
+            User.dislikes.push({ _id: recivedUser.id, date });
+            await User.save();
+            return {
+                data: User,
+                status: constants_1.statusCode.success,
+                message: 'dislike added',
+            };
+        }
+        catch (error) {
+            return {
+                data: undefined,
+                status: constants_1.statusCode.error,
+                message: 'there is an error',
             };
         }
     }

@@ -39,6 +39,12 @@ export declare class User {
     chat: Chat[];
     likes: Types.ObjectId[];
     likesRecived: Types.ObjectId[];
+    dislikes: [
+        {
+            _id: string;
+            date: number;
+        }
+    ];
     preferences: {
         gender: gender;
         age: number;

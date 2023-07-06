@@ -1,4 +1,3 @@
-
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -10,10 +9,27 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { GetMyUser, MyUser } from "../api/Tinder";
 
-const Nav = () => {
+const FullNav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [display, changeDisplay] = useState("none");
+
+  const {
+    data: Myuser,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<MyUser>(["Myuser"], GetMyUser);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/home");
+  };
 
   return (
     <Flex
@@ -38,7 +54,7 @@ const Nav = () => {
         <Flex pos="fixed" top="1rem" left="1rem  " align={"left"}>
           <Text textAlign={{ base: "left", md: "left" }} fontFamily={"heading"}>
             <Image
-              onClick={() => window.location.replace("/")}
+              onClick={() => logout()}
               borderRadius={"25px"}
               boxSize={"50px"}
               src="https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/tinder-icon.png"
@@ -50,47 +66,45 @@ const Nav = () => {
         <Flex display={["none", "none", "flex", "flex"]} gap={3}>
           <Button
             onClick={() => {
-              window.location.replace("/signin");
+              window.location.replace("/Tinder");
             }}
             as={"a"}
-            variant="ghost"
+            variant="outline"
             aria-label="Contact"
+            color={"pink.600"}
+            colorScheme={"pink"}
             my={5}
             w="100%"
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
           >
-            Sign In
+            Lett's Meet!
           </Button>
-
-          
-
           <Button
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
             onClick={() => {
-              window.location.replace("/signup");
+              window.location.replace("/MePage");
             }}
             as={"a"}
-            variant="ghost"
+            variant="outline"
+            color={"pink.500"}
+            colorScheme={"pink"}
             aria-label="Contact"
             my={5}
             w="100%"
-
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
           >
-            Sign Up
+            My Page
+          </Button>
+          <Button
+            onClick={() => {
+              logout();
+            }}
+            as={"a"}
+            variant="outline"
+            color={"pink.500"}
+            colorScheme={"pink"}
+            aria-label="Contact"
+            my={5}
+            w="100%"
+          >
+            Log Out
           </Button>
         </Flex>
         <IconButton
@@ -127,53 +141,51 @@ const Nav = () => {
             size="lg"
             icon={<CloseIcon />}
             color={"black"}
-            // aria-label={""}
             onClick={() => changeDisplay("none")}
           />
         </Flex>
         <Flex flexDir="column" align="center">
           <Button
             onClick={() => {
-              window.location.replace("/signin");
+              window.location.replace("/MePage");
             }}
             as={"a"}
             variant="ghost"
-            color={"black"}
+            color={"pink.500"}
+            colorScheme={"pink"}
             aria-label="Contact"
             my={5}
             w="100%"
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
           >
-            Sign In
+            My Page
           </Button>
-
           <Button
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
             onClick={() => {
-              window.location.replace("/signup");
+              window.location.replace("/Tinder");
             }}
             as={"a"}
             variant="ghost"
+            color={"pink.500"}
+            colorScheme={"pink"}
             aria-label="Contact"
-            color={"black"}
             my={5}
             w="100%"
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
           >
-            Sign Up
+            Let's Meet!
+          </Button>
+          <Button
+            onClick={() => {
+              logout();
+            }}
+            as={"a"}
+            variant="ghost"
+            color={"pink.500"}
+            colorScheme={"pink"}
+            aria-label="Contact"
+            my={5}
+            w="100%"
+          >
+            Log Out
           </Button>
         </Flex>
       </Flex>
@@ -181,4 +193,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default FullNav;

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../Auth/auth.guard");
+const disLike_dto_1 = require("../dto/disLike.dto");
 const likes_Dto_1 = require("../dto/likes.Dto");
 const user_service_1 = require("./user.service");
 let UserController = class UserController {
@@ -22,8 +23,10 @@ let UserController = class UserController {
         this.UserService = UserService;
     }
     likes(req, likesDto) {
-        console.log(req);
         return this.UserService.likes(req.user.sub, likesDto);
+    }
+    disLikes(req, disLikesDto) {
+        return this.UserService.disLikes(req.user.sub, disLikesDto);
     }
     getUsers(req) {
         return this.UserService.getUsers(req.user.sub);
@@ -44,6 +47,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, likes_Dto_1.likesDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "likes", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Post)('dislikes'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, disLike_dto_1.disLikesDto]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "disLikes", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
     (0, common_1.Get)('getUsers'),

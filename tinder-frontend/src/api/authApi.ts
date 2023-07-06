@@ -1,6 +1,6 @@
 import axios from "axios";
-import { SignInData } from "../signIn";
-import { AuthData } from "../signup";
+import { SignInData } from "../auth/signIn";
+import { AuthData } from "../auth/signup";
 import client from "./interseptors";
 
 // const client = axios.create({ baseURL: "http://localhost:3000" });
@@ -63,3 +63,22 @@ export async function signIn(data: SignInData) {
     throw error;
   }
 }
+
+//  export const useLogin = () => {
+//   const setUsername = useStore((state) => state.setUsername);
+//   const setIsLogged = useStore((state) => state.setIsLogged);
+
+//   return useQuery("login", fetchLogin, {
+//     onSuccess: (response) => {
+//       setIsLogged(true);
+//       setUsername(response.data.username);
+
+//     },
+//     onSettled: () => {
+//       setIsLogged(true);
+//     },
+//     onError: () => {
+//       setIsLogged(false);
+//     },
+//   });
+// };
