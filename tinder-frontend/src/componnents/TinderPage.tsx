@@ -129,7 +129,7 @@ const Tinder = () => {
         <Text
           textAlign={"center"}
           fontSize={"2xl"}
-          color={useColorModeValue("gray.700", "gray.400")}
+          // color={useColorModeValue("gray.700", "gray.400")}
           px={3}
         >
           {specificUser?.summery}

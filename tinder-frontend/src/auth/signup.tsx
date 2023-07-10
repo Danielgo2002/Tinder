@@ -40,8 +40,8 @@ export type FormAuthData = {
   first_Name: string;
   last_Name: string;
   age: number;
-  location: string;
-  gender: string;
+  location: string ;
+  gender: string ;
   summery: string;
   file: any;
 };
@@ -202,7 +202,11 @@ function Signup() {
             <Box mt={10}>
               <Stack spacing={4}>
                 <FormField label="Gmail" error={errors?.gmail?.message}>
-                  <Input type="email" {...register("gmail", { required })} />
+                  <Input
+                    focusBorderColor="pink.200"
+                    type="email"
+                    {...register("gmail", { required })}
+                  />
                   {errors.gmail && (
                     <Text color="red">{errors.gmail.message}</Text>
                   )}
@@ -210,6 +214,7 @@ function Signup() {
                 <br />
                 <FormField label="Password" error={errors?.password?.message}>
                   <Input
+                    focusBorderColor="pink.200"
                     type="password"
                     {...register("password", { required })}
                   />
@@ -221,6 +226,7 @@ function Signup() {
                   error={errors?.confirmPassword?.message}
                 >
                   <Input
+                    focusBorderColor="pink.200"
                     type="password"
                     {...register("confirmPassword", { required })}
                   />
@@ -230,43 +236,75 @@ function Signup() {
                   error={errors?.first_Name?.message}
                 >
                   <Input
+                    focusBorderColor="pink.200"
                     type="text"
                     {...register("first_Name", { required })}
                   />
                 </FormField>
                 <FormField label="Last Name" error={errors?.last_Name?.message}>
-                  <Input type="text" {...register("last_Name", { required })} />
+                  <Input
+                    focusBorderColor="pink.200"
+                    type="text"
+                    {...register("last_Name", { required })}
+                  />
                 </FormField>
                 <FormField label="Age" error={errors?.age?.message}>
                   <Input
+                    focusBorderColor="pink.200"
                     type="number"
                     {...register("age", {
                       valueAsNumber: true,
                       required,
                     })}
                   />{" "}
+                   {/* <Select
+                    focusBorderColor="pink.200"
+                    placeholder="Select area"
+                    {...register("age", { required })}
+                  >
+                    <option>18-24</option>
+                    <option>25-32</option>
+                    <option>33-43</option>
+                    <option>44-100</option>
+                  </Select> */}
                 </FormField>
                 <FormField label="Location" error={errors?.location?.message}>
-                  <Input type="text" {...register("location", { required })} />
-                  {/* <Select placeholder="Select area">
-                      <option>north</option>
-                      <option>center</option>
-                      <option>south</option>
-                    </Select> */}
+                  {/* <Input focusBorderColor="pink.200" type="text" {...register("location", { required })} /> */}
+                  <Select
+                    focusBorderColor="pink.200"
+                    placeholder="Select area"
+                    {...register("location", { required })}
+                  >
+                    <option>north</option>
+                    <option>center</option>
+                    <option>south</option>
+                  </Select>
                 </FormField>
                 <FormField label="Gender" error={errors?.gender?.message}>
-                  <Input type="text" {...register("gender", { required })} />
-                  {/* <Select placeholder="Select gender">
-                      <option>male</option>
-                      <option>female</option>
-                      <option>other</option>
-                    </Select> */}
+                  {/* <Input
+                    focusBorderColor="pink.200"
+                    type="text"
+                    {...register("gender", { required })}
+                  /> */}
+                  <Select
+                    placeholder="Select gender"
+                    focusBorderColor="pink.200"
+                    {...register("gender", { required })}
+                  >
+                    <option>male</option>
+                    <option>female</option>
+                  </Select>
                 </FormField>
                 <FormField label="Summery" error={errors?.summery?.message}>
-                  <Input type="text" {...register("summery", { required })} />
+                  <Input
+                    focusBorderColor="pink.200"
+                    type="text"
+                    {...register("summery", { required })}
+                  />
                 </FormField>
                 <FormField label="file">
                   <Input
+                    focusBorderColor="pink.200"
                     type="file"
                     {...register("file")}
                     // onChange={handleFile}

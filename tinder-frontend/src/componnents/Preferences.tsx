@@ -6,6 +6,7 @@ import {
   Flex,
   Heading,
   Input,
+  Select,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -22,14 +23,16 @@ import Nav from "../NavBar/nav";
 import { Blur } from "../auth/signIn";
 
 export type FormPrefrencesData = {
-  age: number;
+  MinAge: number ;
+  MaxAge:number;
   location: string;
   gender: string;
 };
 
 const Preferences = () => {
   const PrefrencesSchema: ZodType<FormPrefrencesData> = z.object({
-    age: z.number().min(17).max(99),
+    MinAge: z.number().min(18).max(99),
+    MaxAge: z.number().min(18).max(99),
     location: z.string().min(2).max(20),
     gender: z.string().min(2).max(20),
   });
@@ -113,10 +116,21 @@ const Preferences = () => {
             </Stack>
             <Box mt={10}>
               <Stack spacing={4}>
-                <FormField label="Age" error={errors?.age?.message}>
+                <FormField label="MinAge" error={errors?.MinAge?.message}>
                   <Input
+                    focusBorderColor="pink.200"
                     type="number"
-                    {...register("age", {
+                    {...register("MinAge", {
+                      valueAsNumber: true,
+                      required,
+                    })}
+                  />
+                </FormField>
+                <FormField label="MaxAge" error={errors?.MaxAge?.message}>
+                  <Input
+                    focusBorderColor="pink.200"
+                    type="number"
+                    {...register("MaxAge", {
                       valueAsNumber: true,
                       required,
                     })}
@@ -124,16 +138,34 @@ const Preferences = () => {
                 </FormField>
                 <br />
                 <FormField label="Location" error={errors?.location?.message}>
-                  <Input
+                  {/* <Input
+                    focusBorderColor="pink.200"
                     type="text"
                     {...register("location", {
                       required,
                     })}
-                  />
+                  /> */}
+                  <Select
+                    focusBorderColor="pink.200"
+                    placeholder="Select area"
+                    {...register("location", { required })}
+                  >
+                    <option>north</option>
+                    <option>center</option>
+                    <option>south</option>
+                  </Select>
                 </FormField>
                 <br />
                 <FormField label="Gender" error={errors.gender?.message}>
-                  <Input type="text" {...register("gender", { required })} />
+                  {/* <Input focusBorderColor="pink.200" type="text" {...register("gender", { required })} /> */}
+                  <Select
+                    placeholder="Select gender"
+                    focusBorderColor="pink.200"
+                    {...register("gender", { required })}
+                  >
+                    <option>male</option>
+                    <option>female</option>
+                  </Select>
                 </FormField>
               </Stack>
               <br />

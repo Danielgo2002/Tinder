@@ -112,7 +112,7 @@ const SignIn = () => {
             <Box mt={10}>
               <Stack spacing={4}>
                 <FormField label="Gmail" error={errors?.gmail?.message}>
-                  <Input type="email" {...register("gmail", { required })} />
+                  <Input focusBorderColor="pink.200" type="email" {...register("gmail", { required })} />
                   {errors.gmail && (
                     <Text color="red">{errors.gmail.message}</Text>
                   )}
@@ -120,6 +120,7 @@ const SignIn = () => {
                 <br />
                 <FormField label="Password" error={errors?.password?.message}>
                   <Input
+                  focusBorderColor="pink.200"
                     type="password"
                     {...register("password", { required })}
                   />

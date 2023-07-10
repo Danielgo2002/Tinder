@@ -80,7 +80,8 @@ __decorate([
         type: Object,
         default: {
             gender: null,
-            age: null,
+            MinAge: null,
+            MaxAge: null,
             location: null,
             id: null,
         },

@@ -134,7 +134,12 @@ const MePage = () => {
                 <br />
                 <Text fontSize={textsize} color={"gray.500"}>
                   {" "}
-                  Age : {userPref?.age}
+                  MinAge : {userPref?.MinAge}
+                </Text>
+                <br/>
+                <Text fontSize={textsize} color={"gray.500"}>
+                  {" "}
+                  MaxAge : {userPref?.MaxAge}
                 </Text>
                 <br />
                 <Text fontSize={textsize} color={"gray.500"}>

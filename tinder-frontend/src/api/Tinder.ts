@@ -41,7 +41,8 @@ export interface Image {
 
 export interface Prefrences {
   gender: string;
-  age: number;
+  MinAge: number;
+  MaxAge: number;
   location: string;
 }
 

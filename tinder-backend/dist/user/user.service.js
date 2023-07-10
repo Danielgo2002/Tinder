@@ -23,9 +23,7 @@ let UserService = class UserService {
     }
     async getUsers(idUser) {
         try {
-            console.log(idUser);
             const users = await this.UserModel.find({ _id: { $ne: idUser } });
-            console.log(users);
             return {
                 data: users,
                 message: 'pass',
@@ -49,29 +47,30 @@ let UserService = class UserService {
                 gender: pref ? pref.gender : {},
             });
             const likedUsers = users.filter((user) => !user.likesRecived.includes(myUser.id));
-            const myOutDatedDislikes = myUser.dislikes.filter((disLike) => {
-                const date = new Date(disLike.date);
-                const twentyFourHoursAgo = new Date();
-                twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
-                if (date < twentyFourHoursAgo)
-                    return disLike;
+            const outDatedUsers = myUser.dislikes.filter((dislike) => {
+                const dateEnd = new Date(dislike.date);
+                const currentDate = new Date();
+                if (dateEnd <= currentDate) {
+                    return dislike;
+                }
             });
-            let usersfilterd = likedUsers;
-            if (myOutDatedDislikes.length !== 0) {
-                usersfilterd = likedUsers.filter((user) => {
-                    if (myUser.dislikes.includes(user.id) &&
-                        myOutDatedDislikes.includes(user.id)) {
-                        return user;
-                    }
-                    return user;
-                });
-            }
+            const outDatedUsersIds = outDatedUsers.map((user) => user._id);
+            const dislikes = myUser.dislikes.map((user) => user._id);
+            let usersfilterd = likedUsers.filter((user) => {
+                if (dislikes.includes(user.id) && !outDatedUsersIds.includes(user.id)) {
+                    return null;
+                }
+                return user;
+            });
+            console.log(usersfilterd);
             const UpdatedUsers = usersfilterd.map((element) => {
                 let count = 0;
-                if (element.age === (pref === null || pref === void 0 ? void 0 : pref.age) && element.location === (pref === null || pref === void 0 ? void 0 : pref.location)) {
+                if (element.age >= (pref === null || pref === void 0 ? void 0 : pref.MinAge) &&
+                    element.age <= (pref === null || pref === void 0 ? void 0 : pref.MaxAge) &&
+                    element.location === (pref === null || pref === void 0 ? void 0 : pref.location)) {
                     count = 2;
                 }
-                else if (element.age === (pref === null || pref === void 0 ? void 0 : pref.age) ||
+                else if ((element.age >= (pref === null || pref === void 0 ? void 0 : pref.MinAge) && element.age <= (pref === null || pref === void 0 ? void 0 : pref.MaxAge)) ||
                     element.location === (pref === null || pref === void 0 ? void 0 : pref.location)) {
                     count = 1;
                 }
@@ -84,7 +83,6 @@ let UserService = class UserService {
                     message: 'pass',
                     status: constants_1.statusCode.success,
                 };
-            console.log(sortedUsers);
             return {
                 data: sortedUsers,
                 message: 'pass',
@@ -92,7 +90,6 @@ let UserService = class UserService {
             };
         }
         catch (error) {
-            console.log(error);
             return {
                 data: [],
                 message: 'לא נמצאו משתמשים',
@@ -106,7 +103,6 @@ let UserService = class UserService {
             return myUser;
         }
         catch (error) {
-            console.log(error);
             return {
                 data: [],
                 message: 'לא נמצאו משתמשים',
@@ -155,8 +151,18 @@ let UserService = class UserService {
         try {
             const User = await this.UserModel.findById(ownerId);
             const recivedUser = await this.UserModel.findById(disLikesDto.reciverID);
-            const date = new Date().valueOf();
-            User.dislikes.push({ _id: recivedUser.id, date });
+            let dateEnd = new Date();
+            dateEnd.setHours(dateEnd.getHours() + 24);
+            const date = dateEnd.valueOf();
+            const usersId = User.dislikes.map((user) => user._id);
+            if (usersId.includes(recivedUser.id)) {
+                const index = User.dislikes.findIndex((item) => item._id === recivedUser.id);
+                const d = new Date();
+                User.dislikes[index] = { _id: recivedUser.id, date: d.valueOf() };
+            }
+            else {
+                User.dislikes.push({ _id: recivedUser.id, date });
+            }
             await User.save();
             return {
                 data: User,

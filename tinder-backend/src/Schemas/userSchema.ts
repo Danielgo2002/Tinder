@@ -73,14 +73,16 @@ export class User {
     type: Object,
     default: {
       gender: null,
-      age: null,
+      MinAge: null,
+      MaxAge:null,
       location: null,
       id: null,
     },
   })
   preferences: {
     gender: gender;
-    age: number;
+    MinAge: number;
+    MaxAge:number
     location: location;
     id: string;
   };

@@ -21,7 +21,11 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], preferencesDto.prototype, "age", void 0);
+], preferencesDto.prototype, "MinAge", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], preferencesDto.prototype, "MaxAge", void 0);
 __decorate([
     (0, class_validator_1.IsEnum)(Enums_1.location),
     __metadata("design:type", String)

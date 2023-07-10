@@ -47,7 +47,8 @@ export declare class User {
     ];
     preferences: {
         gender: gender;
-        age: number;
+        MinAge: number;
+        MaxAge: number;
         location: location;
         id: string;
     };

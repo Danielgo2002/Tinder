@@ -76,7 +76,8 @@ export declare class AuthService {
     addPreferences(preferencesDto: preferencesDto, userId: string): Promise<{
         data: {
             gender: import("../Schemas/Enums").gender;
-            age: number;
+            MinAge: number;
+            MaxAge: number;
             location: import("../Schemas/Enums").location;
             id: string;
         };

@@ -7,7 +7,10 @@ export class preferencesDto {
 
   // @IsEnum(ageRange)
   @IsNumber()
-  age: number;
+  MinAge: number;
+
+  @IsNumber()
+  MaxAge: number;
 
   @IsEnum(location)
   location: location;

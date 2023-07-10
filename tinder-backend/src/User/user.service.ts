@@ -7,6 +7,7 @@ import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UserDocument } from 'src/Schemas/userSchema';
 import { ObjectId } from 'mongodb';
+import { Dislike } from 'src/Schemas/dislikeSchema';
 
 @Injectable()
 export class UserService {
@@ -16,10 +17,7 @@ export class UserService {
 
   async getUsers(idUser: string) {
     try {
-      console.log(idUser);
-
       const users = await this.UserModel.find({ _id: { $ne: idUser } });
-      console.log(users);
 
       return {
         data: users,
@@ -57,37 +55,69 @@ export class UserService {
       //   myUser.dislikes.includes(user._id),
       // );
 
-      const myOutDatedDislikes = myUser.dislikes.filter((disLike) => {
-        const date = new Date(disLike.date);
-        const twentyFourHoursAgo = new Date();
-        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24); // subtract 24 hours
-        if (date < twentyFourHoursAgo) return disLike;
+      // const myOutDatedDislikes = myUser.dislikes.filter((disLike) => {
+      //   const date = new Date(disLike.date);
+      //   const twentyFourHoursAgo = new Date();
+      //   twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24); // subtract 24 hours
+      //   if (date < twentyFourHoursAgo) return disLike;
+      // });
+      const outDatedUsers = myUser.dislikes.filter((dislike) => {
+        const dateEnd = new Date(dislike.date);
+        const currentDate = new Date();
+        if (dateEnd <= currentDate) {
+          return dislike;
+        }
       });
-      let usersfilterd = likedUsers;
-      if (myOutDatedDislikes.length !== 0) {
-        usersfilterd = likedUsers.filter((user) => {
-          if (
-            myUser.dislikes.includes(user.id) &&
-            myOutDatedDislikes.includes(user.id)
-          ) {
-            return user;
-          }
-          return user;
-          //check if in the myUser.dislike
-          //check if in the myOutDatedDislikes
-          //if both return user
-          //if none of them also return user
-        });
-      }
+
+      const outDatedUsersIds = outDatedUsers.map((user) => user._id);
+
+      // if (outDatedUsers.length == 0) {
+      // console.log(outDatedUsers);
+
+      const dislikes = myUser.dislikes.map((user) => user._id);
+      //console.log(likedUsers);
+
+      let usersfilterd = likedUsers.filter((user) => {
+        if (dislikes.includes(user.id) && !outDatedUsersIds.includes(user.id)) {
+          return null;
+        }
+        return user;
+        // if (
+        //   dislikes.includes(user._id) &&
+        //   outDatedUsersIds.includes(user._id)
+        // ) {
+        //   ;
+
+        //   return user;
+        // }
+
+        // if (!dislikes.includes(user._id)) {
+
+        //   return user;
+        // }
+
+        //check if in the myUser.dislike
+        //check if in the myOutDatedDislikes
+        //if both return user
+        //if none of them also return user
+      });
+
+      // console.log(likedUsers.length);
+
+      // }
+
+      console.log(usersfilterd);
 
       const UpdatedUsers = usersfilterd.map((element) => {
-        // console.log({ ...element });
-
         let count = 0;
-        if (element.age === pref?.age && element.location === pref?.location) {
+        if (
+          element.age >= pref?.MinAge &&
+          element.age <= pref?.MaxAge &&
+          element.location === pref?.location
+        ) {
           count = 2;
         } else if (
-          element.age === pref?.age ||
+          (element.age >= pref?.MinAge && element.age <= pref?.MaxAge) ||
           element.location === pref?.location
         ) {
           count = 1;
@@ -101,8 +131,6 @@ export class UserService {
 
       const sortedUsers = UpdatedUsers.sort((a, b) => b.count - a.count);
 
-      // console.log('sortedusers', sortedUsers);
-
       if (!pref)
         return {
           data: users,
@@ -110,17 +138,12 @@ export class UserService {
           status: statusCode.success,
         };
 
-      // console.log(userslike);
-      console.log(sortedUsers);
-
       return {
         data: sortedUsers,
         message: 'pass',
         status: statusCode.success,
       };
     } catch (error) {
-      console.log(error);
-
       return {
         data: [],
         message: 'לא נמצאו משתמשים',
@@ -135,8 +158,6 @@ export class UserService {
 
       return myUser;
     } catch (error) {
-      console.log(error);
-
       return {
         data: [],
         message: 'לא נמצאו משתמשים',
@@ -191,16 +212,26 @@ export class UserService {
     try {
       const User = await this.UserModel.findById(ownerId);
       const recivedUser = await this.UserModel.findById(disLikesDto.reciverID);
-      const date = new Date().valueOf();
+      let dateEnd = new Date();
+      dateEnd.setHours(dateEnd.getHours() + 24);
+      const date = dateEnd.valueOf(); // subtract 24 hours
+
       // const dislikes = {
       //   _id: recivedUser._id,
       //   date: date,
       // };
 
-      // console.log(ownerId);
-      // console.log(User.dislikes);
+      const usersId = User.dislikes.map((user) => user._id);
 
-      User.dislikes.push({ _id: recivedUser.id, date });
+      if (usersId.includes(recivedUser.id)) {
+        const index = User.dislikes.findIndex(
+          (item) => item._id === recivedUser.id,
+        );
+        const d = new Date();
+        User.dislikes[index] = { _id: recivedUser.id, date: d.valueOf() };
+      } else {
+        User.dislikes.push({ _id: recivedUser.id, date });
+      }
 
       await User.save();
       return {

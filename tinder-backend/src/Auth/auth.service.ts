@@ -112,7 +112,8 @@ export class AuthService {
     const findUser = await this.UserModel.findById(userId);
     const preferences = {
       gender: preferencesDto.gender,
-      age: preferencesDto.age,
+      MinAge: preferencesDto.MinAge,
+      MaxAge: preferencesDto.MaxAge,
       location: preferencesDto.location,
       id: userId,
     };
