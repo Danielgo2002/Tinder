@@ -17,6 +17,7 @@ import Preferences from "./componnents/Preferences";
 import SignIn from "./auth/signIn";
 import Signup from "./auth/signup";
 import Tinder from "./componnents/TinderPage";
+import Chat from "./caht/chat";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Route path="/tinder" element={<Tinder />} />
       <Route path="/home" element={<Home />} />
       <Route path="/mePage" element={<MePage />} />
+      <Route path="/chat" element={<Chat/>}/>
     </Routes>
   );
 }

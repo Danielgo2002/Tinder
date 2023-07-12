@@ -1,4 +1,3 @@
-
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -6,14 +5,18 @@ import {
   IconButton,
   Image,
   Text,
+  useBreakpointValue,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import logo from "../assets/tinderlogo.jpg";
 
 const Nav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [display, changeDisplay] = useState("none");
+  const logoSize = useBreakpointValue({ base: "55px", md: "75px" });
+
 
   return (
     <Flex
@@ -40,9 +43,9 @@ const Nav = () => {
             <Image
               onClick={() => window.location.replace("/")}
               borderRadius={"25px"}
-              boxSize={"50px"}
-              src="https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/tinder-icon.png"
-              alt="Dan Abramov"
+              boxSize={logoSize}
+              src="https://www.logo.wine/a/logo/Tinder_(app)/Tinder_(app)-Flame-Logo.wine.svg"
+              alt="tinder"
             />
           </Text>
         </Flex>
@@ -68,8 +71,6 @@ const Nav = () => {
           >
             Sign In
           </Button>
-
-          
 
           <Button
             // display={{ base: "none", md: "inline-flex" }}

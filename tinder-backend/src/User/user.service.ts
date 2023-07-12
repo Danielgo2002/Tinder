@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { count } from 'console';
 import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
 import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UserDocument } from 'src/Schemas/userSchema';
-import { ObjectId } from 'mongodb';
-import { Dislike } from 'src/Schemas/dislikeSchema';
+
 
 @Injectable()
 export class UserService {
@@ -46,21 +44,7 @@ export class UserService {
         (user) => !user.likesRecived.includes(myUser.id),
       );
 
-      // const updateUsers = users.map((element) => ({
-      //   ...element,
-      //   count: 0,
-      // }));
 
-      // const dislikeusers = likedUsers.filter((user) =>
-      //   myUser.dislikes.includes(user._id),
-      // );
-
-      // const myOutDatedDislikes = myUser.dislikes.filter((disLike) => {
-      //   const date = new Date(disLike.date);
-      //   const twentyFourHoursAgo = new Date();
-      //   twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24); // subtract 24 hours
-      //   if (date < twentyFourHoursAgo) return disLike;
-      // });
       const outDatedUsers = myUser.dislikes.filter((dislike) => {
         const dateEnd = new Date(dislike.date);
         const currentDate = new Date();
@@ -71,42 +55,22 @@ export class UserService {
 
       const outDatedUsersIds = outDatedUsers.map((user) => user._id);
 
-      // if (outDatedUsers.length == 0) {
-      // console.log(outDatedUsers);
 
       const dislikes = myUser.dislikes.map((user) => user._id);
-      //console.log(likedUsers);
 
       let usersfilterd = likedUsers.filter((user) => {
         if (dislikes.includes(user.id) && !outDatedUsersIds.includes(user.id)) {
-          return null;
+          console.log(user);
+
+          user = null;
+          return user;
         }
         return user;
-        // if (
-        //   dislikes.includes(user._id) &&
-        //   outDatedUsersIds.includes(user._id)
-        // ) {
-        //   ;
-
-        //   return user;
-        // }
-
-        // if (!dislikes.includes(user._id)) {
-
-        //   return user;
-        // }
-
-        //check if in the myUser.dislike
-        //check if in the myOutDatedDislikes
-        //if both return user
-        //if none of them also return user
+       
       });
 
-      // console.log(likedUsers.length);
 
-      // }
 
-      console.log(usersfilterd);
 
       const UpdatedUsers = usersfilterd.map((element) => {
         let count = 0;

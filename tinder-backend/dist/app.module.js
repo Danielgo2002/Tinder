@@ -15,6 +15,7 @@ const user_module_1 = require("./user/user.module");
 const platform_express_1 = require("@nestjs/platform-express");
 const serve_static_1 = require("@nestjs/serve-static");
 const app_root_path_1 = require("app-root-path");
+const messages_module_1 = require("./messages/messages.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -28,6 +29,7 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             platform_express_1.MulterModule.register({ dest: './uploads', }),
+            messages_module_1.MessagesModule,
         ],
         controllers: [],
         providers: [],

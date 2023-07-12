@@ -58,11 +58,12 @@ let UserService = class UserService {
             const dislikes = myUser.dislikes.map((user) => user._id);
             let usersfilterd = likedUsers.filter((user) => {
                 if (dislikes.includes(user.id) && !outDatedUsersIds.includes(user.id)) {
-                    return null;
+                    console.log(user);
+                    user = null;
+                    return user;
                 }
                 return user;
             });
-            console.log(usersfilterd);
             const UpdatedUsers = usersfilterd.map((element) => {
                 let count = 0;
                 if (element.age >= (pref === null || pref === void 0 ? void 0 : pref.MinAge) &&

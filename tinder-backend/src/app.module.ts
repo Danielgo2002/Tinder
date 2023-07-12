@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { path } from 'app-root-path';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [ServeStaticModule.forRoot({
@@ -19,6 +20,7 @@ import { path } from 'app-root-path';
     AuthModule,
     UserModule,
     MulterModule.register({dest:'./uploads',}),
+    MessagesModule,
     
 
 

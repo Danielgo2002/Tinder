@@ -56,9 +56,9 @@ const FullNav = () => {
             <Image
               onClick={() => logout()}
               borderRadius={"25px"}
-              boxSize={"50px"}
-              src="https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/tinder-icon.png"
-              alt="Dan Abramov"
+              boxSize={"80px"}
+              src="https://www.logo.wine/a/logo/Tinder_(app)/Tinder_(app)-Flame-Logo.wine.svg"
+              alt="tinder"
             />
           </Text>
         </Flex>
@@ -170,6 +170,14 @@ const FullNav = () => {
             aria-label="Contact"
             my={5}
             w="100%"
+            // display={{ base: "none", md: "inline-flex" }}
+            // fontSize={"sm"}
+            // fontWeight={600}
+            // color={"white"}
+            // bg={"pink.400"}
+            // _hover={{
+            //   bg: "pink.300",
+            // }}
           >
             Let's Meet!
           </Button>
