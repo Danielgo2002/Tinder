@@ -15,10 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const message_Dto_1 = require("./dto/message.Dto");
+const socket_io_1 = require("socket.io");
 let MessagesGateway = class MessagesGateway {
     handleMessage(messageDto) {
         console.log(messageDto);
         this.server.emit('message', messageDto);
+    }
+    handleSendMessage(client, data) {
+        const userId = data.userId;
+        const message = data.message;
+        client.to(userId).emit('new_message', message);
+    }
+    handleJoinRoom(client, data) {
+        client.join(data.userId);
     }
 };
 __decorate([
@@ -32,6 +41,18 @@ __decorate([
     __metadata("design:paramtypes", [message_Dto_1.messageDto]),
     __metadata("design:returntype", void 0)
 ], MessagesGateway.prototype, "handleMessage", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('send'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", void 0)
+], MessagesGateway.prototype, "handleSendMessage", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('join'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", void 0)
+], MessagesGateway.prototype, "handleJoinRoom", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: '*',

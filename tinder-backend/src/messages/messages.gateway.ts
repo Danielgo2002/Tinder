@@ -26,6 +26,23 @@ export class MessagesGateway {
     this.server.emit('message', messageDto);
   }
 
+
+
+
+  @SubscribeMessage('send')
+handleSendMessage(client: Socket, data: any) {
+  const userId = data.userId;
+  const message = data.message;
+  client.to(userId).emit('new_message', message);
+}
+
+
+
+  @SubscribeMessage('join')
+  handleJoinRoom(client: Socket, data: any) {
+    client.join(data.userId);
+  }
+
   // @SubscribeMessage('findAllMessages')
   // findAll() {
   //   return this.messagesService.findAll();
