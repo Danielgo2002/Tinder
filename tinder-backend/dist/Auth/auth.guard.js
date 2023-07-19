@@ -31,7 +31,8 @@ let AUthGuard = class AUthGuard {
             });
             request['user'] = payload;
         }
-        catch (_a) {
+        catch (error) {
+            console.log(error);
             throw new common_1.UnauthorizedException();
         }
         return true;

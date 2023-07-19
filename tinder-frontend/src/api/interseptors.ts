@@ -46,10 +46,12 @@ client.interceptors.response.use(
     if (error?.response?.status === 401 && !originalReq._retry) {
       originalReq._retry = true;
       return client.get("/auth/refresh").then((res) => {
-        if (res?.status === 201) {
+        if (res?.status === 200) {
+          // const access_token = res.data.access_token;
+          
           localStorage.setItem(
             "accessToken",
-            JSON.stringify(res.data.access_Token)
+            res.data.access_token
           );
           authorizationRequest(client, "accessToken");
           return client(originalReq);

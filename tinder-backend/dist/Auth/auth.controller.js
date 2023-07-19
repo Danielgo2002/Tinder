@@ -18,7 +18,6 @@ const platform_express_1 = require("@nestjs/platform-express");
 const dto_1 = require("../dto");
 const auth_guard_1 = require("./auth.guard");
 const auth_service_1 = require("./auth.service");
-const decorators_1 = require("./decorators");
 const RefreshToken_guard_1 = require("./strategy/RefreshToken.guard");
 const upload_service_1 = require("../utils/upload.service");
 let AuthController = class AuthController {
@@ -34,8 +33,8 @@ let AuthController = class AuthController {
     addPreferences(req, preferencesDto) {
         return this.AuthService.addPreferences(preferencesDto, req.user.sub);
     }
-    refresh(account) {
-        return this.AuthService.refresh(account);
+    refresh(req) {
+        return this.AuthService.refresh(req.user);
     }
     createUsers() {
         return this.AuthService.createUsers();
@@ -69,7 +68,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(RefreshToken_guard_1.JwtRefreshTokenGuard),
     (0, common_1.Get)('refresh'),
-    __param(0, (0, decorators_1.GetUser)()),
+    __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

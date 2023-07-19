@@ -15,15 +15,18 @@ const mongoose_2 = require("mongoose");
 let Chat = class Chat {
 };
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Chat.prototype, "chatId", void 0);
-__decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Message' }] }),
     __metadata("design:type", Array)
 ], Chat.prototype, "messages", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'User' }] }),
+    (0, mongoose_1.Prop)({
+        type: [
+            {
+                type: mongoose_2.default.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
+    }),
     __metadata("design:type", Array)
 ], Chat.prototype, "participants", void 0);
 Chat = __decorate([

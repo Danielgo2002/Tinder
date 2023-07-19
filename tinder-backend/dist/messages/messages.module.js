@@ -10,10 +10,13 @@ exports.MessagesModule = void 0;
 const common_1 = require("@nestjs/common");
 const messages_service_1 = require("./messages.service");
 const messages_gateway_1 = require("./messages.gateway");
+const mongoose_1 = require("@nestjs/mongoose");
+const userSchema_1 = require("../Schemas/userSchema");
 let MessagesModule = class MessagesModule {
 };
 MessagesModule = __decorate([
     (0, common_1.Module)({
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: userSchema_1.User.name, schema: userSchema_1.UserSchema }])],
         providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService]
     })
 ], MessagesModule);

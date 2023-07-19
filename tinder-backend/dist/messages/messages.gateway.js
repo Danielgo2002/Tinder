@@ -17,6 +17,7 @@ const websockets_1 = require("@nestjs/websockets");
 const message_Dto_1 = require("./dto/message.Dto");
 let MessagesGateway = class MessagesGateway {
     handleMessage(messageDto) {
+        console.log(messageDto);
         this.server.emit('message', messageDto);
     }
 };

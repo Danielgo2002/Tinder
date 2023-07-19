@@ -17,8 +17,8 @@ export class UserController {
 
   @UseGuards(AUthGuard)
   @Post('likes')
-  likes(@Request() req, @Body() likesDto: likesDto) {
-    return this.UserService.likes(req.user.sub, likesDto);
+  likes(@Request() req , @Body() likesDto: likesDto,) {
+    return this.UserService.likes(req.user.sub, likesDto, );
   }
   @UseGuards(AUthGuard)
   @Post('dislikes')
@@ -40,5 +40,10 @@ export class UserController {
   @Get('getMyUser')
   getMyUser(@Request() req) {
     return this.UserService.getMyUser(req.user.sub);
+  }
+  @UseGuards(AUthGuard)
+  @Get('getChatUsers')
+  getChatUsers(@Request() req) {
+    return this.UserService.getChatUsers(req.user.sub);
   }
 }

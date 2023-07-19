@@ -5,6 +5,7 @@ import {
   IconButton,
   Image,
   Text,
+  useBreakpointValue,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -16,6 +17,7 @@ import { GetMyUser, MyUser } from "../api/Tinder";
 const FullNav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [display, changeDisplay] = useState("none");
+  const logoSize = useBreakpointValue({ base: "55px", md: "75px" });
 
   const {
     data: Myuser,
@@ -56,7 +58,7 @@ const FullNav = () => {
             <Image
               onClick={() => logout()}
               borderRadius={"25px"}
-              boxSize={"80px"}
+              boxSize={logoSize}
               src="https://www.logo.wine/a/logo/Tinder_(app)/Tinder_(app)-Flame-Logo.wine.svg"
               alt="tinder"
             />

@@ -10,6 +10,7 @@ exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const mongoose_1 = require("@nestjs/mongoose");
+const chatSchema_1 = require("../Schemas/chatSchema");
 const userSchema_1 = require("../Schemas/userSchema");
 const user_controller_1 = require("./user.controller");
 const user_service_1 = require("./user.service");
@@ -19,6 +20,7 @@ UserModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: userSchema_1.User.name, schema: userSchema_1.UserSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: chatSchema_1.Chat.name, schema: chatSchema_1.ChatSchema }]),
             jwt_1.JwtModule.register({}),
         ],
         controllers: [user_controller_1.UserController],

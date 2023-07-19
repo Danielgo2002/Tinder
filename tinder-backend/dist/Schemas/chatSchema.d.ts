@@ -3,7 +3,6 @@ import { Message } from './messageSchemas';
 import { User } from './userSchema';
 export type ChatDocument = Chat & Document;
 export declare class Chat {
-    chatId: string;
     messages: Message[];
     participants: User[];
 }

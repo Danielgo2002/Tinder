@@ -9,6 +9,7 @@ import { MessagesService } from './messages.service';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { messageDto } from './dto/message.Dto';
 import { Server, Socket } from 'socket.io';
+import { Get, Request } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: '*',
@@ -16,15 +17,15 @@ import { Server, Socket } from 'socket.io';
 export class MessagesGateway {
   @WebSocketServer()
   server;
+  MessagesService: any;
 
   @SubscribeMessage('message')
-   handleMessage(@MessageBody() messageDto:messageDto):void {
- 
-    this.server.emit('message', messageDto);
+  handleMessage(@MessageBody() messageDto: messageDto): void {
+    console.log(messageDto);
 
-    
+    this.server.emit('message', messageDto);
   }
- 
+
   // @SubscribeMessage('findAllMessages')
   // findAll() {
   //   return this.messagesService.findAll();

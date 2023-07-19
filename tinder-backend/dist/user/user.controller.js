@@ -37,6 +37,9 @@ let UserController = class UserController {
     getMyUser(req) {
         return this.UserService.getMyUser(req.user.sub);
     }
+    getChatUsers(req) {
+        return this.UserService.getChatUsers(req.user.sub);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
@@ -80,6 +83,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getMyUser", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Get)('getChatUsers'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getChatUsers", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

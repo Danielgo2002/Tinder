@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageSchema = exports.Message = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const chatSchema_1 = require("./chatSchema");
 const userSchema_1 = require("./userSchema");
 let Message = class Message {
 };
@@ -32,9 +33,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Message.prototype, "date", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Message.prototype, "chatId", void 0);
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Chat' }] }),
+    __metadata("design:type", chatSchema_1.Chat)
+], Message.prototype, "chat", void 0);
 Message = __decorate([
     (0, mongoose_1.Schema)()
 ], Message);

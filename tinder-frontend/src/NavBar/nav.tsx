@@ -17,7 +17,6 @@ const Nav = () => {
   const [display, changeDisplay] = useState("none");
   const logoSize = useBreakpointValue({ base: "55px", md: "75px" });
 
-
   return (
     <Flex
       bg={useColorModeValue("white", "gray.800")}

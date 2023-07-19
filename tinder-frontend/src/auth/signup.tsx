@@ -201,7 +201,7 @@ function Signup() {
             </Stack>
             <Box mt={10}>
               <Stack spacing={4}>
-                <FormField label="Gmail" error={errors?.gmail?.message}>
+                <FormField  label="Gmail" error={errors?.gmail?.message}>
                   <Input
                     focusBorderColor="pink.200"
                     type="email"
@@ -212,7 +212,8 @@ function Signup() {
                   )}
                 </FormField>
                 <br />
-                <FormField label="Password" error={errors?.password?.message}>
+                <FormField label="Password"  error={errors?.password?.message}>
+                  
                   <Input
                     focusBorderColor="pink.200"
                     type="password"

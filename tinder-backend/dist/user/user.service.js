@@ -18,8 +18,9 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const constants_1 = require("../constants");
 let UserService = class UserService {
-    constructor(UserModel) {
+    constructor(UserModel, ChatModel) {
         this.UserModel = UserModel;
+        this.ChatModel = ChatModel;
     }
     async getUsers(idUser) {
         try {
@@ -58,7 +59,6 @@ let UserService = class UserService {
             const dislikes = myUser.dislikes.map((user) => user._id);
             let usersfilterd = likedUsers.filter((user) => {
                 if (dislikes.includes(user.id) && !outDatedUsersIds.includes(user.id)) {
-                    console.log(user);
                     user = null;
                     return user;
                 }
@@ -125,10 +125,16 @@ let UserService = class UserService {
             }
             user.likes.push(recivedUser._id);
             recivedUser.likesRecived.push(user._id);
-            const match = recivedUser.likes.includes(user._id);
+            const match = recivedUser.likes.includes(user._id) &&
+                user.likes.includes(recivedUser.id);
             if (match) {
-                user.chat.push(recivedUser._id);
-                recivedUser.chat.push(user._id);
+                const chat = await this.ChatModel.create({
+                    messages: [],
+                    participants: [recivedUser._id, user._id],
+                });
+                user.chat.push(chat);
+                recivedUser.chat.push(chat);
+                await chat.save();
             }
             await user.save();
             await recivedUser.save();
@@ -179,11 +185,39 @@ let UserService = class UserService {
             };
         }
     }
+    async getChatUsers(userId) {
+        try {
+            const myUser = await this.UserModel.findById(userId);
+            const users = await this.UserModel.find({ _id: { $ne: userId } });
+            const chats = await this.ChatModel.find({})
+                .populate('participants')
+                .exec();
+            const participants = chats.map((chat) => chat.participants.map((participant) => participant.first_Name));
+            const usersiLiked = users.filter((user) => user.likesRecived.includes(myUser.id) &&
+                myUser.likesRecived.includes(user.id));
+            console.log(chats);
+            console.log(participants);
+            return {
+                data: usersiLiked,
+                message: 'pass',
+                status: constants_1.statusCode.success,
+            };
+        }
+        catch (error) {
+            return {
+                data: [],
+                message: 'לא נמצאו משתמשים',
+                status: constants_1.statusCode.error,
+            };
+        }
+    }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)('Chat')),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

@@ -52,8 +52,8 @@ export class AuthController {
 
   @UseGuards(JwtRefreshTokenGuard)
   @Get('refresh')
-  refresh(@GetUser() account: UserDocument) {
-    return this.AuthService.refresh(account);
+  refresh(@Request() req) {
+    return this.AuthService.refresh(req.user);
   }
   @Get('createUsers')
   createUsers() {
