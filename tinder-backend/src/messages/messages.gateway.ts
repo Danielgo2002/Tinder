@@ -23,7 +23,7 @@ type Message = {
 })
 export class MessagesGateway implements OnGatewayConnection {
   @WebSocketServer()
-  server;
+  server: Socket;
 
   users: Map<string, string>;
 
@@ -40,17 +40,13 @@ export class MessagesGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage('sendToUser')
-  async handleSendMessage(
-    @MessageBody() data: Message,
-    @ConnectedSocket() client: Socket,
-  ) {
-    const userId = data.userId;
-    const message = data.message;
+  handleMessage(@MessageBody() data: Message): void {
+    console.log(this.users);
+    console.log(data);
 
-    if (this.users.has(userId)) {
-      console.log(data);
+    if (this.users.get(data.userId) != undefined) {
 
-      client.to(this.users[userId]).emit('sendToUser', message);
+      this.server.to(this.users.get(data.userId)).emit('recived', data.message);
     }
   }
 }

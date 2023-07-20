@@ -26,27 +26,25 @@ let MessagesGateway = class MessagesGateway {
         const mongoId = client.handshake.query.id;
         this.users.set(mongoId, client.id);
     }
-    async handleSendMessage(data, client) {
-        const userId = data.userId;
-        const message = data.message;
-        if (this.users.has(userId)) {
-            console.log(data);
-            client.to(this.users[userId]).emit('sendToUser', message);
+    handleMessage(data) {
+        console.log(this.users);
+        console.log(data);
+        if (this.users.get(data.userId) != undefined) {
+            this.server.to(this.users.get(data.userId)).emit('recived', data.message);
         }
     }
 };
 __decorate([
     (0, websockets_1.WebSocketServer)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", socket_io_1.Socket)
 ], MessagesGateway.prototype, "server", void 0);
 __decorate([
     (0, websockets_1.SubscribeMessage)('sendToUser'),
     __param(0, (0, websockets_1.MessageBody)()),
-    __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
-    __metadata("design:returntype", Promise)
-], MessagesGateway.prototype, "handleSendMessage", null);
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], MessagesGateway.prototype, "handleMessage", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: '*',

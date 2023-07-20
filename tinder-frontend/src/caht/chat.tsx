@@ -21,9 +21,30 @@ const Chat = () => {
     refetch,
   } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
+  // const send = async (value: string) => {
+  //   await socket?.emit("sendToUser", {
+  //     userId: "64b3ea70a3586f2b99dfba3f",
+  //     message: value,
+  //   });
+  //   console.log("room 8");
+  // };
+
+  // useEffect(() => {
+  //   if (Myuser) {
+  //     const Newsocket = io("http://localhost:3000", {
+  //       query: { id: Myuser?._id },
+  //     });
+  //     setSocket(Newsocket);
+  //   }
+  //   if (socket) {
+  //     socket?.on("recived", (data) => {
+  //       setMessages([...messages, data]);
+  //     });
+  //   }
+  // }, [setSocket, Myuser]);
   const send = (value: string) => {
     socket?.emit("sendToUser", {
-      userId: "64b3ea70a3586f2b99dfba3f",
+      userId: "64b3ea70a3586f2b99dfba43",
       message: value,
     });
   };
@@ -38,15 +59,13 @@ const Chat = () => {
   }, [setSocket, Myuser]);
 
   const messageListener = (message: string) => {
-    console.log(message);
-
     setMessages([...messages, message]);
   };
 
   useEffect(() => {
-    socket?.on("sendToUser", messageListener);
+    socket?.on("recived", messageListener);
     return () => {
-      //socket?.off("sendToUser", messageListener);
+      socket?.off("recived", messageListener);
     };
   }, [messageListener]);
 

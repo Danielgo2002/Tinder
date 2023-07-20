@@ -8,10 +8,10 @@ type Message = {
 };
 export declare class MessagesGateway implements OnGatewayConnection {
     private readonly UserModel;
-    server: any;
+    server: Socket;
     users: Map<string, string>;
     constructor(UserModel: Model<UserDocument>);
     handleConnection(client: Socket): void;
-    handleSendMessage(data: Message, client: Socket): Promise<void>;
+    handleMessage(data: Message): void;
 }
 export {};

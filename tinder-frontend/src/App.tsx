@@ -31,7 +31,7 @@ function App() {
       <Route path="/tinder" element={<Tinder />} />
       <Route path="/home" element={<Home />} />
       <Route path="/mePage" element={<MePage />} />
-      <Route path="/chat" element={<Chat />} />
+      <Route path="/chat" element={<HomePageChat />} />
     </Routes>
   );
 }
