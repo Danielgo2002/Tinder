@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import MessageInput from "./messageInput";
 import Messages from "./messages";
+import { useQuery } from "@tanstack/react-query";
+import { GetMyUser, MyUser } from "../api/Tinder";
 
 type message = {
   id: number;
@@ -12,34 +14,48 @@ type message = {
 const Chat = () => {
   const [socket, setSocket] = useState<Socket>();
   const [messages, setMessages] = useState<string[]>([]);
+  const {
+    data: Myuser,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
   const send = (value: string) => {
-    socket?.emit("message", value);
+    socket?.emit("sendToUser", {
+      userId: "64b3ea70a3586f2b99dfba3f",
+      message: value,
+    });
   };
 
   useEffect(() => {
-    const Newsocket = io("http://localhost:3000");
-    setSocket(Newsocket)
-  },[setSocket])
+    if (Myuser) {
+      const Newsocket = io("http://localhost:3000", {
+        query: { id: Myuser?._id },
+      });
+      setSocket(Newsocket);
+    }
+  }, [setSocket, Myuser]);
 
-  const messageListener = (message:string)=>{
-    setMessages([...messages , message])
-  }
+  const messageListener = (message: string) => {
+    console.log(message);
 
-  useEffect(()=>{
-    socket?.on("message",messageListener) 
-    return()=> {socket?.off("message",messageListener)}
-  },[messageListener])
+    setMessages([...messages, message]);
+  };
 
-   
+  useEffect(() => {
+    socket?.on("sendToUser", messageListener);
+    return () => {
+      //socket?.off("sendToUser", messageListener);
+    };
+  }, [messageListener]);
 
-  return (<>
-  <MessageInput send={send}/>
-  <Messages messages = {messages}/>
-  </>
-   
+  return (
+    <>
+      <MessageInput send={send} />
+      <Messages messages={messages} />
+    </>
   );
 };
 
 export default Chat;
-

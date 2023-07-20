@@ -52,6 +52,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "image", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], User.prototype, "socketId", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Chat' }] }),
     __metadata("design:type", Array)
 ], User.prototype, "chat", void 0);

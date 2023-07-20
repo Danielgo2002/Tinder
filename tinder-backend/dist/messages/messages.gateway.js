@@ -14,20 +14,25 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
-const message_Dto_1 = require("./dto/message.Dto");
 const socket_io_1 = require("socket.io");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
 let MessagesGateway = class MessagesGateway {
-    handleMessage(messageDto) {
-        console.log(messageDto);
-        this.server.emit('message', messageDto);
+    constructor(UserModel) {
+        this.UserModel = UserModel;
+        this.users = new Map();
     }
-    handleSendMessage(client, data) {
+    handleConnection(client) {
+        const mongoId = client.handshake.query.id;
+        this.users.set(mongoId, client.id);
+    }
+    async handleSendMessage(data, client) {
         const userId = data.userId;
         const message = data.message;
-        client.to(userId).emit('new_message', message);
-    }
-    handleJoinRoom(client, data) {
-        client.join(data.userId);
+        if (this.users.has(userId)) {
+            console.log(data);
+            client.to(this.users[userId]).emit('sendToUser', message);
+        }
     }
 };
 __decorate([
@@ -35,28 +40,19 @@ __decorate([
     __metadata("design:type", Object)
 ], MessagesGateway.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('message'),
+    (0, websockets_1.SubscribeMessage)('sendToUser'),
     __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [message_Dto_1.messageDto]),
-    __metadata("design:returntype", void 0)
-], MessagesGateway.prototype, "handleMessage", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)('send'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "handleSendMessage", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)('join'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
-    __metadata("design:returntype", void 0)
-], MessagesGateway.prototype, "handleJoinRoom", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: '*',
-    })
+    }),
+    __param(0, (0, mongoose_1.InjectModel)('User')),
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], MessagesGateway);
 exports.MessagesGateway = MessagesGateway;
 //# sourceMappingURL=messages.gateway.js.map

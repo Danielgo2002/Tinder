@@ -85,8 +85,10 @@ let AuthService = class AuthService {
                 status: constants_1.statusCode.error,
                 message: 'משתמש לא נמצא נסה שנית',
             };
-        const access_Token = (await this.accessToken(User.id, User.gmail)).access_token;
-        const refresh_token = (await this.refreshToken(User.id, User.gmail)).refresh_token;
+        const access_Token = (await this.accessToken(User.id, User.gmail))
+            .access_token;
+        const refresh_token = (await this.refreshToken(User.id, User.gmail))
+            .refresh_token;
         return { access_Token, refresh_token, User };
     }
     async addPreferences(preferencesDto, userId) {
@@ -113,7 +115,7 @@ let AuthService = class AuthService {
         };
         const secret = this.config.get('JWT_SECRET');
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: '15m',
+            expiresIn: '1h',
             secret: secret,
         });
         return {
@@ -127,7 +129,7 @@ let AuthService = class AuthService {
         };
         const secret = this.config.get('JWT_SECRET_REFRESH');
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: '60m',
+            expiresIn: '24h',
             secret: secret,
         });
         return { refresh_token: token };

@@ -4,64 +4,53 @@ import {
   MessageBody,
   WebSocketServer,
   ConnectedSocket,
+  OnGatewayConnection,
 } from '@nestjs/websockets';
-import { MessagesService } from './messages.service';
-import { UpdateMessageDto } from './dto/update-message.dto';
 import { messageDto } from './dto/message.Dto';
 import { Server, Socket } from 'socket.io';
-import { Get, Request } from '@nestjs/common';
+import { Get, Request, UseGuards } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UserDocument } from 'src/Schemas/userSchema';
+import { AUthGuard } from 'src/Auth/auth.guard';
 
+type Message = {
+  message: string;
+  userId: string;
+};
 @WebSocketGateway({
   cors: '*',
 })
-export class MessagesGateway {
+export class MessagesGateway implements OnGatewayConnection {
   @WebSocketServer()
   server;
-  MessagesService: any;
 
-  @SubscribeMessage('message')
-  handleMessage(@MessageBody() messageDto: messageDto): void {
-    console.log(messageDto);
+  users: Map<string, string>;
 
-    this.server.emit('message', messageDto);
+  constructor(
+    @InjectModel('User') private readonly UserModel: Model<UserDocument>,
+  ) {
+    this.users = new Map<string, string>();
   }
 
+  handleConnection(client: Socket) {
+    const mongoId = client.handshake.query.id as string;
 
-
-
-  @SubscribeMessage('send')
-handleSendMessage(client: Socket, data: any) {
-  const userId = data.userId;
-  const message = data.message;
-  client.to(userId).emit('new_message', message);
-}
-
-
-
-  @SubscribeMessage('join')
-  handleJoinRoom(client: Socket, data: any) {
-    client.join(data.userId);
+    this.users.set(mongoId, client.id);
   }
 
-  // @SubscribeMessage('findAllMessages')
-  // findAll() {
-  //   return this.messagesService.findAll();
-  // }
+  @SubscribeMessage('sendToUser')
+  async handleSendMessage(
+    @MessageBody() data: Message,
+    @ConnectedSocket() client: Socket,
+  ) {
+    const userId = data.userId;
+    const message = data.message;
 
-  // @SubscribeMessage('join')
-  // joinRoom(
-  //   @MessageBody('name') name: string,
-  //   @ConnectedSocket() client: Socket,
-  // ) {
-  //   return this.messagesService.identify(name, client.id);
-  // }
+    if (this.users.has(userId)) {
+      console.log(data);
 
-  // @SubscribeMessage('typing')
-  // async typing(
-  //   @MessageBody('isTyping') isTypeing: boolean,
-  //   @ConnectedSocket() client: Socket,
-  // ) {
-  //   const name = await this.messagesService.getClientName(client.id);
-  //   client.broadcast.emit('typing', { name, isTypeing });
-  // }
+      client.to(this.users[userId]).emit('sendToUser', message);
+    }
+  }
 }

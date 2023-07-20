@@ -6,7 +6,7 @@ const MessageInput = ({send}:{send:(value:string)=>void}) => {
     return (  
         <>
         <Input onChange={(e)=>setValue(e.target.value)} placeholder="type here..." value={value}/>
-        <Button onClick={() => send(value)}>send</Button>
+        <Button onClick={() => send(value) }>send</Button>
         </>
     );
 }

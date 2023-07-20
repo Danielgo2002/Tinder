@@ -1,9 +1,17 @@
-import { messageDto } from './dto/message.Dto';
+import { OnGatewayConnection } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-export declare class MessagesGateway {
+import { Model } from 'mongoose';
+import { UserDocument } from 'src/Schemas/userSchema';
+type Message = {
+    message: string;
+    userId: string;
+};
+export declare class MessagesGateway implements OnGatewayConnection {
+    private readonly UserModel;
     server: any;
-    MessagesService: any;
-    handleMessage(messageDto: messageDto): void;
-    handleSendMessage(client: Socket, data: any): void;
-    handleJoinRoom(client: Socket, data: any): void;
+    users: Map<string, string>;
+    constructor(UserModel: Model<UserDocument>);
+    handleConnection(client: Socket): void;
+    handleSendMessage(data: Message, client: Socket): Promise<void>;
 }
+export {};

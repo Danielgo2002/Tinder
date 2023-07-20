@@ -36,6 +36,10 @@ export class User {
   @Prop()
   image: string;
 
+
+  @Prop()
+  socketId: string;
+
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Chat' }] })
   chat: Chat[];
 

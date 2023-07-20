@@ -36,6 +36,7 @@ export declare class User {
     location: location;
     summery: string;
     image: string;
+    socketId: string;
     chat: Chat[];
     likes: Types.ObjectId[];
     likesRecived: Types.ObjectId[];
