@@ -96,6 +96,20 @@ const FullNav = () => {
           </Button>
           <Button
             onClick={() => {
+              window.location.replace("/chat");
+            }}
+            as={"a"}
+            variant="outline"
+            color={"pink.500"}
+            colorScheme={"pink"}
+            aria-label="Contact"
+            my={5}
+            w="100%"
+          >
+            My Chats
+          </Button>
+          <Button
+            onClick={() => {
               logout();
             }}
             as={"a"}
@@ -182,6 +196,20 @@ const FullNav = () => {
             // }}
           >
             Let's Meet!
+          </Button>
+          <Button
+            onClick={() => {
+              window.location.replace("/chats");
+            }}
+            as={"a"}
+            variant="ghost"
+            color={"pink.500"}
+            colorScheme={"pink"}
+            aria-label="Contact"
+            my={5}
+            w="100%"
+          >
+            My Chats
           </Button>
           <Button
             onClick={() => {
