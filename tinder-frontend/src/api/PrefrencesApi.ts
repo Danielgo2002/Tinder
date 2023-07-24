@@ -1,4 +1,3 @@
-import axios from "axios";
 import { FormPrefrencesData } from "../componnents/Preferences";
 import client from "./interseptors";
 

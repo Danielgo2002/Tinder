@@ -37,7 +37,7 @@ export declare class AuthController {
     } | {
         access_Token: string;
         refresh_token: string;
-        data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+        data: import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         };
         status: string;
@@ -53,7 +53,7 @@ export declare class AuthController {
     } | {
         access_Token: string;
         refresh_token: string;
-        User: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+        User: import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         };
         data?: undefined;

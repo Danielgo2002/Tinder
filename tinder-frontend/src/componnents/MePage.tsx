@@ -1,27 +1,21 @@
-import { CheckIcon } from "@chakra-ui/icons";
 import {
   Heading,
   Avatar,
   Box,
   Center,
-  Image,
   Flex,
   Text,
   Stack,
   Button,
   useColorModeValue,
   useBreakpointValue,
-  List,
-  ListItem,
-  ListIcon,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GetMyUser, MyUser, MyUsers } from "../api/Tinder";
+import { GetMyUser, MyUser } from "../api/Tinder";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 import FullNav from "../NavBar/fullNav";
-import { Blur } from "../auth/signIn";
 
 const MePage = () => {
   const [currentUser, setCurrentUser] = useState(0);
@@ -38,13 +32,7 @@ const MePage = () => {
   const userPref = Myuser?.preferences;
   console.log(user?.image);
 
-  //   const specificUser = useMemo(
-  //     () => Myuser?.data && Myuser.data[currentUser],
-  //     [currentUser, Myuser]
-  //   );
-  //   console.log(specificUser);
 
-  //   const specificUser = Myuser?.data;
 
   const cardSize = useBreakpointValue({ base: "1000px", md: "full" });
   const imageSize = useBreakpointValue({ base: "150", md: "300px" });
@@ -66,7 +54,6 @@ const MePage = () => {
       >
         <FullNav></FullNav>
         <Box
-          // maxW={"1000px"}
 
           h={"100vh"}
           w={"1000px"}
@@ -83,14 +70,7 @@ const MePage = () => {
             justifyContent={"center"}
           />
 
-          {/* <Text
-          fontSize={textsize}
-          fontWeight={"bold"}
-          fontFamily={"body"}
-          color={"blackAlpha.700"}
-        >
-          wellcome {user?.first_Name}
-        </Text> */}
+        
           <Flex bg={"t"} justify={"center"} mt={"-20"}>
             <Avatar
               boxSize={imageSize}

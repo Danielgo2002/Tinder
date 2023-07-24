@@ -11,7 +11,6 @@ function authorizationRequest(config: any, tokenType: string) {
       config.headers["Authorization"] = "Bearer " + token;
     }
 
-    // config.headers.set("Authorization", "Bearer " + token);
   }
 }
 
@@ -47,7 +46,6 @@ client.interceptors.response.use(
       originalReq._retry = true;
       return client.get("/auth/refresh").then((res) => {
         if (res?.status === 200) {
-          // const access_token = res.data.access_token;
           
           localStorage.setItem(
             "accessToken",

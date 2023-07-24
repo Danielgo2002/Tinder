@@ -1,9 +1,7 @@
 import {
   IsEmail,
   IsEnum,
-  isNotEmpty,
   IsNotEmpty,
-  IsNumber,
   IsString,
 } from 'class-validator';
 import { gender, location } from 'src/Schemas/Enums';
@@ -41,4 +39,3 @@ export class signUpDto {
   summery: string;
 }
 
-//dto schema

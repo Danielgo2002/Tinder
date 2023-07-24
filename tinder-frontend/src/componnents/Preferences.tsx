@@ -138,13 +138,7 @@ const Preferences = () => {
                 </FormField>
                 <br />
                 <FormField label="Location" error={errors?.location?.message}>
-                  {/* <Input
-                    focusBorderColor="pink.200"
-                    type="text"
-                    {...register("location", {
-                      required,
-                    })}
-                  /> */}
+                
                   <Select
                     focusBorderColor="pink.200"
                     placeholder="Select area"
@@ -157,7 +151,6 @@ const Preferences = () => {
                 </FormField>
                 <br />
                 <FormField label="Gender" error={errors.gender?.message}>
-                  {/* <Input focusBorderColor="pink.200" type="text" {...register("gender", { required })} /> */}
                   <Select
                     placeholder="Select gender"
                     focusBorderColor="pink.200"

@@ -1,15 +1,13 @@
-import { Component, FunctionComponent, ReactNode, useState } from "react";
+import {  FunctionComponent, ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { GetMyUser, MyUser } from "../api/Tinder";
 import { Spinner } from "@chakra-ui/react";
-import { Route, redirect, RouteProps, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const {
     data: Myuser,
     isLoading,
-    isError,
-    refetch,
   } = useQuery<MyUser>(["Myuser"], GetMyUser);
   const navigate = useNavigate();
 

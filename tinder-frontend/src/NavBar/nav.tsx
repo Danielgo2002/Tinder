@@ -10,7 +10,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import logo from "../assets/tinderlogo.jpg";
 
 const Nav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -59,21 +58,13 @@ const Nav = () => {
             aria-label="Contact"
             my={5}
             w="100%"
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
+         
           >
             Sign In
           </Button>
 
           <Button
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
+           
             onClick={() => {
               window.location.replace("/signup");
             }}
@@ -83,12 +74,7 @@ const Nav = () => {
             my={5}
             w="100%"
 
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
+           
           >
             Sign Up
           </Button>
@@ -142,21 +128,13 @@ const Nav = () => {
             aria-label="Contact"
             my={5}
             w="100%"
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
+           
           >
             Sign In
           </Button>
 
           <Button
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
+            
             onClick={() => {
               window.location.replace("/signup");
             }}
@@ -166,12 +144,7 @@ const Nav = () => {
             color={"black"}
             my={5}
             w="100%"
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
+         
           >
             Sign Up
           </Button>

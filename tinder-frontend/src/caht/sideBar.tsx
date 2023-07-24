@@ -1,12 +1,9 @@
-import React, { ReactNode } from 'react';
+import  { ReactNode } from 'react';
 import {
-  IconButton,
   Box,
   CloseButton,
   Flex,
-  Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -20,7 +17,6 @@ import {
   FiCompass,
   FiStar,
   FiSettings,
-  FiMenu,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
@@ -57,7 +53,6 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
@@ -94,37 +89,3 @@ interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
 }
-// const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
-//   return (
-//     <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-//       <Flex
-//         align="center"
-//         p="4"
-//         mx="4"
-//         borderRadius="lg"
-//         role="group"
-//         cursor="pointer"
-//         _hover={{
-//           bg: 'cyan.400',
-//           color: 'white',
-//         }}
-//         {...rest}>
-//         {icon && (
-//           <Icon
-//             mr="4"
-//             fontSize="16"
-//             _groupHover={{
-//               color: 'white',
-//             }}
-//             as={icon}
-//           />
-//         )}
-//         {children}
-//       </Flex>
-//     </Link>
-//   );
-// };
-
-// interface MobileProps extends FlexProps {
-//   onOpen: () => void;
-// }

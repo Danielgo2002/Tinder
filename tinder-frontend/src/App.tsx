@@ -1,25 +1,12 @@
-import {
-  Badge,
-  Box,
-  Button,
-  ChakraProvider,
-  Grid,
-  GridItem,
-  Image,
-  Text,
-} from "@chakra-ui/react";
-import React from "react";
-import { Link, Route, Routes, useRoutes } from "react-router-dom";
+
+import {  Route, Routes, useRoutes } from "react-router-dom";
 import Home from "./componnents/HomePage";
 import MePage from "./componnents/MePage";
-import NavBar from "./navBar";
 import Preferences from "./componnents/Preferences";
 import SignIn from "./auth/signIn";
 import Signup from "./auth/signup";
 import Tinder from "./componnents/TinderPage";
-import Chat from "./caht/chat";
 import HomePageChat from "./caht/HomePageChat";
-import SimpleSidebar from "./caht/sideBar";
 
 function App() {
   return (

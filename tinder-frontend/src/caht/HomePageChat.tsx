@@ -1,27 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetChatUsers } from "../api/chatApi";
 import { User, Users } from "../api/Tinder";
-import  {useState } from "react";
+import { useState } from "react";
 import {
   Avatar,
-  Box,
-  Center,
-  Flex,
   Grid,
   GridItem,
   List,
-  ListIcon,
   ListItem,
   Spinner,
-  Stack,
-  Text,
-  useRangeSlider,
 } from "@chakra-ui/react";
-import SimpleSidebar from "./sideBar";
-import Nav from "../NavBar/nav";
-import FullNav from "../NavBar/fullNav";
 import Coinversation from "./Conversation";
-import { date } from "zod";
 
 const HomePageChat = () => {
   const [chats, setchats] = useState([]);
@@ -30,14 +19,12 @@ const HomePageChat = () => {
   const {
     data: users,
     isLoading,
-    isError,
-    refetch,
+   
   } = useQuery<Users>(["chatUsers"], GetChatUsers, {
     onSuccess: (data) => {
       setCurrentUser(data.data[0]);
     },
   });
-
 
   if (isLoading || currentUser == undefined) {
     return <Spinner />;
@@ -45,7 +32,6 @@ const HomePageChat = () => {
 
   return (
     <>
-
       <Grid
         overflow="hidden"
         templateAreas={`"header header"

@@ -1,16 +1,10 @@
 import {
-  Button,
   Grid,
   GridItem,
   Image,
-  Text,
   Heading,
-  Flex,
-  Center,
-  Box,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import logo from "../assets/idoLogo.jpg";
 import Nav from "../NavBar/nav";
 

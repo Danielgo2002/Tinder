@@ -8,9 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { signInDto } from 'src/dto/signIn.Dto';
 import { preferencesDto } from 'src/dto/prefrences.Dto';
-import { deleteDto } from 'src/dto';
 import * as argon from 'argon2';
-import axios from 'axios';
 import { faker } from '@faker-js/faker';
 
 @Injectable()
@@ -168,9 +166,9 @@ export class AuthService {
     const hash = await argon.hash('123456');
 
     for (let index = 0; index < 10; index++) {
-      const first_Name = faker.person.firstName(); // Rowan Nikolaus
-      const last_Name = faker.person.lastName(); // Rowan Nikolaus
-      const gmail = faker.internet.email(); // Kassandra.Haley@erich.biz
+      const first_Name = faker.person.firstName(); 
+      const last_Name = faker.person.lastName(); 
+      const gmail = faker.internet.email(); 
 
       const gender = faker.person.sex();
 

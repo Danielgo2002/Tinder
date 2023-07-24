@@ -9,23 +9,15 @@ import {
   Get,
   UseInterceptors,
   UploadedFile,
-  UploadedFiles,
+  
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import {
-  FileFieldsInterceptor,
   FileInterceptor,
 } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import path from 'path';
-import { deleteDto, preferencesDto, signInDto, signUpDto } from 'src/dto';
-import { UserDocument } from 'src/Schemas/userSchema';
+import {  preferencesDto, signInDto, signUpDto } from 'src/dto';
 import { AUthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { GetUser } from './decorators';
 import { JwtRefreshTokenGuard } from './strategy/RefreshToken.guard';
-import { v4 as uuidv4 } from 'uuid';
-import { Observable, of } from 'rxjs';
 import { storage } from 'src/utils/upload.service';
 
 @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))

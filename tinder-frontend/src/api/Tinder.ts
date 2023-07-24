@@ -69,23 +69,4 @@ export const GetMyUser = async (): Promise<MyUser> => {
   return client.get("user/getMyUser").then((res) => res.data);
 };
 
-// export const GetUsers = async (): Promise<Users> => {
-//   const response = await client.get("user/getUsers");
-//   const users = response.data.data.map((user: User) => {
-//     const imageData = user.image;
-//     const blob = new Blob([new Uint8Array(imageData.)], {
-//       type: imageData.contentType
-//     });
-//     const imageUrl = URL.createObjectURL(blob);
-//     return {
-//       ...user,
-//       preferences: {
-//         ...user.preferences,
-//         image: imageUrl
-//       }
-//     };
-//   });
-//   return {
-//     data: users
-//   };
-// };
+

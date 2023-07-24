@@ -186,20 +186,12 @@ const FullNav = () => {
             aria-label="Contact"
             my={5}
             w="100%"
-            // display={{ base: "none", md: "inline-flex" }}
-            // fontSize={"sm"}
-            // fontWeight={600}
-            // color={"white"}
-            // bg={"pink.400"}
-            // _hover={{
-            //   bg: "pink.300",
-            // }}
           >
             Let's Meet!
           </Button>
           <Button
             onClick={() => {
-              window.location.replace("/chats");
+              window.location.replace("/chat");
             }}
             as={"a"}
             variant="ghost"

@@ -153,49 +153,7 @@ const SignIn = () => {
       />
     </Box>
   );
-  // <ChakraProvider theme={theme}>
-  //   <Grid
-  //     w={"100vw"}
-
-  //   >
-  //     <GridItem pl="3" bg="pink.300" area={"nav"} w="100vw" h={"100vh"}>
-  //       <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-  //         {" "}
-  //         STEP 1
-  //       </Text>
-  //       <Box p={5}>
-  //         <form onSubmit={handleSubmit(submitData)}>
-  //           {/* <form onSubmit={handleSubmit(submitData)}> */}
-  //           <Steps activeStep={activeStep}>
-  //             <Step label="Sign In">
-  //               <FormField label="Gmail" error={errors?.gmail?.message}>
-  //                 <Input type="email" {...register("gmail", { required })} />
-  //                 {errors.gmail && (
-  //                   <Text color="red">{errors.gmail.message}</Text>
-  //                 )}
-  //               </FormField>
-  //               <br />
-  //               <FormField label="Password" error={errors?.password?.message}>
-  //                 <Input
-  //                   type="password"
-  //                   {...register("password", { required })}
-  //                 />
-  //               </FormField>
-  //             </Step>
-
-  //             <Step label="Submit!" />
-  //           </Steps>
-  //           <br />
-  //           <br />
-
-  //           <Flex gap={2} my={2}>
-  //             {activeStep !== 1 && <Button type="submit">Submit</Button>}
-  //           </Flex>
-  //         </form>
-  //       </Box>
-  //     </GridItem>
-  //   </Grid>
-  // </ChakraProvider>
+ 
 };
 export const Blur = (props: IconProps) => {
   return (
@@ -221,46 +179,3 @@ export const Blur = (props: IconProps) => {
 
 export default SignIn;
 
-// <ChakraProvider theme={theme}>
-//   <Grid
-//     w={"100vw"}
-
-//   >
-//     <GridItem pl="3" bg="pink.300" area={"nav"} w="100vw" h={"100vh"}>
-//       <Text fontSize={"5xl"} fontWeight={"bold"} textAlign={"center"}>
-//         {" "}
-//         STEP 1
-//       </Text>
-//       <Box p={5}>
-//         <form onSubmit={handleSubmit(submitData)}>
-//           {/* <form onSubmit={handleSubmit(submitData)}> */}
-//           <Steps activeStep={activeStep}>
-//             <Step label="Sign In">
-//               <FormField label="Gmail" error={errors?.gmail?.message}>
-//                 <Input type="email" {...register("gmail", { required })} />
-//                 {errors.gmail && (
-//                   <Text color="red">{errors.gmail.message}</Text>
-//                 )}
-//               </FormField>
-//               <br />
-//               <FormField label="Password" error={errors?.password?.message}>
-//                 <Input
-//                   type="password"
-//                   {...register("password", { required })}
-//                 />
-//               </FormField>
-//             </Step>
-
-//             <Step label="Submit!" />
-//           </Steps>
-//           <br />
-//           <br />
-
-//           <Flex gap={2} my={2}>
-//             {activeStep !== 1 && <Button type="submit">Submit</Button>}
-//           </Flex>
-//         </form>
-//       </Box>
-//     </GridItem>
-//   </Grid>
-// </ChakraProvider>

@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { ChatDocument } from 'src/Schemas/chatSchema';
@@ -8,15 +8,15 @@ export declare class UserService {
     private readonly ChatModel;
     constructor(UserModel: Model<UserDocument>, ChatModel: Model<ChatDocument>);
     getUsers(idUser: string): Promise<{
-        data: (import("src/Schemas/userSchema").User & mongoose.Document<any, any, any> & {
-            _id: mongoose.Types.ObjectId;
+        data: (import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         message: string;
         status: string;
     }>;
     getFilterUsers(userId: string): Promise<{
-        data: (import("src/Schemas/userSchema").User & mongoose.Document<any, any, any> & {
-            _id: mongoose.Types.ObjectId;
+        data: (import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         message: string;
         status: string;
@@ -28,31 +28,31 @@ export declare class UserService {
         message: string;
         status: string;
     }>;
-    getMyUser(userId: string): Promise<(import("src/Schemas/userSchema").User & mongoose.Document<any, any, any> & {
-        _id: mongoose.Types.ObjectId;
+    getMyUser(userId: string): Promise<(import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }) | {
         data: any[];
         message: string;
         status: string;
     }>;
     likes(ownerId: string, likesDto: likesDto): Promise<{
-        data: import("src/Schemas/userSchema").User & mongoose.Document<any, any, any> & {
-            _id: mongoose.Types.ObjectId;
+        data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         };
         status: string;
         match: boolean;
         message: string;
     }>;
     disLikes(ownerId: string, disLikesDto: disLikesDto): Promise<{
-        data: import("src/Schemas/userSchema").User & mongoose.Document<any, any, any> & {
-            _id: mongoose.Types.ObjectId;
+        data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         };
         status: string;
         message: string;
     }>;
     getChatUsers(userId: string): Promise<{
-        data: (import("src/Schemas/userSchema").User & mongoose.Document<any, any, any> & {
-            _id: mongoose.Types.ObjectId;
+        data: (import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         message: string;
         status: string;
