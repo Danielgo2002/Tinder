@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetChatUsers } from "../api/chatApi";
 import { User, Users } from "../api/Tinder";
-import React, { useMemo, useState } from "react";
+import  {useState } from "react";
 import {
   Avatar,
   Box,
@@ -15,32 +15,36 @@ import {
   Spinner,
   Stack,
   Text,
+  useRangeSlider,
 } from "@chakra-ui/react";
 import SimpleSidebar from "./sideBar";
 import Nav from "../NavBar/nav";
 import FullNav from "../NavBar/fullNav";
 import Coinversation from "./Conversation";
+import { date } from "zod";
 
 const HomePageChat = () => {
   const [chats, setchats] = useState([]);
 
+  const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const {
-    data: data,
+    data: users,
     isLoading,
     isError,
     refetch,
-  } = useQuery<Users>(["chatUsers"], GetChatUsers);
-  const [currentUser, setCurrentUser] = useState<User | undefined>(
-    data?.data[0]
-  );
+  } = useQuery<Users>(["chatUsers"], GetChatUsers, {
+    onSuccess: (data) => {
+      setCurrentUser(data.data[0]);
+    },
+  });
 
-  if (isLoading) {
+
+  if (isLoading || currentUser == undefined) {
     return <Spinner />;
   }
 
   return (
     <>
-      {/* <FullNav></FullNav> */}
 
       <Grid
         overflow="hidden"
@@ -56,7 +60,7 @@ const HomePageChat = () => {
       >
         <GridItem pl="2" bg="pink.300" area={"nav"}>
           <List spacing={3} overflowY="auto">
-            {data?.data.map((user, index) => {
+            {users?.data.map((user, index) => {
               return (
                 <>
                   <ListItem
@@ -83,7 +87,7 @@ const HomePageChat = () => {
           </List>
         </GridItem>
         <GridItem pl="2" bg="green.300" area={"main"}>
-          <Coinversation user={currentUser} />
+          <Coinversation user={currentUser!} />
         </GridItem>
       </Grid>
     </>

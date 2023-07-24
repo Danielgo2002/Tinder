@@ -195,10 +195,9 @@ let UserService = class UserService {
             const participants = chats.map((chat) => chat.participants.map((participant) => participant.first_Name));
             const usersiLiked = users.filter((user) => user.likesRecived.includes(myUser.id) &&
                 myUser.likesRecived.includes(user.id));
-            console.log(chats);
-            console.log(participants);
+            const result = usersiLiked.filter((user) => user._id != myUser._id);
             return {
-                data: usersiLiked,
+                data: result,
                 message: 'pass',
                 status: constants_1.statusCode.success,
             };

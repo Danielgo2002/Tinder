@@ -27,10 +27,9 @@ let MessagesGateway = class MessagesGateway {
         this.users.set(mongoId, client.id);
     }
     handleMessage(data) {
-        console.log(this.users);
-        console.log(data);
-        if (this.users.get(data.userId) != undefined) {
-            this.server.to(this.users.get(data.userId)).emit('recived', data.message);
+        if (this.users.get(data.reciverId) != undefined) {
+            this.server.to(this.users.get(data.reciverId)).emit('recived', data);
+            this.server.to(this.users.get(data.senderId)).emit('recived', data);
         }
     }
 };

@@ -3,20 +3,19 @@ import {
   SubscribeMessage,
   MessageBody,
   WebSocketServer,
-  ConnectedSocket,
   OnGatewayConnection,
 } from '@nestjs/websockets';
-import { messageDto } from './dto/message.Dto';
-import { Server, Socket } from 'socket.io';
-import { Get, Request, UseGuards } from '@nestjs/common';
+import {  Socket } from 'socket.io';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserDocument } from 'src/Schemas/userSchema';
-import { AUthGuard } from 'src/Auth/auth.guard';
 
 type Message = {
-  message: string;
-  userId: string;
+  reciverId: string;
+  senderId: string;
+  content: string;
+  name: string;
+  date: Number;
 };
 @WebSocketGateway({
   cors: '*',
@@ -41,12 +40,10 @@ export class MessagesGateway implements OnGatewayConnection {
 
   @SubscribeMessage('sendToUser')
   handleMessage(@MessageBody() data: Message): void {
-    console.log(this.users);
-    console.log(data);
 
-    if (this.users.get(data.userId) != undefined) {
-
-      this.server.to(this.users.get(data.userId)).emit('recived', data.message);
+    if (this.users.get(data.reciverId) != undefined) {
+      this.server.to(this.users.get(data.reciverId)).emit('recived', data);
+      this.server.to(this.users.get(data.senderId)).emit('recived', data);
     }
   }
 }

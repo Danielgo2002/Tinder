@@ -3,8 +3,11 @@ import { Socket } from 'socket.io';
 import { Model } from 'mongoose';
 import { UserDocument } from 'src/Schemas/userSchema';
 type Message = {
-    message: string;
-    userId: string;
+    reciverId: string;
+    senderId: string;
+    content: string;
+    name: string;
+    date: Number;
 };
 export declare class MessagesGateway implements OnGatewayConnection {
     private readonly UserModel;

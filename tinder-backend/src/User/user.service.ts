@@ -232,11 +232,10 @@ export class UserService {
           user.likesRecived.includes(myUser.id) &&
           myUser.likesRecived.includes(user.id),
       );
-      console.log(chats);
-      console.log(participants);
+      const result = usersiLiked.filter((user) => user._id != myUser._id);
 
       return {
-        data: usersiLiked,
+        data: result,
         message: 'pass',
         status: statusCode.success,
       };
