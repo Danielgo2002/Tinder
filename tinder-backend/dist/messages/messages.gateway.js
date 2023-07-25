@@ -18,15 +18,32 @@ const socket_io_1 = require("socket.io");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let MessagesGateway = class MessagesGateway {
-    constructor(UserModel) {
+    constructor(UserModel, ChatModel, MessageModel) {
         this.UserModel = UserModel;
+        this.ChatModel = ChatModel;
+        this.MessageModel = MessageModel;
         this.users = new Map();
     }
     handleConnection(client) {
         const mongoId = client.handshake.query.id;
         this.users.set(mongoId, client.id);
     }
-    handleMessage(data) {
+    async handleMessage(data) {
+        const myUser = await this.UserModel.findById(data.senderId).populate('chat');
+        const otherUser = await this.UserModel.findById(data.reciverId).populate('chat');
+        const message = await new this.MessageModel({
+            sender: myUser,
+            reciver: otherUser,
+            content: data.content,
+            date: data.date,
+        });
+        const chat = await this.ChatModel.findOne({
+            $and: [{ participants: { $all: [myUser, otherUser] } }],
+        }).populate('messages');
+        chat.messages.push(message);
+        message.chat = chat;
+        await chat.save();
+        message.save();
         if (this.users.get(data.reciverId) != undefined) {
             this.server.to(this.users.get(data.reciverId)).emit('recived', data);
             this.server.to(this.users.get(data.senderId)).emit('recived', data);
@@ -42,14 +59,18 @@ __decorate([
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "handleMessage", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: '*',
     }),
     __param(0, (0, mongoose_1.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)('Chat')),
+    __param(2, (0, mongoose_1.InjectModel)('Message')),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model])
 ], MessagesGateway);
 exports.MessagesGateway = MessagesGateway;
 //# sourceMappingURL=messages.gateway.js.map
