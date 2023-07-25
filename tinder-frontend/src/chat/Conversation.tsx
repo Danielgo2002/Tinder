@@ -24,8 +24,6 @@ type Message = {
 };
 
 const Coinversation: React.FC<{ user: User }> = ({ user }) => {
-  console.log(user);
-
   const [socket, setSocket] = useState<Socket>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [value, setValue] = useState("");
@@ -68,7 +66,9 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
     setMessages([]);
   }, [user]);
   const messageListener = (message: Message) => {
-    setMessages([...messages, message]);
+    if (user._id === message.senderId || message.senderId == Myuser?._id) {
+      setMessages([...messages, message]);
+    }
   };
 
   useEffect(() => {
@@ -78,12 +78,16 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
     };
   }, [messageListener]);
 
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      send(value);
+      // Perform your operation here
+    }
+  };
+
   if (user == undefined) {
     return <Spinner></Spinner>;
   }
-
-  const myMessages = ["infinit", "rizz", "suck me"];
-  const hisMessages = ["idocker", "hay ", "wa"];
 
   return (
     <>
@@ -138,7 +142,12 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
       <Box h="2vh"></Box>
       <Flex float={"right"} dir="rtl" display={"inline-table"}>
         <Input
-          onChange={(e) => setValue(e.target.value)}
+          onKeyPress={handleKeyPress}
+          onChange={(e) => {
+            console.log(e.target.value);
+
+            setValue(e.target.value);
+          }}
           placeholder="הקלד כאן..."
           value={value}
         />

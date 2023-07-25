@@ -6,7 +6,7 @@ import Preferences from "./componnents/Preferences";
 import SignIn from "./auth/signIn";
 import Signup from "./auth/signup";
 import Tinder from "./componnents/TinderPage";
-import HomePageChat from "./caht/HomePageChat";
+import HomePageChat from "./chat/HomePageChat";
 
 function App() {
   return (
