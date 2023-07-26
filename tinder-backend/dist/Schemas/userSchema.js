@@ -58,7 +58,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Chat' }] }),
     __metadata("design:type", Array)
-], User.prototype, "chat", void 0);
+], User.prototype, "chats", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'User' }] }),
     __metadata("design:type", Array)

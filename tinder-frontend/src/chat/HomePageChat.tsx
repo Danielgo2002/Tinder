@@ -1,30 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import { GetChatUsers } from "../api/chatApi";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { GetChatUsers, getMessagesForChat } from "../api/chatApi";
 import { User, Users } from "../api/Tinder";
 import { useState } from "react";
 import {
   Avatar,
+  Box,
   Grid,
   GridItem,
   List,
   ListItem,
   Spinner,
 } from "@chakra-ui/react";
-import Coinversation from "./Conversation";
+import Coinversation, { Message } from "./Conversation";
+import FullNav from "../NavBar/fullNav";
 
 const HomePageChat = () => {
   const [chats, setchats] = useState([]);
+  const [id, setId] = useState("");
 
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
-  const {
-    data: users,
-    isLoading,
-   
-  } = useQuery<Users>(["chatUsers"], GetChatUsers, {
-    onSuccess: (data) => {
-      setCurrentUser(data.data[0]);
-    },
-  });
+  const { data: users, isLoading } = useQuery<Users>(
+    ["chatUsers"],
+    GetChatUsers,
+    {
+      onSuccess: (data) => {
+        setCurrentUser(data.data[0]);
+      },
+    }
+  );
+
+  const queryClient = useQueryClient();
 
   if (isLoading || currentUser == undefined) {
     return <Spinner />;
@@ -53,6 +58,10 @@ const HomePageChat = () => {
                     key={index}
                     onClick={() => {
                       setCurrentUser(user);
+                      queryClient.invalidateQueries([
+                        "Messages",
+                        { userId: user._id },
+                      ]);
                     }}
                   >
                     <Avatar

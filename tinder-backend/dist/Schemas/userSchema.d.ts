@@ -37,7 +37,7 @@ export declare class User {
     summery: string;
     image: string;
     socketId: string;
-    chat: Chat[];
+    chats: Chat[];
     likes: Types.ObjectId[];
     likesRecived: Types.ObjectId[];
     dislikes: [

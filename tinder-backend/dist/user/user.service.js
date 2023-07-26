@@ -132,8 +132,8 @@ let UserService = class UserService {
                     messages: [],
                     participants: [recivedUser._id, user._id],
                 });
-                user.chat.push(chat);
-                recivedUser.chat.push(chat);
+                user.chats.push(chat);
+                recivedUser.chats.push(chat);
                 await chat.save();
             }
             await user.save();

@@ -29,8 +29,8 @@ let MessagesGateway = class MessagesGateway {
         this.users.set(mongoId, client.id);
     }
     async handleMessage(data) {
-        const myUser = await this.UserModel.findById(data.senderId).populate('chat');
-        const otherUser = await this.UserModel.findById(data.reciverId).populate('chat');
+        const myUser = await this.UserModel.findById(data.senderId).populate('chats');
+        const otherUser = await this.UserModel.findById(data.reciverId).populate('chats');
         const message = await new this.MessageModel({
             sender: myUser,
             reciver: otherUser,
@@ -44,9 +44,9 @@ let MessagesGateway = class MessagesGateway {
         message.chat = chat;
         await chat.save();
         message.save();
+        this.server.to(this.users.get(data.senderId)).emit('recived', data);
         if (this.users.get(data.reciverId) != undefined) {
             this.server.to(this.users.get(data.reciverId)).emit('recived', data);
-            this.server.to(this.users.get(data.senderId)).emit('recived', data);
         }
     }
 };

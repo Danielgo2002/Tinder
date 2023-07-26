@@ -46,10 +46,10 @@ export class MessagesGateway implements OnGatewayConnection {
   @SubscribeMessage('sendToUser')
   async handleMessage(@MessageBody() data: Message) {
     const myUser = await this.UserModel.findById(data.senderId).populate(
-      'chat',
+      'chats',
     );
     const otherUser = await this.UserModel.findById(data.reciverId).populate(
-      'chat',
+      'chats',
     );
     const message = await new this.MessageModel({
       sender: myUser,
@@ -63,22 +63,11 @@ export class MessagesGateway implements OnGatewayConnection {
 
     chat.messages.push(message);
     message.chat = chat;
-
     await chat.save();
-
-    // chats.forEach((chat) => {
-    //   if (
-    //     chat.participants.includes(myUser._id) &&
-    //     chat.participants.includes(otherUser._id)
-    //   ) {
-    //     console.log('foubd');
-    //     message.chat = chat;
-    //   }
-    // });
     message.save();
+    this.server.to(this.users.get(data.senderId)).emit('recived', data);
     if (this.users.get(data.reciverId) != undefined) {
       this.server.to(this.users.get(data.reciverId)).emit('recived', data);
-      this.server.to(this.users.get(data.senderId)).emit('recived', data);
     }
   }
 }

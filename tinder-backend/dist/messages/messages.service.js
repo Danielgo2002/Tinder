@@ -17,32 +17,40 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let MessagesService = class MessagesService {
-    constructor(UserModel) {
+    constructor(UserModel, ChatModel, MessageModel) {
         this.UserModel = UserModel;
-        this.messages = [{ name: 'Marius', text: 'heyoo' }];
-        this.clientToUser = {};
+        this.ChatModel = ChatModel;
+        this.MessageModel = MessageModel;
     }
-    identify(name, clientId) {
-        this.clientToUser[clientId] = name;
-        return Object.values(this.clientToUser);
-    }
-    getClientName(clientId) {
-        return this.clientToUser[clientId];
-    }
-    create(messageDto) {
-        const message = Object.assign({}, messageDto);
-        this.messages.push(message);
-        return message;
-    }
-    chats() { }
-    async findAll() {
-        return this.messages;
+    async getMessages(senderId, reciverId) {
+        try {
+            const chat = await this.ChatModel.findOne({
+                participants: { $all: [senderId, reciverId] },
+            }).populate('messages');
+            const messages = chat.messages;
+            const result = messages.map((message) => {
+                return {
+                    date: message.date,
+                    content: message.content,
+                    senderId: message.sender[0],
+                    reciverId: message.reciver[0],
+                };
+            });
+            return result;
+        }
+        catch (error) {
+            return [];
+        }
     }
 };
 MessagesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)('Chat')),
+    __param(2, (0, mongoose_1.InjectModel)('Message')),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model])
 ], MessagesService);
 exports.MessagesService = MessagesService;
 //# sourceMappingURL=messages.service.js.map

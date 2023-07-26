@@ -9,13 +9,16 @@ import {
   Text,
   Spinner,
   Button,
+  Spacer,
 } from "@chakra-ui/react";
 import { GetMyUser, MyUser, User } from "../api/Tinder";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import { getMessagesForChat } from "../api/chatApi";
+import FullNav from "../NavBar/fullNav";
 
-type Message = {
+export type Message = {
   senderId: string;
   reciverId: string;
   content: string;
@@ -29,6 +32,19 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
   const [value, setValue] = useState("");
   const messagesRef = useRef<HTMLDivElement>(null);
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
+  const userId = user._id;
+  const { isLoading: isLoadingMessages } = useQuery<Message[]>(
+    ["Messages", { userId }],
+    () => getMessagesForChat(userId),
+    {
+      onSuccess: (res) => {
+        setMessages(res);
+      },
+    }
+  );
+  const queryClient = useQueryClient();
+
+  queryClient.invalidateQueries(["Messages"]);
 
   const scrollToBottom = () => {
     messagesRef.current?.scrollIntoView();
@@ -79,13 +95,13 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
   }, [messageListener]);
 
   const handleKeyPress = (event: any) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && value !== "") {
       send(value);
       // Perform your operation here
     }
   };
 
-  if (user == undefined) {
+  if (user == undefined || isLoadingMessages) {
     return <Spinner></Spinner>;
   }
 

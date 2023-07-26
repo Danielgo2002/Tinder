@@ -13,6 +13,9 @@ const mongoose_1 = require("@nestjs/mongoose");
 const userSchema_1 = require("../Schemas/userSchema");
 const messageSchemas_1 = require("../Schemas/messageSchemas");
 const chatSchema_1 = require("../Schemas/chatSchema");
+const messages_service_1 = require("./messages.service");
+const messages_controller_1 = require("./messages.controller");
+const jwt_1 = require("@nestjs/jwt");
 let MessagesModule = class MessagesModule {
 };
 MessagesModule = __decorate([
@@ -23,8 +26,10 @@ MessagesModule = __decorate([
                 { name: userSchema_1.User.name, schema: userSchema_1.UserSchema },
                 { name: messageSchemas_1.Message.name, schema: messageSchemas_1.MessageSchema },
             ]),
+            jwt_1.JwtModule.register({}),
         ],
-        providers: [messages_gateway_1.MessagesGateway],
+        controllers: [messages_controller_1.MessagesController],
+        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService],
     })
 ], MessagesModule);
 exports.MessagesModule = MessagesModule;

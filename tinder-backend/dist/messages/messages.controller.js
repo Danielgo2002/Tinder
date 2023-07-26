@@ -8,18 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.MessagesController = void 0;
 const common_1 = require("@nestjs/common");
+const auth_guard_1 = require("../Auth/auth.guard");
 const messages_service_1 = require("./messages.service");
-let UserController = class UserController {
-    constructor(messageService) {
-        this.messageService = messageService;
+let MessagesController = class MessagesController {
+    constructor(MessagesService) {
+        this.MessagesService = MessagesService;
+    }
+    getMessages(req, reciverIdObject) {
+        return this.MessagesService.getMessages(req.user.sub, reciverIdObject.reciverId);
     }
 };
-UserController = __decorate([
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Post)('getMessages'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], MessagesController.prototype, "getMessages", null);
+MessagesController = __decorate([
     (0, common_1.Controller)('message'),
     __metadata("design:paramtypes", [messages_service_1.MessagesService])
-], UserController);
-exports.UserController = UserController;
+], MessagesController);
+exports.MessagesController = MessagesController;
 //# sourceMappingURL=messages.controller.js.map
