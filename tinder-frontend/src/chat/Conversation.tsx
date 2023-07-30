@@ -10,6 +10,9 @@ import {
   Spinner,
   Button,
   Spacer,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 } from "@chakra-ui/react";
 import { GetMyUser, MyUser, User } from "../api/Tinder";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getMessagesForChat } from "../api/chatApi";
 import FullNav from "../NavBar/fullNav";
+import { withProtectedRoute } from "../hocs/ProtectedRoute";
 
 export type Message = {
   senderId: string;
@@ -107,14 +111,34 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
 
   return (
     <>
+      {/* <Flex>
+
+    </Flex> */}
       <Heading>
-        <Avatar
-          src={
-            user?.image.includes("https")
-              ? user.image
-              : `http://localhost:3000/static/${user?.image}`
-          }
-        />
+        <Popover>
+          <PopoverTrigger>
+            <Avatar
+              src={
+                user?.image.includes("https")
+                  ? user.image
+                  : `http://localhost:3000/static/${user?.image}`
+              }
+            />
+          </PopoverTrigger>
+          <PopoverContent bg={"whiteAlpha.900"}>
+            <Avatar
+              size={"full"}
+              src={
+                user?.image.includes("https")
+                  ? user.image
+                  : `http://localhost:3000/static/${user?.image}`
+              }
+            />{" "}
+            {user?.first_Name} {user?.last_Name} <br /> {user.age}
+            <br /> {user?.location}
+          </PopoverContent>
+        </Popover>
+
         {user?.first_Name}
       </Heading>
       <br />
@@ -135,6 +159,7 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
                 }
               >
                 <Text
+                  shadow="2xl"
                   bg={
                     message.senderId === Myuser?._id ? "blue.500" : "green.500"
                   }
@@ -166,8 +191,14 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
           }}
           placeholder="הקלד כאן..."
           value={value}
+          focusBorderColor="blue.400"
+          errorBorderColor="blue.300"
         />
-        <Button isDisabled={value === ""} onClick={() => send(value)}>
+        <Button
+          colorScheme={"blue"}
+          isDisabled={value === ""}
+          onClick={() => send(value)}
+        >
           שלח הודעה
         </Button>
       </Flex>
@@ -175,4 +206,4 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
   );
 };
 
-export default Coinversation;
+export default withProtectedRoute(Coinversation);

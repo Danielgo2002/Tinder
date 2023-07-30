@@ -33,7 +33,6 @@ root.render(
         <BrowserRouter>
           <App />
         </BrowserRouter>
-
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>

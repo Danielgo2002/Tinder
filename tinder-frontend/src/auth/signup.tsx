@@ -6,17 +6,26 @@ import {
   Flex,
   Heading,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { FormField } from "../FormField";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../api/authApi";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Blur } from "./signIn";
 import Nav from "../NavBar/nav";
 
@@ -51,7 +60,10 @@ function Signup() {
     handleSubmit,
     formState: { errors },
     trigger,
+    control,
   } = useForm<FormAuthData>({});
+  const [value, setValue] = React.useState(0);
+  const handleChange = (value: any) => setValue(value);
 
   const { mutateAsync: signUpUser } = useMutation(signUp, {
     onSuccess: (res) => {
@@ -196,6 +208,28 @@ function Signup() {
                   />
                 </FormField>
                 <FormField label="Age" error={errors?.age?.message}>
+                  {/* <Controller
+                    name="age"
+                    control={control}
+                    defaultValue={15}
+                    rules={{ required }}
+                    render={({ field }) => (
+                      <NumberInput
+                        {...field}
+                        step={1}
+                        defaultValue={44}
+                        min={18}
+                        max={90}
+                        onChange={(value) => field.onChange(value)}
+                      >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    )}
+                  /> */}
                   <Input
                     focusBorderColor="pink.200"
                     type="number"
@@ -270,3 +304,13 @@ function Signup() {
   );
 }
 export default Signup;
+{
+  /* <Input
+                    focusBorderColor="pink.200"
+                    type="number"
+                    {...register("age", {
+                      valueAsNumber: true,
+                      required,
+                    })}
+                  />{" "} */
+}
