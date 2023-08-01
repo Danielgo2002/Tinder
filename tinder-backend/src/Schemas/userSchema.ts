@@ -46,6 +46,9 @@ export class User {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   likesRecived: Types.ObjectId[];
 
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Notification' }] })
+  notifications: Types.ObjectId[];
+
   @Prop([
     {
       type: Object,

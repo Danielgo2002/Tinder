@@ -208,34 +208,20 @@ function Signup() {
                   />
                 </FormField>
                 <FormField label="Age" error={errors?.age?.message}>
-                  {/* <Controller
-                    name="age"
-                    control={control}
-                    defaultValue={15}
-                    rules={{ required }}
-                    render={({ field }) => (
-                      <NumberInput
-                        {...field}
-                        step={1}
-                        defaultValue={44}
-                        min={18}
-                        max={90}
-                        onChange={(value) => field.onChange(value)}
-                      >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                    )}
-                  /> */}
                   <Input
                     focusBorderColor="pink.200"
                     type="number"
                     {...register("age", {
                       valueAsNumber: true,
                       required,
+                      min: {
+                        value: 18,
+                        message: "You must be at least 18 years old",
+                      },
+                      max: {
+                        value: 99,
+                        message: "You must be less than 99 years old",
+                      },
                     })}
                   />{" "}
                 </FormField>
@@ -305,12 +291,26 @@ function Signup() {
 }
 export default Signup;
 {
-  /* <Input
-                    focusBorderColor="pink.200"
-                    type="number"
-                    {...register("age", {
-                      valueAsNumber: true,
-                      required,
-                    })}
-                  />{" "} */
+  /* <Controller
+                    name="age"
+                    control={control}
+                    defaultValue={15}
+                    rules={{ required }}
+                    render={({ field }) => (
+                      <NumberInput
+                        {...field}
+                        step={1}
+                        defaultValue={44}
+                        min={18}
+                        max={90}
+                        onChange={(value) => field.onChange(value)}
+                      >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    )}
+                  /> */
 }

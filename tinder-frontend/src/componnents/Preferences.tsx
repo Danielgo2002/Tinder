@@ -123,6 +123,14 @@ const Preferences = () => {
                     {...register("MinAge", {
                       valueAsNumber: true,
                       required,
+                      min: {
+                        value: 18,
+                        message: "Age must be more then 18",
+                      },
+                      max: {
+                        value: 99,
+                        message: "Age must be less then 18",
+                      },
                     })}
                   />
                 </FormField>
@@ -133,6 +141,14 @@ const Preferences = () => {
                     {...register("MaxAge", {
                       valueAsNumber: true,
                       required,
+                      min: {
+                        value: 18,
+                        message: "Age must be more then 18",
+                      },
+                      max: {
+                        value: 99,
+                        message: "Age must be less then 18",
+                      },
                     })}
                   />
                 </FormField>

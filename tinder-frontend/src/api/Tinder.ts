@@ -18,6 +18,7 @@ export interface User {
   age: number;
   location: string;
   summery: string;
+  likes: string[];
   image: string;
 }
 export interface MyUser {
@@ -30,6 +31,13 @@ export interface MyUser {
   summery: string;
   image: string;
   preferences: Prefrences;
+  notifications: notification[];
+}
+export interface notification {
+  _id: string;
+  content: string;
+  date: number;
+  user: string[];
 }
 
 export interface Images {
@@ -68,5 +76,3 @@ export const DislikeUser = async (data: { reciverID: string }) => {
 export const GetMyUser = async (): Promise<MyUser> => {
   return client.get("user/getMyUser").then((res) => res.data);
 };
-
-

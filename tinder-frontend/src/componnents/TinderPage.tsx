@@ -1,13 +1,22 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import {
+  Alert,
   Avatar,
   Box,
   Center,
   Heading,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Popover,
   Stack,
   Text,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
@@ -15,7 +24,9 @@ import { useEffect, useMemo, useState } from "react";
 import {
   DislikeUser,
   GetFilterUsers,
+  GetMyUser,
   LikeUser,
+  MyUser,
   Users,
 } from "../api/Tinder";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
@@ -24,6 +35,7 @@ import FullNav from "../NavBar/fullNav";
 const Tinder = () => {
   const [currentUser, setCurrentUser] = useState(0);
   const [finishedIterating, setFinishedIterating] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     data: users,
@@ -32,12 +44,25 @@ const Tinder = () => {
     refetch,
   } = useQuery<Users>(["users"], GetFilterUsers);
 
+  const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
+
   console.log(users?.data);
 
   const specificUser = useMemo(
     () => users?.data && users.data[currentUser],
     [currentUser, users]
   );
+
+  const myUserId = Myuser?._id;
+
+  const checkMatch = () => {
+    if (myUserId) {
+      const match = specificUser?.likes.includes(myUserId);
+      if (match) {
+        onOpen();
+      }
+    }
+  };
 
   useEffect(() => {
     if (users?.data && currentUser >= users.data.length) {
@@ -81,7 +106,6 @@ const Tinder = () => {
         position={"relative"}
         w={"100vw"}
         h={"100vh"}
-        
         boxShadow={"2xl"}
         rounded={"lg"}
         p={6}
@@ -121,11 +145,7 @@ const Tinder = () => {
         <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
           Location: {specificUser?.location}
         </Text>
-        <Text
-          textAlign={"center"}
-          fontSize={"2xl"}
-          px={3}
-        >
+        <Text textAlign={"center"} fontSize={"2xl"} px={3}>
           {specificUser?.summery}
         </Text>
 
@@ -163,15 +183,24 @@ const Tinder = () => {
             onClick={() => {
               Like({ reciverID: reciverId! });
               setCurrentUser(currentUser + 1);
+              checkMatch();
             }}
             icon={<CheckIcon />}
           />
         </Stack>
-       
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>It's A Match !!!!!</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            you have a match with {specificUser?.first_Name}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Center>
   );
 };
 
 export default withProtectedRoute(Tinder);
-

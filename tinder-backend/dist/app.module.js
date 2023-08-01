@@ -16,11 +16,13 @@ const platform_express_1 = require("@nestjs/platform-express");
 const serve_static_1 = require("@nestjs/serve-static");
 const app_root_path_1 = require("app-root-path");
 const messages_module_1 = require("./messages/messages.module");
+const notification_module_1 = require("./notification/notification.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [serve_static_1.ServeStaticModule.forRoot({
+        imports: [
+            serve_static_1.ServeStaticModule.forRoot({
                 rootPath: `${app_root_path_1.path}/uploads`,
                 serveRoot: '/static',
             }),
@@ -28,8 +30,9 @@ AppModule = __decorate([
             mongoose_1.MongooseModule.forRoot('mongodb://localhost/tinder'),
             auth_module_1.AuthModule,
             user_module_1.UserModule,
-            platform_express_1.MulterModule.register({ dest: './uploads', }),
+            platform_express_1.MulterModule.register({ dest: './uploads' }),
             messages_module_1.MessagesModule,
+            notification_module_1.NotificationModule,
         ],
         controllers: [],
         providers: [],

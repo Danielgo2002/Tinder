@@ -40,6 +40,7 @@ export declare class User {
     chats: Chat[];
     likes: Types.ObjectId[];
     likesRecived: Types.ObjectId[];
+    notifications: Types.ObjectId[];
     dislikes: [
         {
             _id: string;

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import  { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
 import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { Chat, ChatDocument } from 'src/Schemas/chatSchema';
+import { NotificationDocument } from 'src/Schemas/notificationSchema';
 import { UserDocument } from 'src/Schemas/userSchema';
 
 @Injectable()
@@ -12,6 +13,8 @@ export class UserService {
   constructor(
     @InjectModel('User') private readonly UserModel: Model<UserDocument>,
     @InjectModel('Chat') private readonly ChatModel: Model<ChatDocument>,
+    @InjectModel('Notification')
+    private readonly NotificationModel: Model<NotificationDocument>,
   ) {}
 
   async getUsers(idUser: string) {
@@ -111,7 +114,9 @@ export class UserService {
 
   async getMyUser(userId: string) {
     try {
-      const myUser = await this.UserModel.findById(userId);
+      const myUser = await this.UserModel.findById(userId).populate(
+        'notifications',
+      );
 
       return myUser;
     } catch (error) {
@@ -146,14 +151,21 @@ export class UserService {
         recivedUser.likes.includes(user._id) &&
         user.likes.includes(recivedUser.id);
       if (match) {
+        const notification = await this.NotificationModel.create({
+          user: recivedUser,
+          content: `You got a new match with ${user.first_Name}`,
+          date: new Date().valueOf(),
+        });
         const chat = await this.ChatModel.create({
           messages: [],
           participants: [recivedUser._id, user._id],
         });
+        recivedUser.notifications.push(notification._id);
         user.chats.push(chat);
         recivedUser.chats.push(chat);
 
         await chat.save();
+        await notification.save();
       }
       await user.save();
       await recivedUser.save();

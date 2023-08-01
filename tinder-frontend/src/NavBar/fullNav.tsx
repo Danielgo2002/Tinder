@@ -1,4 +1,10 @@
-import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import {
+  BellIcon,
+  CloseIcon,
+  HamburgerIcon,
+  MoonIcon,
+  SunIcon,
+} from "@chakra-ui/icons";
 import {
   Button,
   Flex,
@@ -13,12 +19,18 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { GetMyUser, MyUser } from "../api/Tinder";
+import NotificationMenue from "../componnents/notificationMenu";
 
 const FullNav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [display, changeDisplay] = useState("none");
   const logoSize = useBreakpointValue({ base: "55px", md: "75px" });
 
+  const [showNotificationMenu, setShowNotificationMenu] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowNotificationMenu(!showNotificationMenu);
+  };
   const {
     data: Myuser,
     isLoading,
@@ -132,10 +144,20 @@ const FullNav = () => {
           onClick={() => changeDisplay("flex")}
         />
 
-        <Button onClick={toggleColorMode}>
+        <IconButton
+          onClick={handleButtonClick}
+          bg={"white"}
+          aria-label="notification"
+          icon={<BellIcon />}
+        />
+        {showNotificationMenu && (
+          <NotificationMenue isOpen={showNotificationMenu} />
+        )}
+        <Button bg={"white"} onClick={toggleColorMode}>
           {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
         </Button>
       </Flex>
+
       <Flex
         w="100vw"
         bgColor="gray.50"
@@ -160,6 +182,7 @@ const FullNav = () => {
             onClick={() => changeDisplay("none")}
           />
         </Flex>
+
         <Flex flexDir="column" align="center">
           <Button
             onClick={() => {
@@ -186,7 +209,6 @@ const FullNav = () => {
             aria-label="Contact"
             my={5}
             w="100%"
-            
           >
             Let's Meet!
           </Button>

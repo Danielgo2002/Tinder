@@ -18,9 +18,10 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const constants_1 = require("../constants");
 let UserService = class UserService {
-    constructor(UserModel, ChatModel) {
+    constructor(UserModel, ChatModel, NotificationModel) {
         this.UserModel = UserModel;
         this.ChatModel = ChatModel;
+        this.NotificationModel = NotificationModel;
     }
     async getUsers(idUser) {
         try {
@@ -100,7 +101,7 @@ let UserService = class UserService {
     }
     async getMyUser(userId) {
         try {
-            const myUser = await this.UserModel.findById(userId);
+            const myUser = await this.UserModel.findById(userId).populate('notifications');
             return myUser;
         }
         catch (error) {
@@ -128,13 +129,20 @@ let UserService = class UserService {
             const match = recivedUser.likes.includes(user._id) &&
                 user.likes.includes(recivedUser.id);
             if (match) {
+                const notification = await this.NotificationModel.create({
+                    user: recivedUser,
+                    content: `You got a new match with ${user.first_Name}`,
+                    date: new Date().valueOf(),
+                });
                 const chat = await this.ChatModel.create({
                     messages: [],
                     participants: [recivedUser._id, user._id],
                 });
+                recivedUser.notifications.push(notification._id);
                 user.chats.push(chat);
                 recivedUser.chats.push(chat);
                 await chat.save();
+                await notification.save();
             }
             await user.save();
             await recivedUser.save();
@@ -215,7 +223,9 @@ UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('User')),
     __param(1, (0, mongoose_1.InjectModel)('Chat')),
+    __param(2, (0, mongoose_1.InjectModel)('Notification')),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model])
 ], UserService);
 exports.UserService = UserService;

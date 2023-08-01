@@ -68,6 +68,10 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "likesRecived", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Notification' }] }),
+    __metadata("design:type", Array)
+], User.prototype, "notifications", void 0);
+__decorate([
     (0, mongoose_1.Prop)([
         {
             type: Object,
