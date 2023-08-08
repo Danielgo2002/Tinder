@@ -6,7 +6,6 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import logo from "../assets/idoLogo.jpg";
-import Nav from "../NavBar/Nav";
 
 const Home = () => {
   const isOnComputer = useBreakpointValue({

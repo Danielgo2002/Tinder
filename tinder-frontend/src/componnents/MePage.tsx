@@ -22,8 +22,6 @@ const MePage = () => {
   const {
     data: Myuser,
     isLoading,
-    isError,
-    refetch,
   } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
   const user = Myuser;

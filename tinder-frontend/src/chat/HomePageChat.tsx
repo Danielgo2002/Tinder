@@ -1,7 +1,7 @@
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetChatUsers, getMessagesForChat } from "../api/chatApi";
 import { User, Users } from "../api/Tinder";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import {
   Avatar,
   Box,
@@ -23,12 +23,14 @@ import {
 import Coinversation, { Message } from "./Conversation";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import Conversation from "./Conversation";
 
 const HomePageChat = () => {
   const [chats, setchats] = useState([]);
   const [id, setId] = useState("");
   const [isUserListOpen, setIsUserListOpen] = useState(true);
   const [showConversation, setShowConversation] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -45,18 +47,25 @@ const HomePageChat = () => {
 
   const queryClient = useQueryClient();
 
+  const handleUserClick = (user: any) => {
+    setSelectedUser(user);
+    setShowConversation(true);
+    queryClient.invalidateQueries(["Messages", { userId: user._id }]);
+  };
+
+  const handleBackClick = () => {
+    setShowConversation(false);
+  };
+
   if (isLoading || currentUser == undefined) {
     return <Spinner />;
   }
 
   return (
     <Center h="100%">
-      
       <Grid
         overflow="hidden"
-        templateAreas={`"header header"
-        "nav main"
-        `}
+        templateAreas={`"header header" "nav main"`}
         flexGrow={1}
         gridTemplateRows={"0px 1fr 0px"}
         gridTemplateColumns={"450px 1fr"}
@@ -65,11 +74,56 @@ const HomePageChat = () => {
         color="blackAlpha.700"
         fontWeight="bold"
       >
-        <GridItem pl="2" bg="#3d4d5c" area={"nav"}>
-          <List spacing={3} overflowY="auto">
-            {users?.data.map((user, index) => {
-              return (
-                <>
+        {isMobile ? (
+          showConversation ? (
+            <GridItem pl="2" bg="blackAlpha.200" area={"main"}>
+              <Conversation user={currentUser!} />
+            </GridItem>
+          ) : (
+            <GridItem pl="2" bg="#3d4d5c" area={"nav"}>
+              <List spacing={3} overflowY="auto">
+                {users?.data.map((user, index) => (
+                  <ListItem
+                    key={index}
+                    onClick={() => {
+                      setCurrentUser(user);
+                      queryClient.invalidateQueries([
+                        "Messages",
+                        { userId: user._id },
+                      ]);
+                      setShowConversation(true);
+                    }}
+                  >
+                    <Flex
+                      textColor={"white"}
+                      alignItems="center"
+                      gap={10}
+                      p={3}
+                    >
+                      <Avatar
+                        key={index}
+                        boxShadow={"dark-lg"}
+                        src={
+                          user?.image.includes("https")
+                            ? user.image
+                            : `http://localhost:3000/static/${user?.image}`
+                        }
+                      />
+                      <Text>
+                        {user.first_Name} {user.last_Name}
+                      </Text>
+                    </Flex>
+                    <Divider />
+                  </ListItem>
+                ))}
+              </List>
+            </GridItem>
+          )
+        ) : (
+          <>
+            <GridItem pl="2" bg="#3d4d5c" area={"nav"}>
+              <List spacing={3} overflowY="auto">
+                {users?.data.map((user, index) => (
                   <ListItem
                     key={index}
                     onClick={() => {
@@ -101,19 +155,14 @@ const HomePageChat = () => {
                     </Flex>
                     <Divider />
                   </ListItem>
-                </>
-              );
-            })}
-          </List>
-        </GridItem>
-        <GridItem
-          pl="2"
-          bg="blackAlpha.200"
-          area={"main"}
-          // display={{ base: "none", md: "block" }}
-        >
-          <Coinversation user={currentUser!} />
-        </GridItem>
+                ))}
+              </List>
+            </GridItem>
+            <GridItem pl="2" bg="blackAlpha.200" area={"main"}>
+              <Conversation user={currentUser!} />
+            </GridItem>
+          </>
+        )}
       </Grid>
     </Center>
   );

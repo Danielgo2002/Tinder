@@ -17,6 +17,7 @@ import {
   Center,
   VStack,
   Stack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { GetMyUser, MyUser, User } from "../api/Tinder";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,6 +25,7 @@ import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getMessagesForChat } from "../api/chatApi";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
+import { useConversationHight } from "../hooks/conversationHook";
 
 export type Message = {
   senderId: string;
@@ -104,13 +106,17 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
   const handleKeyPress = (event: any) => {
     if (event.key === "Enter" && value !== "") {
       send(value);
-      // Perform your operation here
     }
   };
   const maxwidth: string = "300px";
-  // const message  = messages.map((message)=>message.content)
 
-  // const isOneLine = message.content.split('\n').length === 1;
+  const buttonSize = useBreakpointValue({ base: "sm", md: "lg" });
+  const popsize = useBreakpointValue({ base: "170", md: "250" });
+  const popsizeAvater = useBreakpointValue({ base: "xl", md: "2xl" });
+  const popsizeFont = useBreakpointValue({ base: "lg", md: "3xl" });
+  const fontSize = useBreakpointValue({ base: "3xs", md: "2xs" });
+
+  const conversationHigth = useConversationHight();
 
   if (user == undefined || isLoadingMessages) {
     return (
@@ -121,9 +127,9 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
   }
 
   return (
-    <Flex h="100%" flexDir={"column"} gap={5}>
+    <Flex w="100%" h="100%" flexDir={"column"} gap={5}>
       <Heading>
-        <Popover>
+        <Popover jus>
           <PopoverTrigger>
             <Avatar
               src={
@@ -135,11 +141,12 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
           </PopoverTrigger>
           <PopoverContent
             bg={"whiteAlpha.900"}
-            boxSize={"350"}
+            boxSize={popsize}
             borderRadius={"2xl"}
+            fontSize={popsizeFont}
           >
             <Avatar
-              size={"2xl"}
+              size={popsizeAvater}
               src={
                 user?.image.includes("https")
                   ? user.image
@@ -154,7 +161,7 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
       </Heading>
       <Flex
         h="75%"
-        maxH="800px"
+        maxH={conversationHigth * 0.6}
         border="2px"
         borderColor="blue.500"
         overflowY={"scroll"}
@@ -194,7 +201,7 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
       <Flex alignItems={"center"} flexDir="row-reverse" gap={5}>
         <Textarea
           flexGrow={1}
-          size={"lg"}
+          size={buttonSize}
           borderColor={"blue.400"}
           // maxWidth={maxwidth}r
           resize={"none"}
@@ -210,7 +217,7 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
           errorBorderColor="blue.300"
         />
         <Button
-          size={"lg"}
+          size={buttonSize}
           colorScheme={"blue"}
           isDisabled={value === ""}
           onClick={() => send(value)}
