@@ -7,9 +7,7 @@ const swagger_1 = require("@nestjs/swagger");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors({
-        methods: ['GET', 'POST'],
-        origin: 'http://localhost:3001',
-        credentials: true,
+        origin: '*',
     });
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

@@ -13,13 +13,16 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  Textarea,
+  Center,
+  VStack,
+  Stack,
 } from "@chakra-ui/react";
 import { GetMyUser, MyUser, User } from "../api/Tinder";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getMessagesForChat } from "../api/chatApi";
-import FullNav from "../NavBar/fullNav";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 
 export type Message = {
@@ -27,7 +30,7 @@ export type Message = {
   reciverId: string;
   content: string;
   name: string;
-  date: Number;
+  date: number;
 };
 
 const Coinversation: React.FC<{ user: User }> = ({ user }) => {
@@ -104,16 +107,21 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
       // Perform your operation here
     }
   };
+  const maxwidth: string = "300px";
+  // const message  = messages.map((message)=>message.content)
+
+  // const isOneLine = message.content.split('\n').length === 1;
 
   if (user == undefined || isLoadingMessages) {
-    return <Spinner></Spinner>;
+    return (
+      <Center>
+        <Spinner> </Spinner>
+      </Center>
+    );
   }
 
   return (
-    <>
-      {/* <Flex>
-
-    </Flex> */}
+    <Flex h="100%" flexDir={"column"} gap={5}>
       <Heading>
         <Popover>
           <PopoverTrigger>
@@ -125,9 +133,13 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
               }
             />
           </PopoverTrigger>
-          <PopoverContent bg={"whiteAlpha.900"}>
+          <PopoverContent
+            bg={"whiteAlpha.900"}
+            boxSize={"350"}
+            borderRadius={"2xl"}
+          >
             <Avatar
-              size={"full"}
+              size={"2xl"}
               src={
                 user?.image.includes("https")
                   ? user.image
@@ -138,63 +150,67 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
             <br /> {user?.location}
           </PopoverContent>
         </Popover>
-
-        {user?.first_Name}
+        <Text>{user?.first_Name}</Text>
       </Heading>
-      <br />
-      <Box h="80vh" border="2px" borderColor="blue.500">
-        <Grid
-          display={"flex"}
-          flexDirection={"column-reverse"}
-          overflow="auto"
-          h="78vh"
-          gap={4}
-        >
-          <GridItem>
-            {messages.map((message, index) => (
-              <Flex
-                key={index}
-                justifyContent={
-                  message.senderId === Myuser?._id ? "flex-end" : "flex-start"
-                }
-              >
-                <Text
-                  shadow="2xl"
-                  bg={
-                    message.senderId === Myuser?._id ? "blue.500" : "green.500"
-                  }
-                  color="white"
-                  p={2}
-                  marginTop={index == 0 ? 2 : 0}
-                  marginRight={message.senderId === Myuser?._id ? 3 : 0}
-                  marginLeft={message.senderId !== Myuser?._id ? 3 : 0}
-                  marginBottom={3}
-                  rounded="md"
-                >
-                  {message.content}
-                </Text>
-                <Box></Box>
-              </Flex>
-            ))}
-            <Box ref={messagesRef} />
-          </GridItem>
-        </Grid>
-      </Box>
-      <Box h="2vh"></Box>
-      <Flex float={"right"} dir="rtl" display={"inline-table"}>
-        <Input
+      <Flex
+        h="75%"
+        maxH="800px"
+        border="2px"
+        borderColor="blue.500"
+        overflowY={"scroll"}
+        flexDir="column"
+      >
+        {messages.map((message, index) => (
+          <Flex
+            key={index}
+            justifyContent={
+              message.senderId === Myuser?._id ? "flex-end" : "flex-start"
+            }
+          >
+            <Text
+              shadow="lg"
+              bg={message.senderId === Myuser?._id ? "blue.500" : "green.500"}
+              color="white"
+              p={2}
+              marginTop={index == 0 ? 2 : 0}
+              marginRight={message.senderId === Myuser?._id ? 3 : 0}
+              marginLeft={message.senderId !== Myuser?._id ? 3 : 0}
+              marginBottom={3}
+              rounded="2xl"
+              maxWidth={maxwidth}
+            >
+              {message.content}
+              <Text as="span" marginLeft={2} textAlign="right" fontSize={"2xs"}>
+                {new Date(message.date).toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            </Text>
+          </Flex>
+        ))}
+        <Box ref={messagesRef} />
+      </Flex>
+      <Flex alignItems={"center"} flexDir="row-reverse" gap={5}>
+        <Textarea
+          flexGrow={1}
+          size={"lg"}
+          borderColor={"blue.400"}
+          // maxWidth={maxwidth}r
+          resize={"none"}
+          dir="rtl"
+          placeholder="הקלד כאן..."
           onKeyPress={handleKeyPress}
           onChange={(e) => {
-            console.log(e.target.value);
-
             setValue(e.target.value);
           }}
-          placeholder="הקלד כאן..."
+          maxLength={10000}
           value={value}
           focusBorderColor="blue.400"
           errorBorderColor="blue.300"
         />
         <Button
+          size={"lg"}
           colorScheme={"blue"}
           isDisabled={value === ""}
           onClick={() => send(value)}
@@ -202,7 +218,7 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
           שלח הודעה
         </Button>
       </Flex>
-    </>
+    </Flex>
   );
 };
 

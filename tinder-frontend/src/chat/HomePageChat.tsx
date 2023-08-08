@@ -5,21 +5,32 @@ import { useState } from "react";
 import {
   Avatar,
   Box,
+  Center,
+  Divider,
   Flex,
+  GenericAvatarIcon,
   Grid,
   GridItem,
+  IconButton,
   List,
   ListItem,
   Spacer,
   Spinner,
+  Stack,
+  Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Coinversation, { Message } from "./Conversation";
-import FullNav from "../NavBar/fullNav";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 const HomePageChat = () => {
   const [chats, setchats] = useState([]);
   const [id, setId] = useState("");
+  const [isUserListOpen, setIsUserListOpen] = useState(true);
+  const [showConversation, setShowConversation] = useState(false);
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const { data: users, isLoading } = useQuery<Users>(
@@ -39,12 +50,13 @@ const HomePageChat = () => {
   }
 
   return (
-    <Flex flexDir={"column"} maxH="100vh">
+    <Center h="100%">
+      
       <Grid
         overflow="hidden"
         templateAreas={`"header header"
-                  "nav main"
-                  `}
+        "nav main"
+        `}
         flexGrow={1}
         gridTemplateRows={"0px 1fr 0px"}
         gridTemplateColumns={"450px 1fr"}
@@ -68,7 +80,12 @@ const HomePageChat = () => {
                       ]);
                     }}
                   >
-                    <Flex textColor={"white"} justifyContent={"space-around"}>
+                    <Flex
+                      textColor={"white"}
+                      alignItems="center"
+                      gap={10}
+                      p={3}
+                    >
                       <Avatar
                         key={index}
                         boxShadow={"dark-lg"}
@@ -78,22 +95,27 @@ const HomePageChat = () => {
                             : `http://localhost:3000/static/${user?.image}`
                         }
                       />
-                      {user.first_Name} {user.last_Name}
-                      <br />
-                      <br />
-                      __________________________________________
+                      <Text>
+                        {user.first_Name} {user.last_Name}
+                      </Text>
                     </Flex>
+                    <Divider />
                   </ListItem>
                 </>
               );
             })}
           </List>
         </GridItem>
-        <GridItem pl="2" bg="blackAlpha.200" area={"main"}>
+        <GridItem
+          pl="2"
+          bg="blackAlpha.200"
+          area={"main"}
+          // display={{ base: "none", md: "block" }}
+        >
           <Coinversation user={currentUser!} />
         </GridItem>
       </Grid>
-    </Flex>
+    </Center>
   );
 };
 

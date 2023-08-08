@@ -19,12 +19,12 @@ import { z, ZodType } from "zod";
 import { addPrefrences } from "../api/PrefrencesApi";
 import { FormField } from "../FormField";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
-import Nav from "../NavBar/nav";
+import Nav from "../NavBar/Nav";
 import { Blur } from "../auth/signIn";
 
 export type FormPrefrencesData = {
-  MinAge: number ;
-  MaxAge:number;
+  MinAge: number;
+  MaxAge: number;
   location: string;
   gender: string;
 };
@@ -154,7 +154,6 @@ const Preferences = () => {
                 </FormField>
                 <br />
                 <FormField label="Location" error={errors?.location?.message}>
-                
                   <Select
                     focusBorderColor="pink.200"
                     placeholder="Select area"

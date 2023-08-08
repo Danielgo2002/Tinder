@@ -27,7 +27,7 @@ import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../api/authApi";
 import React, { useState } from "react";
 import { Blur } from "./signIn";
-import Nav from "../NavBar/nav";
+import Nav from "../NavBar/Nav";
 
 export type FormAuthData = {
   gmail: string;
@@ -118,31 +118,25 @@ function Signup() {
   }
 
   return (
-    <Box position={"relative"}>
-      <Nav></Nav>
-
+    <>
       <Container
+        h="90%"
         as={Flex}
         justifyContent={"center"}
         alignItems={"center"}
-        maxW={"100vh"}
-        minH={"100vh"}
-        py={{}}
       >
         <Stack
+          height={'70%'}
           bg={"gray.50"}
           rounded={"xl"}
           shadow={"dark-lg"}
           p={{ base: 4, sm: 6, md: 8 }}
-          maxW={"600px"}
+          // maxW={"600px"}
           w="100%"
           spacing={{ base: 8 }}
+          overflow='scroll'
         >
-          <br />
-          <br />
-          <br />
           <form onSubmit={handleSubmit(submitData)}>
-            <Stack spacing={4}>
               <Heading
                 color={"gray.800"}
                 lineHeight={1.1}
@@ -157,7 +151,6 @@ function Signup() {
                   !
                 </Text>
               </Heading>
-            </Stack>
             <Box mt={10}>
               <Stack spacing={4}>
                 <FormField label="Gmail" error={errors?.gmail?.message}>
@@ -286,31 +279,7 @@ function Signup() {
         left={-5}
         style={{ filter: "blur(70px)" }}
       />
-    </Box>
+    </>
   );
 }
 export default Signup;
-{
-  /* <Controller
-                    name="age"
-                    control={control}
-                    defaultValue={15}
-                    rules={{ required }}
-                    render={({ field }) => (
-                      <NumberInput
-                        {...field}
-                        step={1}
-                        defaultValue={44}
-                        min={18}
-                        max={90}
-                        onChange={(value) => field.onChange(value)}
-                      >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                    )}
-                  /> */
-}

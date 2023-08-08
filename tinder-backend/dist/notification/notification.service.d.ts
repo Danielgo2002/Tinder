@@ -10,4 +10,9 @@ export declare class NotificationService {
         message: string;
         status: string;
     }>;
+    deleteNotification(idUser: string): Promise<{
+        data: any[];
+        message: string;
+        status: string;
+    }>;
 }

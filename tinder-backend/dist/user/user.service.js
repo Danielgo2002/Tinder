@@ -126,8 +126,7 @@ let UserService = class UserService {
             }
             user.likes.push(recivedUser._id);
             recivedUser.likesRecived.push(user._id);
-            const match = recivedUser.likes.includes(user._id) &&
-                user.likes.includes(recivedUser.id);
+            const match = true;
             if (match) {
                 const notification = await this.NotificationModel.create({
                     user: recivedUser,
@@ -150,7 +149,7 @@ let UserService = class UserService {
                 data: user,
                 status: constants_1.statusCode.success,
                 match,
-                message: `${likesDto.reciverID}לייק נוסף בהצלחה משתמש:`,
+                message: `${match ? `You got a new match with ${recivedUser.first_Name}` : 'wa'}`,
             };
         }
         catch (error) {

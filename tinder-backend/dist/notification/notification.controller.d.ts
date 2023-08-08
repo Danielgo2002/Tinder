@@ -9,4 +9,9 @@ export declare class NotificationController {
         message: string;
         status: string;
     }>;
+    deleteNotification(req: any): Promise<{
+        data: any[];
+        message: string;
+        status: string;
+    }>;
 }

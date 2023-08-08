@@ -20,7 +20,7 @@ import { FormField } from "../FormField";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "../api/authApi";
-import Nav from "../NavBar/nav";
+import Nav from "../NavBar/Nav";
 
 export type SignInData = {
   gmail: string;
@@ -72,16 +72,12 @@ const SignIn = () => {
     message: "this field is requierd",
   };
   return (
-    <Box position={"relative"}>
-      <Nav></Nav>
-
+    <>
       <Container
+        h="100%"
         as={Flex}
         justifyContent={"center"}
         alignItems={"center"}
-        maxW={"100vh"}
-        minH={"100vh"}
-        py={{}}
       >
         <Stack
           bg={"gray.50"}
@@ -112,7 +108,11 @@ const SignIn = () => {
             <Box mt={10}>
               <Stack spacing={4}>
                 <FormField label="Gmail" error={errors?.gmail?.message}>
-                  <Input focusBorderColor="pink.200" type="email" {...register("gmail", { required })} />
+                  <Input
+                    focusBorderColor="pink.200"
+                    type="email"
+                    {...register("gmail", { required })}
+                  />
                   {errors.gmail && (
                     <Text color="red">{errors.gmail.message}</Text>
                   )}
@@ -120,7 +120,7 @@ const SignIn = () => {
                 <br />
                 <FormField label="Password" error={errors?.password?.message}>
                   <Input
-                  focusBorderColor="pink.200"
+                    focusBorderColor="pink.200"
                     type="password"
                     {...register("password", { required })}
                   />
@@ -151,15 +151,14 @@ const SignIn = () => {
         left={-5}
         style={{ filter: "blur(70px)" }}
       />
-    </Box>
+    </>
   );
- 
 };
 export const Blur = (props: IconProps) => {
   return (
     <Icon
       width={useBreakpointValue({ base: "100%", md: "40vw", lg: "30vw" })}
-      zIndex={useBreakpointValue({ base: -1, md: -1, lg: 0 })}
+      zIndex={-1}
       height="800px"
       viewBox="0 0 528 560"
       fill="none"
@@ -178,4 +177,3 @@ export const Blur = (props: IconProps) => {
 };
 
 export default SignIn;
-

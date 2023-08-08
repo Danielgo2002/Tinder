@@ -23,6 +23,9 @@ let NotificationController = class NotificationController {
     getUsers(req) {
         return this.NotificationService.getNotifications(req.user.sub);
     }
+    deleteNotification(req) {
+        return this.NotificationService.deleteNotification(req.user.sub);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
@@ -32,6 +35,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], NotificationController.prototype, "getUsers", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Get)('deleteNotification'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], NotificationController.prototype, "deleteNotification", null);
 NotificationController = __decorate([
     (0, common_1.Controller)('notification'),
     __metadata("design:paramtypes", [notification_service_1.NotificationService])

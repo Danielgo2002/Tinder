@@ -11,6 +11,11 @@ export class NotificationController {
   getUsers(@Request() req) {
     return this.NotificationService.getNotifications(req.user.sub);
   }
+    @UseGuards(AUthGuard)
+  @Get('deleteNotification')
+  deleteNotification(@Request() req) {
+    return this.NotificationService.deleteNotification(req.user.sub);
+  }
 
 
 

@@ -11,11 +11,10 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetMyUser, MyUser } from "../api/Tinder";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
-import FullNav from "../NavBar/fullNav";
 
 const MePage = () => {
   const [currentUser, setCurrentUser] = useState(0);
@@ -32,45 +31,36 @@ const MePage = () => {
   const userPref = Myuser?.preferences;
   console.log(user?.image);
 
-
-
   const cardSize = useBreakpointValue({ base: "1000px", md: "full" });
-  const imageSize = useBreakpointValue({ base: "150", md: "300px" });
-  const textsize = useBreakpointValue({ base: "15px", md: "25px" });
+  const imageSize = useBreakpointValue({ base: "120px", md: "300px" });
+  const textsize = useBreakpointValue({ base: "20px", md: "25px" });
   const headingSize = useBreakpointValue({ base: "md", md: "2xl" });
   const space = useBreakpointValue({ base: "5", md: "48" });
-  const Buttonspace = useBreakpointValue({ base: "20", md: "96" });
-  const Buttonsize = useBreakpointValue({ base: "sm", md: "lg" });
+  const Buttonspace = useBreakpointValue({ base: "10", md: "96" });
+  const Buttonsize = useBreakpointValue({ base: "md", md: "lg" });
 
   const Navigate = useNavigate();
-  console.log(user?.image);
 
   return (
-    <>
       <Center
         bgGradient={
           "linear-gradient(45deg, rgba(251, 218, 97, 0.7) 0%, rgba(255, 90, 205, 0.7) 100%)"
         }
+        height='100%'
+        width={'100%'}
       >
-        <FullNav></FullNav>
         <Box
-
-          h={"100vh"}
-          w={"1000px"}
           bg={useColorModeValue("white", "gray.800")}
           boxShadow={"dark-lg"}
           rounded={"md"}
-          overflow={"hidden"}
         >
           <Box
-            h={"200px"}
-            w={"full"}
+            // w={"full"}
             objectFit={"cover"}
             flexDirection={"column"}
             justifyContent={"center"}
           />
 
-        
           <Flex bg={"t"} justify={"center"} mt={"-20"}>
             <Avatar
               boxSize={imageSize}
@@ -116,7 +106,7 @@ const MePage = () => {
                   {" "}
                   MinAge : {userPref?.MinAge}
                 </Text>
-                <br/>
+                <br />
                 <Text fontSize={textsize} color={"gray.500"}>
                   {" "}
                   MaxAge : {userPref?.MaxAge}
@@ -129,8 +119,6 @@ const MePage = () => {
                 <Text fontSize={textsize} color={"gray.500"}>
                   gender : {userPref?.gender}
                 </Text>
-                <br />
-                <br />
                 <br />
                 <br />
               </Stack>
@@ -151,7 +139,7 @@ const MePage = () => {
                     window.location.href = "/Tinder";
                   }}
                 >
-                  Lett's Meet !!
+                  Let's Meet!
                 </Button>
                 <Button
                   bgGradient="linear(to-r, red.400,pink.400)"
@@ -173,7 +161,6 @@ const MePage = () => {
           </Box>
         </Box>
       </Center>
-    </>
   );
 };
 

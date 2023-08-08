@@ -40,6 +40,27 @@ let NotificationService = class NotificationService {
             };
         }
     }
+    async deleteNotification(idUser) {
+        try {
+            console.log('wa');
+            const notification = await this.NotificationModel.remove({
+                user: idUser,
+            });
+            await notification.save();
+            return {
+                data: [],
+                message: 'ההודעות נמחקו בהצלחה',
+                status: constants_1.statusCode.success,
+            };
+        }
+        catch (error) {
+            return {
+                data: [],
+                message: 'קרתה שגיאה',
+                status: constants_1.statusCode.error,
+            };
+        }
+    }
 };
 NotificationService = __decorate([
     (0, common_1.Injectable)(),
