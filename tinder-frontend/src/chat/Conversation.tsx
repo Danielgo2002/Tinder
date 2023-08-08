@@ -18,6 +18,7 @@ import {
   VStack,
   Stack,
   useBreakpointValue,
+  IconButton,
 } from "@chakra-ui/react";
 import { GetMyUser, MyUser, User } from "../api/Tinder";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,6 +27,7 @@ import { io, Socket } from "socket.io-client";
 import { getMessagesForChat } from "../api/chatApi";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 import { useConversationHight } from "../hooks/conversationHook";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export type Message = {
   senderId: string;
@@ -108,13 +110,18 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
       send(value);
     }
   };
-  const maxwidth: string = "300px";
+
+  const maxMessageWidth = useBreakpointValue({ base: "140px", md: "300px" });
+  const headingAvaterSize = useBreakpointValue({ base: "lg", md: "xl" });
 
   const buttonSize = useBreakpointValue({ base: "sm", md: "lg" });
   const popsize = useBreakpointValue({ base: "170", md: "250" });
   const popsizeAvater = useBreakpointValue({ base: "xl", md: "2xl" });
-  const popsizeFont = useBreakpointValue({ base: "lg", md: "3xl" });
-  const fontSize = useBreakpointValue({ base: "3xs", md: "2xs" });
+  const popsizeFont = useBreakpointValue({ base: "md", md: "3xl" });
+  const fontSize = useBreakpointValue({ base: "xs", md: "s" });
+  const dateSize = useBreakpointValue({ base: "3xs", md: "2xs" });
+  const conversationWidth = useBreakpointValue({ base: "99vw", md: "72vw" });
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const conversationHigth = useConversationHight();
 
@@ -127,41 +134,60 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
   }
 
   return (
-    <Flex w="100%" h="100%" flexDir={"column"} gap={5}>
+    <Flex
+      w="100%"
+      h="100%"
+      flexDir={"column"}
+      gap={5}
+      justifyContent={"space-between"}
+    >
       <Heading>
-        <Popover jus>
-          <PopoverTrigger>
-            <Avatar
-              src={
-                user?.image.includes("https")
-                  ? user.image
-                  : `http://localhost:3000/static/${user?.image}`
-              }
+        <Flex alignItems="center">
+          <Popover>
+            <PopoverTrigger>
+              <Avatar
+                size={headingAvaterSize}
+                src={
+                  user?.image.includes("https")
+                    ? user.image
+                    : `http://localhost:3000/static/${user?.image}`
+                }
+              />
+            </PopoverTrigger>
+            <PopoverContent
+              bg={"whiteAlpha.900"}
+              boxSize={popsize}
+              borderRadius={"2xl"}
+              fontSize={popsizeFont}
+            >
+              <Avatar
+                size={popsizeAvater}
+                src={
+                  user?.image.includes("https")
+                    ? user.image
+                    : `http://localhost:3000/static/${user?.image}`
+                }
+              />{" "}
+              {user?.first_Name} {user?.last_Name} <br /> {user.age}
+              <br /> {user?.location}
+            </PopoverContent>
+          </Popover>
+          <Text>{user?.first_Name}</Text>
+          <Spacer />
+
+          {isMobile && (
+            <IconButton
+              bg="transparent"
+              aria-label="back to chats"
+              icon={<ArrowForwardIcon />}
             />
-          </PopoverTrigger>
-          <PopoverContent
-            bg={"whiteAlpha.900"}
-            boxSize={popsize}
-            borderRadius={"2xl"}
-            fontSize={popsizeFont}
-          >
-            <Avatar
-              size={popsizeAvater}
-              src={
-                user?.image.includes("https")
-                  ? user.image
-                  : `http://localhost:3000/static/${user?.image}`
-              }
-            />{" "}
-            {user?.first_Name} {user?.last_Name} <br /> {user.age}
-            <br /> {user?.location}
-          </PopoverContent>
-        </Popover>
-        <Text>{user?.first_Name}</Text>
+          )}
+        </Flex>
       </Heading>
       <Flex
         h="75%"
-        maxH={conversationHigth * 0.6}
+        w={conversationWidth}
+        maxH={conversationHigth * 0.63}
         border="2px"
         borderColor="blue.500"
         overflowY={"scroll"}
@@ -184,10 +210,16 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
               marginLeft={message.senderId !== Myuser?._id ? 3 : 0}
               marginBottom={3}
               rounded="2xl"
-              maxWidth={maxwidth}
+              maxWidth={maxMessageWidth}
+              fontSize={fontSize}
             >
               {message.content}
-              <Text as="span" marginLeft={2} textAlign="right" fontSize={"2xs"}>
+              <Text
+                as="span"
+                marginLeft={2}
+                textAlign="right"
+                fontSize={dateSize}
+              >
                 {new Date(message.date).toLocaleTimeString("en-GB", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -203,7 +235,6 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
           flexGrow={1}
           size={buttonSize}
           borderColor={"blue.400"}
-          // maxWidth={maxwidth}r
           resize={"none"}
           dir="rtl"
           placeholder="הקלד כאן..."
