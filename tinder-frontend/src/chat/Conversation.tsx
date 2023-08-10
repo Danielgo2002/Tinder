@@ -37,10 +37,14 @@ export type Message = {
   date: number;
 };
 
-const Coinversation: React.FC<{ user: User }> = ({ user }) => {
+const Coinversation: React.FC<{ user: User; show: () => void }> = ({
+  user,
+  show,
+}) => {
   const [socket, setSocket] = useState<Socket>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [value, setValue] = useState("");
+
   const messagesRef = useRef<HTMLDivElement>(null);
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
   const userId = user._id;
@@ -180,6 +184,7 @@ const Coinversation: React.FC<{ user: User }> = ({ user }) => {
               bg="transparent"
               aria-label="back to chats"
               icon={<ArrowForwardIcon />}
+              onClick={() => show()}
             />
           )}
         </Flex>

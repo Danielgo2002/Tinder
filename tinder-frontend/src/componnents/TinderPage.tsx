@@ -55,8 +55,8 @@ const Tinder = () => {
 
   const checkMatch = () => {
     if (myUserId) {
-      // const match = specificUser?.likes.includes(myUserId);
-      const match = true;
+      const match = specificUser?.likes.includes(myUserId);
+      // const match = true;
       if (match) {
         onOpen();
       }
@@ -76,6 +76,7 @@ const Tinder = () => {
   const avatarSize = useBreakpointValue({ base: "150px", md: "300px" });
   const buttonSize = useBreakpointValue({ base: "80px", md: "100px" });
   const buttonSpace = useBreakpointValue({ base: "48", md: "96" });
+  const modalSize = useBreakpointValue({ base: "xs", md: "sm" });
 
   const { mutateAsync: Like } = useMutation(LikeUser, {
     onSuccess: (res) => {
@@ -176,7 +177,7 @@ const Tinder = () => {
               }
               fontSize="60px"
               onClick={async () => {
-                // checkMatch();
+              checkMatch();
 
                 await Like({ reciverID: reciverId! });
                 setCurrentUser(currentUser + 1);
@@ -186,7 +187,7 @@ const Tinder = () => {
           </Stack>
         </Box>
       </Center>
-      <Modal isOpen={isOpen} onClose={onClose} size={"sm"}>
+      <Modal isOpen={isOpen} onClose={onClose} size={modalSize}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader

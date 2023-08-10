@@ -68,7 +68,7 @@ const HomePageChat = () => {
         templateAreas={`"header header" "nav main"`}
         flexGrow={1}
         gridTemplateRows={"0px 1fr 0px"}
-        gridTemplateColumns={"450px 1fr"}
+        gridTemplateColumns={"1fr"}
         h={"100%"}
         gap="0"
         color="blackAlpha.700"
@@ -77,10 +77,10 @@ const HomePageChat = () => {
         {isMobile ? (
           showConversation ? (
             <GridItem pl="2" bg="blackAlpha.200" area={"main"}>
-              <Conversation user={currentUser!} />
+              <Conversation user={currentUser!}  show={handleBackClick} />
             </GridItem>
           ) : (
-            <GridItem pl="2" bg="#3d4d5c" area={"nav"}>
+            <GridItem pl="2" bg="#3d4d5c" area={"nav"} w="100%">
               <List spacing={3} overflowY="auto">
                 {users?.data.map((user, index) => (
                   <ListItem
@@ -159,7 +159,7 @@ const HomePageChat = () => {
               </List>
             </GridItem>
             <GridItem pl="2" bg="blackAlpha.200" area={"main"}>
-              <Conversation user={currentUser!} />
+              <Conversation user={currentUser!} show={handleBackClick} />
             </GridItem>
           </>
         )}
