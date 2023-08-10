@@ -110,14 +110,13 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
   }, [messageListener]);
 
   const handleKeyPress = (event: any) => {
-    if (event.key === "Enter" && value !== "") {
+    if (event.key === "Enter" && value.trim() !== "") {
       send(value);
     }
   };
 
   const maxMessageWidth = useBreakpointValue({ base: "140px", md: "300px" });
   const headingAvaterSize = useBreakpointValue({ base: "lg", md: "xl" });
-
   const buttonSize = useBreakpointValue({ base: "sm", md: "lg" });
   const popsize = useBreakpointValue({ base: "170", md: "250" });
   const popsizeAvater = useBreakpointValue({ base: "xl", md: "2xl" });
@@ -255,7 +254,7 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
         <Button
           size={buttonSize}
           colorScheme={"blue"}
-          isDisabled={value === ""}
+          isDisabled={value.trim() === ""}
           onClick={() => send(value)}
         >
           שלח הודעה

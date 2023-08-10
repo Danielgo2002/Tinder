@@ -47,18 +47,21 @@ const HomePageChat = () => {
 
   const queryClient = useQueryClient();
 
-  const handleUserClick = (user: any) => {
-    setSelectedUser(user);
-    setShowConversation(true);
-    queryClient.invalidateQueries(["Messages", { userId: user._id }]);
-  };
-
   const handleBackClick = () => {
     setShowConversation(false);
   };
 
   if (isLoading || currentUser == undefined) {
-    return <Spinner />;
+    return (
+      <Center height="90vh">
+        <Flex direction="column" align="center">
+          <Text fontSize={"3xl"} fontWeight={""} mb={2}>
+            Don't have chats yet 🙂
+          </Text>
+          <Spinner size={"lg"} />
+        </Flex>
+      </Center>
+    );
   }
 
   return (
@@ -77,7 +80,7 @@ const HomePageChat = () => {
         {isMobile ? (
           showConversation ? (
             <GridItem pl="2" bg="blackAlpha.200" area={"main"}>
-              <Conversation user={currentUser!}  show={handleBackClick} />
+              <Conversation user={currentUser!} show={handleBackClick} />
             </GridItem>
           ) : (
             <GridItem pl="2" bg="#3d4d5c" area={"nav"} w="100%">
@@ -111,6 +114,7 @@ const HomePageChat = () => {
                       />
                       <Text>
                         {user.first_Name} {user.last_Name}
+                        <Text>last message</Text>
                       </Text>
                     </Flex>
                     <Divider />

@@ -65,20 +65,16 @@ const Preferences = () => {
 
   const { mutateAsync: addPref } = useMutation(addPrefrences, {
     onSuccess: (res) => {
-      console.log("mutate", res);
-      // alert("prefrences added succesfully");
       Navigate("/MePage");
     },
   });
 
   const submitData = async (data: FormPrefrencesData) => {
     const response = await addPref(data);
-    console.log(response);
   };
 
   return (
     <Box position={"relative"}>
-      <Nav></Nav>
 
       <Container
         as={Flex}

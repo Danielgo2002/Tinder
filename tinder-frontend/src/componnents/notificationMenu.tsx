@@ -1,5 +1,8 @@
 import { BellIcon, ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
+
 import {
+  Badge,
   Box,
   Button,
   Flex,
@@ -24,9 +27,6 @@ import {
   GetNotification,
   Notification,
 } from "../api/notificationApi";
-import { GetMyUser, MyUser } from "../api/Tinder";
-
-
 
 const NotificationMenue: React.FC = () => {
   const [note, setNote] = useState();
@@ -44,6 +44,7 @@ const NotificationMenue: React.FC = () => {
       queryClient.setQueryData(["Notifications"], []);
     },
   });
+  console.log(userNotifications?.length);
 
   if (isLoading) {
     return <Spinner></Spinner>;
@@ -51,10 +52,38 @@ const NotificationMenue: React.FC = () => {
 
   return (
     <Menu placement="bottom">
-      <MenuButton as={IconButton} icon={<BellIcon />} bg="transparent">
-        Your notifications
-      </MenuButton>
-      <MenuList>
+      {userNotifications?.length! > 0 ? (
+        <Box position={"relative"}>
+          <Badge
+            boxSize={"5"}
+            fontSize={"sm"}
+            borderRadius={"90"}
+            bg="red"
+            position={"absolute"}
+            top="-3px"
+            right={"-4px"}
+          >
+            {userNotifications?.length}
+          </Badge>
+          <MenuButton
+            _hover={{ bg: "transparent" }}
+            as={IconButton}
+            icon={<BellIcon boxSize={"6"} bg="transparent" />}
+            bg="t"
+          ></MenuButton>
+        </Box>
+      ) : (
+        <MenuButton
+          as={IconButton}
+          icon={<BellIcon />}
+          bg="transparent"
+        ></MenuButton>
+      )}
+
+      <MenuList
+                  >
+
+
         {userNotifications?.length === 0 ? (
           <Text fontWeight={"bold"} display={"flex"} justifyContent={"center"}>
             😶 אין התראות חדשות{" "}
