@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
+import { blockUserDto } from 'src/dto/blockUser.dto';
 import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
-import { Chat, ChatDocument } from 'src/Schemas/chatSchema';
+import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
+import { ChatDocument } from 'src/Schemas/chatSchema';
 import { NotificationDocument } from 'src/Schemas/notificationSchema';
 import { UserDocument } from 'src/Schemas/userSchema';
 
@@ -128,8 +130,6 @@ export class UserService {
     }
   }
 
-  // save  chat here!
-
   async likes(ownerId: string, likesDto: likesDto) {
     try {
       const user = await this.UserModel.findById(ownerId);
@@ -158,6 +158,7 @@ export class UserService {
         });
         const chat = await this.ChatModel.create({
           messages: [],
+          blockedUser: '',
           participants: [recivedUser._id, user._id],
         });
         recivedUser.notifications.push(notification._id);
@@ -197,11 +198,6 @@ export class UserService {
       dateEnd.setHours(dateEnd.getHours() + 24);
       const date = dateEnd.valueOf(); // subtract 24 hours
 
-      // const dislikes = {
-      //   _id: recivedUser._id,
-      //   date: date,
-      // };
-
       const usersId = User.dislikes.map((user) => user._id);
 
       if (usersId.includes(recivedUser.id)) {
@@ -232,23 +228,42 @@ export class UserService {
   async getChatUsers(userId: string) {
     try {
       const myUser = await this.UserModel.findById(userId);
-      const users = await this.UserModel.find({ _id: { $ne: userId } });
-      const chats = await this.ChatModel.find({})
+      const users = await this.UserModel.find({
+        _id: { $ne: userId },
+      }).populate('chats');
+      const chats = await this.ChatModel.find({
+        participants: { $all: [myUser._id] },
+      })
+        .populate('messages')
         .populate('participants')
         .exec();
-      const participants = chats.map((chat) =>
-        chat.participants.map((participant) => participant.first_Name),
+      const dateOfLastMessageInChat = chats.map((chat) => {
+        const message = chat.messages[chat.messages.length - 1];
+
+        const user = chat.participants.find((user) => {
+          const id = (user as any)._id.toString();
+
+          if (id !== myUser._id) {
+            return user;
+          }
+        });
+
+        return { lastMessageDate: message.date, user };
+      });
+
+      const sorted = dateOfLastMessageInChat.sort(
+        (a, b) => b.lastMessageDate - a.lastMessageDate,
       );
 
-      const usersiLiked = users.filter(
-        (user) =>
-          user.likesRecived.includes(myUser.id) &&
-          myUser.likesRecived.includes(user.id),
-      );
-      const result = usersiLiked.filter((user) => user._id != myUser._id);
+      // const usersiLiked = users.filter(
+      //   (user) =>
+      //     user.likesRecived.includes(myUser.id) &&
+      //     myUser.likesRecived.includes(user.id),
+      // );
+      // const result = usersiLiked.filter((user) => user._id != myUser._id);
 
       return {
-        data: result,
+        data: sorted,
         message: 'pass',
         status: statusCode.success,
       };
@@ -257,6 +272,67 @@ export class UserService {
         data: [],
         message: 'לא נמצאו משתמשים',
         status: statusCode.error,
+      };
+    }
+  }
+
+  async blockUser(ownerId: string, blockedUserdto: blockUserDto) {
+    try {
+      const myUser = await this.UserModel.findById(ownerId);
+      const recivedUser = await this.UserModel.findById(
+        blockedUserdto.blockedUserId,
+      );
+      const chat = await this.ChatModel.findOne({
+        participants: { $all: [myUser._id, recivedUser._id] },
+      });
+
+      if (chat) {
+        chat.blockedUser = recivedUser._id;
+        await chat.save();
+      }
+
+      return {
+        data: recivedUser,
+        blocked: true,
+        status: statusCode.success,
+        message: 'user blocked',
+      };
+    } catch {
+      return {
+        data: undefined,
+        blocked: false,
+        status: statusCode.error,
+        message: 'error while blocking user',
+      };
+    }
+  }
+  async UnBlockUser(ownerId: string, UnblockUserdto: UnBlockUserDto) {
+    try {
+      const myUser = await this.UserModel.findById(ownerId);
+      const recivedUser = await this.UserModel.findById(
+        UnblockUserdto.UnblockedUserId,
+      );
+      const chat = await this.ChatModel.findOne({
+        participants: { $all: [myUser._id, recivedUser._id] },
+      });
+
+      if (chat) {
+        chat.blockedUser = '';
+        await chat.save();
+      }
+
+      return {
+        data: recivedUser,
+        blocked: true,
+        status: statusCode.success,
+        message: 'user blocked',
+      };
+    } catch {
+      return {
+        data: undefined,
+        blocked: false,
+        status: statusCode.error,
+        message: 'error while blocking user',
       };
     }
   }

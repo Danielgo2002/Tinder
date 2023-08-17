@@ -7,10 +7,13 @@ export declare class MessagesService {
     private readonly ChatModel;
     private readonly MessageModel;
     constructor(UserModel: Model<UserDocument>, ChatModel: Model<ChatDocument>, MessageModel: Model<MessageDocument>);
-    getMessages(senderId: string, reciverId: string): Promise<{
-        date: number;
-        content: string;
-        senderId: any;
-        reciverId: any;
-    }[]>;
+    getMessages(senderId: string, reciverId: string): Promise<any[] | {
+        messages: {
+            date: number;
+            content: string;
+            senderId: any;
+            reciverId: any;
+        }[];
+        blockedUser: string;
+    }>;
 }

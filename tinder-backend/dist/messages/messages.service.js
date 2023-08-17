@@ -36,7 +36,7 @@ let MessagesService = class MessagesService {
                     reciverId: message.reciver[0],
                 };
             });
-            return result;
+            return { messages: result, blockedUser: chat.blockedUser };
         }
         catch (error) {
             return [];

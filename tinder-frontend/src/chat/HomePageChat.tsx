@@ -1,49 +1,41 @@
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetChatUsers, getMessagesForChat } from "../api/chatApi";
-import { User, Users } from "../api/Tinder";
-import { SetStateAction, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { GetChatUsers } from "../api/chatApi";
+import { ResponseUsers, User, Users } from "../api/Tinder";
+import { useState } from "react";
 import {
   Avatar,
-  Box,
   Center,
   Divider,
   Flex,
-  GenericAvatarIcon,
   Grid,
   GridItem,
-  IconButton,
   List,
   ListItem,
-  Spacer,
   Spinner,
-  Stack,
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import Coinversation, { Message } from "./Conversation";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
-import { HamburgerIcon } from "@chakra-ui/icons";
 import Conversation from "./Conversation";
 
 const HomePageChat = () => {
-  const [chats, setchats] = useState([]);
-  const [id, setId] = useState("");
-  const [isUserListOpen, setIsUserListOpen] = useState(true);
   const [showConversation, setShowConversation] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
-  const { data: users, isLoading } = useQuery<Users>(
+
+  const { data: users, isLoading } = useQuery<ResponseUsers>(
     ["chatUsers"],
     GetChatUsers,
     {
       onSuccess: (data) => {
-        setCurrentUser(data.data[0]);
+        setCurrentUser(data.data[0].user);
       },
     }
   );
+
+  const userChat = users?.data.map((res) => res.user.chats);
 
   const queryClient = useQueryClient();
 
@@ -85,14 +77,14 @@ const HomePageChat = () => {
           ) : (
             <GridItem pl="2" bg="#3d4d5c" area={"nav"} w="100%">
               <List spacing={3} overflowY="auto">
-                {users?.data.map((user, index) => (
+                {users?.data.map((res, index) => (
                   <ListItem
                     key={index}
                     onClick={() => {
-                      setCurrentUser(user);
+                      setCurrentUser(res.user);
                       queryClient.invalidateQueries([
                         "Messages",
-                        { userId: user._id },
+                        { userId: res.user._id },
                       ]);
                       setShowConversation(true);
                     }}
@@ -107,14 +99,13 @@ const HomePageChat = () => {
                         key={index}
                         boxShadow={"dark-lg"}
                         src={
-                          user?.image.includes("https")
-                            ? user.image
-                            : `http://localhost:3000/static/${user?.image}`
+                          res.user?.image.includes("https")
+                            ? res.user.image
+                            : `http://localhost:3000/static/${res.user?.image}`
                         }
                       />
                       <Text>
-                        {user.first_Name} {user.last_Name}
-                        <Text>last message</Text>
+                        {res.user.first_Name} {res.user.last_Name}
                       </Text>
                     </Flex>
                     <Divider />
@@ -127,14 +118,14 @@ const HomePageChat = () => {
           <>
             <GridItem pl="2" bg="#3d4d5c" area={"nav"}>
               <List spacing={3} overflowY="auto">
-                {users?.data.map((user, index) => (
+                {users?.data.map((res, index) => (
                   <ListItem
                     key={index}
                     onClick={() => {
-                      setCurrentUser(user);
+                      setCurrentUser(res.user);
                       queryClient.invalidateQueries([
                         "Messages",
-                        { userId: user._id },
+                        { userId: res.user._id },
                       ]);
                     }}
                   >
@@ -148,13 +139,13 @@ const HomePageChat = () => {
                         key={index}
                         boxShadow={"dark-lg"}
                         src={
-                          user?.image.includes("https")
-                            ? user.image
-                            : `http://localhost:3000/static/${user?.image}`
+                          res.user?.image.includes("https")
+                            ? res.user.image
+                            : `http://localhost:3000/static/${res.user?.image}`
                         }
                       />
                       <Text>
-                        {user.first_Name} {user.last_Name}
+                        {res.user.first_Name} {res.user.last_Name}
                       </Text>
                     </Flex>
                     <Divider />

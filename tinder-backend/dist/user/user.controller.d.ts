@@ -1,5 +1,7 @@
+import { blockUserDto } from 'src/dto/blockUser.dto';
 import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
+import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
 import { UserService } from './user.service';
 export declare class UserController {
     private UserService;
@@ -48,10 +50,27 @@ export declare class UserController {
         status: string;
     }>;
     getChatUsers(req: any): Promise<{
-        data: (import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
+        data: {
+            lastMessageDate: number;
+            user: import("../Schemas/userSchema").User;
+        }[];
         message: string;
         status: string;
+    }>;
+    blockUser(req: any, blockUserdto: blockUserDto): Promise<{
+        data: import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        };
+        blocked: boolean;
+        status: string;
+        message: string;
+    }>;
+    UnBlockUser(req: any, UnblockUserdto: UnBlockUserDto): Promise<{
+        data: import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        };
+        blocked: boolean;
+        status: string;
+        message: string;
     }>;
 }

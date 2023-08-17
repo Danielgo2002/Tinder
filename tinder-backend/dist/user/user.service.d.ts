@@ -1,6 +1,8 @@
 import { Model } from 'mongoose';
+import { blockUserDto } from 'src/dto/blockUser.dto';
 import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
+import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
 import { ChatDocument } from 'src/Schemas/chatSchema';
 import { NotificationDocument } from 'src/Schemas/notificationSchema';
 import { UserDocument } from 'src/Schemas/userSchema';
@@ -53,10 +55,27 @@ export declare class UserService {
         message: string;
     }>;
     getChatUsers(userId: string): Promise<{
-        data: (import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
+        data: {
+            lastMessageDate: number;
+            user: import("src/Schemas/userSchema").User;
+        }[];
         message: string;
         status: string;
+    }>;
+    blockUser(ownerId: string, blockedUserdto: blockUserDto): Promise<{
+        data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        };
+        blocked: boolean;
+        status: string;
+        message: string;
+    }>;
+    UnBlockUser(ownerId: string, UnblockUserdto: UnBlockUserDto): Promise<{
+        data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        };
+        blocked: boolean;
+        status: string;
+        message: string;
     }>;
 }

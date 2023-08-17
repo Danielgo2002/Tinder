@@ -16,8 +16,6 @@ export class MessagesService {
 
   async getMessages(senderId: string, reciverId: string) {
     try {
-
-        
       const chat = await this.ChatModel.findOne({
         participants: { $all: [senderId, reciverId] },
       }).populate('messages');
@@ -30,7 +28,7 @@ export class MessagesService {
           reciverId: message.reciver[0],
         };
       });
-      return result;
+      return { messages: result, blockedUser: chat.blockedUser };
     } catch (error) {
       return [];
     }

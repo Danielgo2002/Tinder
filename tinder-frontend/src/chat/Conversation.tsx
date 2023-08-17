@@ -1,11 +1,8 @@
 import {
   Avatar,
   Box,
-  Grid,
-  GridItem,
   Flex,
   Heading,
-  Input,
   Text,
   Spinner,
   Button,
@@ -15,19 +12,18 @@ import {
   PopoverContent,
   Textarea,
   Center,
-  VStack,
-  Stack,
   useBreakpointValue,
   IconButton,
 } from "@chakra-ui/react";
 import { GetMyUser, MyUser, User } from "../api/Tinder";
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getMessagesForChat } from "../api/chatApi";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 import { useConversationHight } from "../hooks/conversationHook";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { BlockUser, UnBlockUser } from "../api/blockUserApi";
 
 export type Message = {
   senderId: string;
@@ -37,26 +33,38 @@ export type Message = {
   date: number;
 };
 
+export type Response = {
+  messages: Message[];
+  blockedUser: string;
+};
+
 const Coinversation: React.FC<{ user: User; show: () => void }> = ({
   user,
   show,
 }) => {
   const [socket, setSocket] = useState<Socket>();
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [value, setValue] = useState("");
+  const [showText, setShowText] = useState(false);
 
   const messagesRef = useRef<HTMLDivElement>(null);
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
+
   const userId = user._id;
-  const { isLoading: isLoadingMessages } = useQuery<Message[]>(
-    ["Messages", { userId }],
-    () => getMessagesForChat(userId),
-    {
-      onSuccess: (res) => {
-        setMessages(res);
-      },
-    }
-  );
+  const { isLoading: isLoadingMessages, data: chatInformation } =
+    useQuery<Response>(
+      ["Messages", { userId }],
+      () => getMessagesForChat(userId),
+      {
+        onSuccess: (res) => {
+          setMessages(res.messages);
+        },
+      }
+    );
+
+  const isBlocked = chatInformation?.blockedUser;
+
   const queryClient = useQueryClient();
 
   queryClient.invalidateQueries(["Messages"]);
@@ -115,17 +123,19 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
     }
   };
 
+  const { mutateAsync: blockUser } = useMutation(BlockUser);
+  const { mutateAsync: UnblockUser } = useMutation(UnBlockUser);
+
   const maxMessageWidth = useBreakpointValue({ base: "140px", md: "300px" });
   const headingAvaterSize = useBreakpointValue({ base: "lg", md: "xl" });
   const buttonSize = useBreakpointValue({ base: "sm", md: "lg" });
-  const popsize = useBreakpointValue({ base: "170", md: "250" });
+  const popsize = useBreakpointValue({ base: "170", md: "300" });
   const popsizeAvater = useBreakpointValue({ base: "xl", md: "2xl" });
   const popsizeFont = useBreakpointValue({ base: "md", md: "3xl" });
   const fontSize = useBreakpointValue({ base: "xs", md: "s" });
   const dateSize = useBreakpointValue({ base: "3xs", md: "2xs" });
   const conversationWidth = useBreakpointValue({ base: "99vw", md: "72vw" });
   const isMobile = useBreakpointValue({ base: true, md: false });
-
   const conversationHigth = useConversationHight();
 
   if (user == undefined || isLoadingMessages) {
@@ -144,50 +154,144 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
       gap={5}
       justifyContent={"space-between"}
     >
-      <Heading>
-        <Flex alignItems="center">
-          <Popover>
-            <PopoverTrigger>
-              <Avatar
-                size={headingAvaterSize}
-                src={
-                  user?.image.includes("https")
-                    ? user.image
-                    : `http://localhost:3000/static/${user?.image}`
-                }
-              />
-            </PopoverTrigger>
-            <PopoverContent
-              bg={"whiteAlpha.900"}
-              boxSize={popsize}
-              borderRadius={"2xl"}
-              fontSize={popsizeFont}
-            >
-              <Avatar
-                size={popsizeAvater}
-                src={
-                  user?.image.includes("https")
-                    ? user.image
-                    : `http://localhost:3000/static/${user?.image}`
-                }
-              />{" "}
-              {user?.first_Name} {user?.last_Name} <br /> {user.age}
-              <br /> {user?.location}
-            </PopoverContent>
-          </Popover>
-          <Text>{user?.first_Name}</Text>
-          <Spacer />
+      {isBlocked == user?._id ? (
+        <Heading>
+          <Flex alignItems="center">
+            <Popover>
+              <PopoverTrigger>
+                <Avatar
+                  size={headingAvaterSize}
+                  src={
+                    user?.image.includes("https")
+                      ? user.image
+                      : `http://localhost:3000/static/${user?.image}`
+                  }
+                />
+              </PopoverTrigger>
+              <PopoverContent
+                bg={"whiteAlpha.900"}
+                boxSize={popsize}
+                borderRadius={"2xl"}
+                fontSize={popsizeFont}
+              >
+                <Avatar
+                  size={popsizeAvater}
+                  src={
+                    user?.image.includes("https")
+                      ? user.image
+                      : `http://localhost:3000/static/${user?.image}`
+                  }
+                />{" "}
+                {user?.first_Name} {user?.last_Name} <br /> {user.age}
+                <br /> {user?.location}
+                <Button
+                  colorScheme={"green"}
+                  color={"white"}
+                  size={"md"}
+                  onClick={() => UnblockUser({ UnblockedUserId: user._id })}
+                >
+                  Unblock {user.first_Name}
+                </Button>
+              </PopoverContent>
+            </Popover>
+            <Text>{user?.first_Name}</Text>
+            <Spacer />
 
-          {isMobile && (
-            <IconButton
-              bg="transparent"
-              aria-label="back to chats"
-              icon={<ArrowForwardIcon />}
-              onClick={() => show()}
-            />
-          )}
-        </Flex>
-      </Heading>
+            {isMobile && (
+              <IconButton
+                bg="transparent"
+                aria-label="back to chats"
+                icon={<ArrowForwardIcon />}
+                onClick={() => show()}
+              />
+            )}
+          </Flex>
+        </Heading>
+      ) : isBlocked == Myuser?._id ? (
+        <Heading>
+          <Flex alignItems="center">
+            <Popover>
+              <PopoverTrigger>
+                <Avatar size={headingAvaterSize} />
+              </PopoverTrigger>
+              <PopoverContent
+                bg={"whiteAlpha.900"}
+                boxSize={popsize}
+                borderRadius={"2xl"}
+                fontSize={popsizeFont}
+              >
+                <Avatar size={popsizeAvater} /> you have Blocked by{" "}
+                {user.first_Name}
+              </PopoverContent>
+            </Popover>
+            <Text>{user?.first_Name}</Text>
+            <Spacer />
+
+            {isMobile && (
+              <IconButton
+                bg="transparent"
+                aria-label="back to chats"
+                icon={<ArrowForwardIcon />}
+                onClick={() => show()}
+              />
+            )}
+          </Flex>
+        </Heading>
+      ) : (
+        <Heading>
+          <Flex alignItems="center">
+            <Popover>
+              <PopoverTrigger>
+                <Avatar
+                  size={headingAvaterSize}
+                  src={
+                    user?.image.includes("https")
+                      ? user.image
+                      : `http://localhost:3000/static/${user?.image}`
+                  }
+                />
+              </PopoverTrigger>
+              <PopoverContent
+                bg={"whiteAlpha.900"}
+                boxSize={popsize}
+                borderRadius={"2xl"}
+                fontSize={popsizeFont}
+              >
+                <Avatar
+                  size={popsizeAvater}
+                  src={
+                    user?.image.includes("https")
+                      ? user.image
+                      : `http://localhost:3000/static/${user?.image}`
+                  }
+                />{" "}
+                {user?.first_Name} {user?.last_Name} <br /> {user.age}
+                <br /> {user?.location}
+                <Button
+                  colorScheme={"red"}
+                  color={"white"}
+                  size={"md"}
+                  onClick={() => blockUser({ blockedUserId: user._id })}
+                >
+                  Block {user.first_Name}
+                </Button>
+              </PopoverContent>
+            </Popover>
+            <Text>{user?.first_Name}</Text>
+            <Spacer />
+
+            {isMobile && (
+              <IconButton
+                bg="transparent"
+                aria-label="back to chats"
+                icon={<ArrowForwardIcon />}
+                onClick={() => show()}
+              />
+            )}
+          </Flex>
+        </Heading>
+      )}
+
       <Flex
         h="75%"
         w={conversationWidth}
@@ -234,6 +338,7 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
         ))}
         <Box ref={messagesRef} />
       </Flex>
+
       <Flex alignItems={"center"} flexDir="row-reverse" gap={5}>
         <Textarea
           flexGrow={1}
@@ -241,6 +346,7 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
           borderColor={"blue.400"}
           resize={"none"}
           dir="rtl"
+          isDisabled={chatInformation?.blockedUser != ""}
           placeholder="הקלד כאן..."
           onKeyPress={handleKeyPress}
           onChange={(e) => {

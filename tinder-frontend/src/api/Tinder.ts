@@ -1,9 +1,21 @@
+import { Message } from "../chat/Conversation";
 import client from "./interseptors";
 
 export interface Users {
   message: string;
   data: User[];
   status: string;
+}
+
+export interface ResponseUsers{
+  message: string;
+  data: ReponseUserChat[];
+  status: string;
+}
+
+export interface ReponseUserChat {
+  user: User;
+  lastMessageDate: number;
 }
 export interface MyUsers {
   message: string;
@@ -20,6 +32,7 @@ export interface User {
   summery: string;
   likes: string[];
   image: string;
+  chats: Message[];
 }
 export interface MyUser {
   _id: string;

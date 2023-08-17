@@ -136,6 +136,7 @@ let UserService = class UserService {
                 });
                 const chat = await this.ChatModel.create({
                     messages: [],
+                    blockedUser: '',
                     participants: [recivedUser._id, user._id],
                 });
                 recivedUser.notifications.push(notification._id);
@@ -196,16 +197,28 @@ let UserService = class UserService {
     async getChatUsers(userId) {
         try {
             const myUser = await this.UserModel.findById(userId);
-            const users = await this.UserModel.find({ _id: { $ne: userId } });
-            const chats = await this.ChatModel.find({})
+            const users = await this.UserModel.find({
+                _id: { $ne: userId },
+            }).populate('chats');
+            const chats = await this.ChatModel.find({
+                participants: { $all: [myUser._id] },
+            })
+                .populate('messages')
                 .populate('participants')
                 .exec();
-            const participants = chats.map((chat) => chat.participants.map((participant) => participant.first_Name));
-            const usersiLiked = users.filter((user) => user.likesRecived.includes(myUser.id) &&
-                myUser.likesRecived.includes(user.id));
-            const result = usersiLiked.filter((user) => user._id != myUser._id);
+            const dateOfLastMessageInChat = chats.map((chat) => {
+                const message = chat.messages[chat.messages.length - 1];
+                const user = chat.participants.find((user) => {
+                    const id = user._id.toString();
+                    if (id !== myUser._id) {
+                        return user;
+                    }
+                });
+                return { lastMessageDate: message.date, user };
+            });
+            const sorted = dateOfLastMessageInChat.sort((a, b) => b.lastMessageDate - a.lastMessageDate);
             return {
-                data: result,
+                data: sorted,
                 message: 'pass',
                 status: constants_1.statusCode.success,
             };
@@ -215,6 +228,60 @@ let UserService = class UserService {
                 data: [],
                 message: 'לא נמצאו משתמשים',
                 status: constants_1.statusCode.error,
+            };
+        }
+    }
+    async blockUser(ownerId, blockedUserdto) {
+        try {
+            const myUser = await this.UserModel.findById(ownerId);
+            const recivedUser = await this.UserModel.findById(blockedUserdto.blockedUserId);
+            const chat = await this.ChatModel.findOne({
+                participants: { $all: [myUser._id, recivedUser._id] },
+            });
+            if (chat) {
+                chat.blockedUser = recivedUser._id;
+                await chat.save();
+            }
+            return {
+                data: recivedUser,
+                blocked: true,
+                status: constants_1.statusCode.success,
+                message: 'user blocked',
+            };
+        }
+        catch (_a) {
+            return {
+                data: undefined,
+                blocked: false,
+                status: constants_1.statusCode.error,
+                message: 'error while blocking user',
+            };
+        }
+    }
+    async UnBlockUser(ownerId, UnblockUserdto) {
+        try {
+            const myUser = await this.UserModel.findById(ownerId);
+            const recivedUser = await this.UserModel.findById(UnblockUserdto.UnblockedUserId);
+            const chat = await this.ChatModel.findOne({
+                participants: { $all: [myUser._id, recivedUser._id] },
+            });
+            if (chat) {
+                chat.blockedUser = '';
+                await chat.save();
+            }
+            return {
+                data: recivedUser,
+                blocked: true,
+                status: constants_1.statusCode.success,
+                message: 'user blocked',
+            };
+        }
+        catch (_a) {
+            return {
+                data: undefined,
+                blocked: false,
+                status: constants_1.statusCode.error,
+                message: 'error while blocking user',
             };
         }
     }

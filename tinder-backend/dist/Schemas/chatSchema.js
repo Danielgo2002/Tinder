@@ -19,6 +19,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Chat.prototype, "messages", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Chat.prototype, "blockedUser", void 0);
+__decorate([
     (0, mongoose_1.Prop)({
         type: [
             {

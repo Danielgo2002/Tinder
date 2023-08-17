@@ -55,13 +55,14 @@ const NotificationMenue: React.FC = () => {
       {userNotifications?.length! > 0 ? (
         <Box position={"relative"}>
           <Badge
-            boxSize={"5"}
-            fontSize={"sm"}
+            colorScheme={"whiteAlpha"}
+            boxSize={"4"}
+            fontSize={"xs"}
             borderRadius={"90"}
             bg="red"
             position={"absolute"}
-            top="-3px"
-            right={"-4px"}
+            top="-2px"
+            right={"-2px"}
           >
             {userNotifications?.length}
           </Badge>
@@ -80,10 +81,7 @@ const NotificationMenue: React.FC = () => {
         ></MenuButton>
       )}
 
-      <MenuList
-                  >
-
-
+      <MenuList>
         {userNotifications?.length === 0 ? (
           <Text fontWeight={"bold"} display={"flex"} justifyContent={"center"}>
             😶 אין התראות חדשות{" "}

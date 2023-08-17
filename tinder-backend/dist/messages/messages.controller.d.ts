@@ -5,11 +5,14 @@ type reciverIDTo = {
 export declare class MessagesController {
     private MessagesService;
     constructor(MessagesService: MessagesService);
-    getMessages(req: any, reciverIdObject: reciverIDTo): Promise<{
-        date: number;
-        content: string;
-        senderId: any;
-        reciverId: any;
-    }[]>;
+    getMessages(req: any, reciverIdObject: reciverIDTo): Promise<any[] | {
+        messages: {
+            date: number;
+            content: string;
+            senderId: any;
+            reciverId: any;
+        }[];
+        blockedUser: string;
+    }>;
 }
 export {};

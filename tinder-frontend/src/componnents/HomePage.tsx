@@ -14,7 +14,6 @@ const Home = () => {
     sm: false,
     xs: true,
   });
-  console.log(isOnComputer);
 
   return (
     <Grid flexDir="column" justifyContent="center" h="100%">
