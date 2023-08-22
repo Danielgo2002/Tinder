@@ -231,12 +231,14 @@ export class UserService {
       const users = await this.UserModel.find({
         _id: { $ne: userId },
       }).populate('chats');
+
       const chats = await this.ChatModel.find({
         participants: { $all: [myUser._id] },
       })
         .populate('messages')
         .populate('participants')
         .exec();
+
       const dateOfLastMessageInChat = chats.map((chat) => {
         const message = chat.messages[chat.messages.length - 1];
 
@@ -247,8 +249,11 @@ export class UserService {
             return user;
           }
         });
-
-        return { lastMessageDate: message.date, user };
+        if (message) {
+          return { lastMessageDate: message.date, user };
+        } else {
+          return { lastMessageDate: -1, user };
+        }
       });
 
       const sorted = dateOfLastMessageInChat.sort(
@@ -260,14 +265,16 @@ export class UserService {
       //     user.likesRecived.includes(myUser.id) &&
       //     myUser.likesRecived.includes(user.id),
       // );
+      // console.log(usersiLiked);
       // const result = usersiLiked.filter((user) => user._id != myUser._id);
+      console.log(sorted);
 
       return {
         data: sorted,
         message: 'pass',
         status: statusCode.success,
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         data: [],
         message: 'לא נמצאו משתמשים',

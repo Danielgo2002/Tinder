@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   extendTheme,
   Flex,
@@ -8,6 +9,7 @@ import {
   Icon,
   IconProps,
   Input,
+  Spinner,
   Stack,
   Text,
   useBreakpointValue,
@@ -21,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "../api/authApi";
 import Nav from "../NavBar/Nav";
+import { useEffect, useState } from "react";
 
 export type SignInData = {
   gmail: string;
@@ -28,6 +31,8 @@ export type SignInData = {
 };
 
 const SignIn = () => {
+  const [loading, setLoading] = useState(true);
+
   const AuthSchema: ZodType<SignInData> = z.object({
     gmail: z.string().email().min(8).max(30),
     password: z.string().min(5).max(20),
@@ -44,18 +49,14 @@ const SignIn = () => {
 
   const { mutateAsync: signInUser } = useMutation(signIn, {
     onSuccess: (res) => {
-      console.log(res);
       if (res.data.status == "error") alert("no user found");
-      // else Navigate("/Tinder");
       else window.location.href = "/MePage";
     },
   });
   const submitData = async (data: SignInData) => {
     const { ...tempData } = data;
-    console.log("rdvn dnvdvves", tempData);
 
     const response = await signInUser(tempData);
-    console.log(response.data);
   };
 
   const theme = extendTheme({
@@ -71,6 +72,30 @@ const SignIn = () => {
     value: true,
     message: "this field is requierd",
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
+  }, []);
+
+  if (loading) {
+    return (
+      <Center height="90vh">
+        <Flex direction="column" align="center">
+          LOADING...
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="pink.200"
+            size="xl"
+          />
+        </Flex>
+      </Center>
+    );
+  }
+
   return (
     <>
       <Container

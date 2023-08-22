@@ -24,10 +24,11 @@ const HomePageChat = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
-
   const { data: users, isLoading } = useQuery<ResponseUsers>(
     ["chatUsers"],
-    GetChatUsers,
+    GetChatUsers
+    ,
+
     {
       onSuccess: (data) => {
         setCurrentUser(data.data[0].user);
@@ -36,6 +37,7 @@ const HomePageChat = () => {
   );
 
   const userChat = users?.data.map((res) => res.user.chats);
+  
 
   const queryClient = useQueryClient();
 
@@ -48,9 +50,8 @@ const HomePageChat = () => {
       <Center height="90vh">
         <Flex direction="column" align="center">
           <Text fontSize={"3xl"} fontWeight={""} mb={2}>
-            Don't have chats yet 🙂
+            No Chats Avalible 🙂
           </Text>
-          <Spinner size={"lg"} />
         </Flex>
       </Center>
     );
@@ -106,6 +107,7 @@ const HomePageChat = () => {
                       />
                       <Text>
                         {res.user.first_Name} {res.user.last_Name}
+                        <Text>last message</Text>
                       </Text>
                     </Flex>
                     <Divider />

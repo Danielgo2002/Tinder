@@ -91,13 +91,13 @@ const Tinder = () => {
   });
   const { mutateAsync: Dislike } = useMutation(DislikeUser);
 
-  if (isLoading) {
-    return (
-      <>
-        <Text> Loading</Text>
-      </>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <>
+  //       <Text> Loading</Text>
+  //     </>
+  //   );
+  // }
 
   return (
     <>

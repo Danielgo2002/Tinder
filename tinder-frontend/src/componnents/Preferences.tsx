@@ -1,12 +1,14 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   extendTheme,
   Flex,
   Heading,
   Input,
   Select,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -21,6 +23,7 @@ import { FormField } from "../FormField";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 import Nav from "../NavBar/Nav";
 import { Blur } from "../auth/signIn";
+import { useEffect, useState } from "react";
 
 export type FormPrefrencesData = {
   MinAge: number;
@@ -30,6 +33,8 @@ export type FormPrefrencesData = {
 };
 
 const Preferences = () => {
+  const [loading, setLoading] = useState(true);
+
   const PrefrencesSchema: ZodType<FormPrefrencesData> = z.object({
     MinAge: z.number().min(18).max(99),
     MaxAge: z.number().min(18).max(99),
@@ -72,10 +77,31 @@ const Preferences = () => {
   const submitData = async (data: FormPrefrencesData) => {
     const response = await addPref(data);
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
+  }, []);
+
+  if (loading) {
+    return (
+      <Center height="90vh">
+        <Flex direction="column" align="center">
+          LOADING...
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="pink.200"
+            size="xl"
+          />
+        </Flex>
+      </Center>
+    );
+  }
 
   return (
     <Box position={"relative"}>
-
       <Container
         as={Flex}
         justifyContent={"center"}

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   extendTheme,
   Flex,
@@ -16,6 +17,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -25,7 +27,7 @@ import { FormField } from "../FormField";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../api/authApi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Blur } from "./signIn";
 import Nav from "../NavBar/Nav";
 
@@ -63,6 +65,7 @@ function Signup() {
     control,
   } = useForm<FormAuthData>({});
   const [value, setValue] = React.useState(0);
+  const [loading, setLoading] = useState(true);
   const handleChange = (value: any) => setValue(value);
 
   const { mutateAsync: signUpUser } = useMutation(signUp, {
@@ -115,6 +118,29 @@ function Signup() {
     render.onerror = (error) => {
       console.log("error", error);
     };
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
+  }, []);
+
+  if (loading) {
+    return (
+      <Center height="90vh">
+        <Flex direction="column" align="center">
+          LOADING...
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="pink.200"
+            size="xl"
+          />
+        </Flex>
+      </Center>
+    );
   }
 
   return (
