@@ -21,7 +21,6 @@ import { z, ZodType } from "zod";
 import { addPrefrences } from "../api/PrefrencesApi";
 import { FormField } from "../FormField";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
-import Nav from "../NavBar/Nav";
 import { Blur } from "../auth/signIn";
 import { useEffect, useState } from "react";
 

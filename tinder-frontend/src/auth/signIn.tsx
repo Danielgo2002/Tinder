@@ -22,7 +22,6 @@ import { FormField } from "../FormField";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "../api/authApi";
-import Nav from "../NavBar/Nav";
 import { useEffect, useState } from "react";
 
 export type SignInData = {

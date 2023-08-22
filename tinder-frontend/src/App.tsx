@@ -11,7 +11,7 @@ import Nav from "./NavBar/Nav";
 
 function App() {
   return (
-    <Flex flexDir={"column"} height="100vh" overflow={'hidden'}>
+    <Flex flexDir={"column"} height="100vh" overflow={"hidden"}>
       <Nav></Nav>
       <Box h="92vh">
         <Routes>

@@ -29,7 +29,6 @@ import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../api/authApi";
 import React, { useEffect, useState } from "react";
 import { Blur } from "./signIn";
-import Nav from "../NavBar/Nav";
 
 export type FormAuthData = {
   gmail: string;
@@ -152,7 +151,7 @@ function Signup() {
         alignItems={"center"}
       >
         <Stack
-          height={'70%'}
+          height={"70%"}
           bg={"gray.50"}
           rounded={"xl"}
           shadow={"dark-lg"}
@@ -160,23 +159,23 @@ function Signup() {
           // maxW={"600px"}
           w="100%"
           spacing={{ base: 8 }}
-          overflow='scroll'
+          overflow="scroll"
         >
           <form onSubmit={handleSubmit(submitData)}>
-              <Heading
-                color={"gray.800"}
-                lineHeight={1.1}
-                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+            <Heading
+              color={"gray.800"}
+              lineHeight={1.1}
+              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+            >
+              Sign Up
+              <Text
+                as={"span"}
+                bgGradient="linear(to-r, red.400,pink.400)"
+                bgClip="text"
               >
-                Sign Up
-                <Text
-                  as={"span"}
-                  bgGradient="linear(to-r, red.400,pink.400)"
-                  bgClip="text"
-                >
-                  !
-                </Text>
-              </Heading>
+                !
+              </Text>
+            </Heading>
             <Box mt={10}>
               <Stack spacing={4}>
                 <FormField label="Gmail" error={errors?.gmail?.message}>
