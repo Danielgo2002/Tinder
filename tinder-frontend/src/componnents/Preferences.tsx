@@ -13,7 +13,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ import { FormField } from "../FormField";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 import { Blur } from "../auth/signIn";
 import { useEffect, useState } from "react";
+import { GetMyUser, MyUser } from "../api/Tinder";
 
 export type FormPrefrencesData = {
   MinAge: number;
@@ -49,6 +50,7 @@ const Preferences = () => {
   } = useForm<FormPrefrencesData>({
     resolver: zodResolver(PrefrencesSchema),
   });
+  const { data: Myuser, isLoading } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
   const { activeStep, nextStep, prevStep } = useSteps({
     initialStep: 0,
@@ -139,6 +141,11 @@ const Preferences = () => {
               <Stack spacing={4}>
                 <FormField label="MinAge" error={errors?.MinAge?.message}>
                   <Input
+                    placeholder={
+                      Myuser && Myuser.preferences.MinAge
+                        ? Myuser.preferences.MinAge.toString()
+                        : "enter number"
+                    }
                     focusBorderColor="pink.200"
                     type="number"
                     {...register("MinAge", {
@@ -157,6 +164,11 @@ const Preferences = () => {
                 </FormField>
                 <FormField label="MaxAge" error={errors?.MaxAge?.message}>
                   <Input
+                    placeholder={
+                      Myuser && Myuser.preferences.MaxAge
+                        ? Myuser.preferences.MaxAge.toString()
+                        : "enter number"
+                    }
                     focusBorderColor="pink.200"
                     type="number"
                     {...register("MaxAge", {
@@ -177,9 +189,12 @@ const Preferences = () => {
                 <FormField label="Location" error={errors?.location?.message}>
                   <Select
                     focusBorderColor="pink.200"
-                    placeholder="Select area"
+                    placeholder={
+                      Myuser ? Myuser.preferences.location : "enter location"
+                    }
                     {...register("location", { required })}
                   >
+                    <option value={""}>select location</option>
                     <option>north</option>
                     <option>center</option>
                     <option>south</option>
@@ -188,10 +203,13 @@ const Preferences = () => {
                 <br />
                 <FormField label="Gender" error={errors.gender?.message}>
                   <Select
-                    placeholder="Select gender"
+                    placeholder={
+                      Myuser ? Myuser.preferences.gender : "enter gender"
+                    }
                     focusBorderColor="pink.200"
                     {...register("gender", { required })}
                   >
+                    <option value={""}>select gender</option>
                     <option>male</option>
                     <option>female</option>
                   </Select>

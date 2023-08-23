@@ -4,7 +4,9 @@ import {
   Get,
   Post,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AUthGuard } from 'src/Auth/auth.guard';
 import { blockUserDto } from 'src/dto/blockUser.dto';
@@ -12,6 +14,9 @@ import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
 import { UserService } from './user.service';
+import { editUserDto } from 'src/dto/editUser.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storage } from 'src/utils/upload.service';
 
 @Controller('user')
 export class UserController {
@@ -57,5 +62,11 @@ export class UserController {
   @Post('UnBlockUser')
   UnBlockUser(@Request() req, @Body() UnblockUserdto: UnBlockUserDto) {
     return this.UserService.UnBlockUser(req.user.sub, UnblockUserdto);
+  }
+  @UseGuards(AUthGuard)
+  @Post('edituser')
+  @UseInterceptors(FileInterceptor('file', storage))
+  editUser(@Request() req, @Body() editUserDto: editUserDto, @UploadedFile() file) {
+    return this.UserService.editUser(editUserDto, req.user.sub, file);
   }
 }

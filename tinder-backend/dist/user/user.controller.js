@@ -20,6 +20,9 @@ const disLike_dto_1 = require("../dto/disLike.dto");
 const likes_Dto_1 = require("../dto/likes.Dto");
 const unBlockUser_dto_1 = require("../dto/unBlockUser.dto");
 const user_service_1 = require("./user.service");
+const editUser_dto_1 = require("../dto/editUser.dto");
+const platform_express_1 = require("@nestjs/platform-express");
+const upload_service_1 = require("../utils/upload.service");
 let UserController = class UserController {
     constructor(UserService) {
         this.UserService = UserService;
@@ -47,6 +50,9 @@ let UserController = class UserController {
     }
     UnBlockUser(req, UnblockUserdto) {
         return this.UserService.UnBlockUser(req.user.sub, UnblockUserdto);
+    }
+    editUser(req, editUserDto, file) {
+        return this.UserService.editUser(editUserDto, req.user.sub, file);
     }
 };
 __decorate([
@@ -117,6 +123,17 @@ __decorate([
     __metadata("design:paramtypes", [Object, unBlockUser_dto_1.UnBlockUserDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "UnBlockUser", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AUthGuard),
+    (0, common_1.Post)('edituser'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', upload_service_1.storage)),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, editUser_dto_1.editUserDto, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "editUser", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

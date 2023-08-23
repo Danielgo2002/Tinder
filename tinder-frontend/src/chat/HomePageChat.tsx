@@ -26,9 +26,7 @@ const HomePageChat = () => {
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const { data: users, isLoading } = useQuery<ResponseUsers>(
     ["chatUsers"],
-    GetChatUsers
-    ,
-
+    GetChatUsers,
     {
       onSuccess: (data) => {
         setCurrentUser(data.data[0].user);
@@ -37,7 +35,6 @@ const HomePageChat = () => {
   );
 
   const userChat = users?.data.map((res) => res.user.chats);
-  
 
   const queryClient = useQueryClient();
 
@@ -107,7 +104,6 @@ const HomePageChat = () => {
                       />
                       <Text>
                         {res.user.first_Name} {res.user.last_Name}
-                        <Text>last message</Text>
                       </Text>
                     </Flex>
                     <Divider />

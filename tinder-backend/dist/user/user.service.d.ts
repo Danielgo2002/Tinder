@@ -1,6 +1,8 @@
+/// <reference types="multer" />
 import { Model } from 'mongoose';
 import { blockUserDto } from 'src/dto/blockUser.dto';
 import { disLikesDto } from 'src/dto/disLike.dto';
+import { editUserDto } from 'src/dto/editUser.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
 import { ChatDocument } from 'src/Schemas/chatSchema';
@@ -75,6 +77,13 @@ export declare class UserService {
             _id: import("mongoose").Types.ObjectId;
         };
         blocked: boolean;
+        status: string;
+        message: string;
+    }>;
+    editUser(editUserDto: editUserDto, userId: string, file: Express.Multer.File): Promise<{
+        data: import("src/Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        };
         status: string;
         message: string;
     }>;

@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
 import { blockUserDto } from 'src/dto/blockUser.dto';
 import { disLikesDto } from 'src/dto/disLike.dto';
+import { editUserDto } from 'src/dto/editUser.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
 import { ChatDocument } from 'src/Schemas/chatSchema';
@@ -341,6 +342,37 @@ export class UserService {
         status: statusCode.error,
         message: 'error while blocking user',
       };
+    }
+  }
+
+  async editUser(editUserDto: editUserDto, userId: string ,file: Express.Multer.File){
+    try{
+      const myUser = await this.UserModel.findById(userId);
+
+      myUser.first_Name = editUserDto.first_Name;
+      myUser.last_Name = editUserDto.last_Name;
+      myUser.age = editUserDto.age;
+      myUser.gender = editUserDto.gender;
+      myUser.location = editUserDto.location;
+      myUser.summery = editUserDto.summery;
+      if (file) {
+        myUser.image = file.filename;
+      }
+      myUser.image = file.filename;
+      
+      await myUser.save();
+      return{
+        data:myUser,
+        status: statusCode.success,
+        message: 'משתמש עודכן בהצלחה !! '
+      }
+    }catch {
+      return{
+        data: undefined,
+        status : statusCode.error,
+        message: 'קרתה בעיה בעדכון משתמש'
+
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ import { disLikesDto } from 'src/dto/disLike.dto';
 import { likesDto } from 'src/dto/likes.Dto';
 import { UnBlockUserDto } from 'src/dto/unBlockUser.dto';
 import { UserService } from './user.service';
+import { editUserDto } from 'src/dto/editUser.dto';
 export declare class UserController {
     private UserService;
     constructor(UserService: UserService);
@@ -70,6 +71,13 @@ export declare class UserController {
             _id: import("mongoose").Types.ObjectId;
         };
         blocked: boolean;
+        status: string;
+        message: string;
+    }>;
+    editUser(req: any, editUserDto: editUserDto, file: any): Promise<{
+        data: import("../Schemas/userSchema").User & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        };
         status: string;
         message: string;
     }>;
