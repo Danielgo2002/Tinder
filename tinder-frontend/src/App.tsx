@@ -1,4 +1,4 @@
-import { Route, Routes, useRoutes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./componnents/HomePage";
 import MePage from "./componnents/MePage";
 import Preferences from "./componnents/Preferences";
@@ -8,7 +8,7 @@ import Tinder from "./componnents/TinderPage";
 import HomePageChat from "./chat/HomePageChat";
 import { Box, Flex } from "@chakra-ui/react";
 import Nav from "./NavBar/Nav";
-import EditUser from "./componnents/editUser";
+import EditUser from "./componnents/EditUser";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="/tinder" element={<Tinder />} />
           <Route path="/mePage" element={<MePage />} />
           <Route path="/chat" element={<HomePageChat />} />
-          <Route path="/editUser" element= {<EditUser/>} />
+          <Route path="/editUser" element={<EditUser />} />
         </Routes>
       </Box>
     </Flex>

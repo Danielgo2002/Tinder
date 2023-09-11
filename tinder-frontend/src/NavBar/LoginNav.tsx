@@ -1,8 +1,6 @@
 import { Button, Flex, Image, useBreakpointValue } from "@chakra-ui/react";
-import react from "react";
 
 const LoginNav = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Flex>

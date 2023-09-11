@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { log } from 'console';
 import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
 import { blockUserDto } from 'src/dto/blockUser.dto';
@@ -247,13 +248,14 @@ export class UserService {
           const id = (user as any)._id.toString();
 
           if (id !== myUser._id) {
+
             return user;
           }
         });
         if (message) {
           return { lastMessageDate: message.date, user };
         } else {
-          return { lastMessageDate: -1, user };
+          return { user };
         }
       });
 
@@ -268,7 +270,7 @@ export class UserService {
       // );
       // console.log(usersiLiked);
       // const result = usersiLiked.filter((user) => user._id != myUser._id);
-      console.log(sorted);
+      // console.log(sorted);
 
       return {
         data: sorted,
@@ -345,9 +347,16 @@ export class UserService {
     }
   }
 
-  async editUser(editUserDto: editUserDto, userId: string ,file: Express.Multer.File){
-    try{
+  async editUser(
+    editUserDto: editUserDto,
+    userId: string,
+    file: Express.Multer.File,
+  ) {
+    try {
       const myUser = await this.UserModel.findById(userId);
+
+      console.log(myUser.image);
+      console.log(file);
 
       myUser.first_Name = editUserDto.first_Name;
       myUser.last_Name = editUserDto.last_Name;
@@ -355,24 +364,24 @@ export class UserService {
       myUser.gender = editUserDto.gender;
       myUser.location = editUserDto.location;
       myUser.summery = editUserDto.summery;
+
       if (file) {
         myUser.image = file.filename;
       }
       myUser.image = file.filename;
-      
-      await myUser.save();
-      return{
-        data:myUser,
-        status: statusCode.success,
-        message: 'משתמש עודכן בהצלחה !! '
-      }
-    }catch {
-      return{
-        data: undefined,
-        status : statusCode.error,
-        message: 'קרתה בעיה בעדכון משתמש'
 
-      }
+      await myUser.save();
+      return {
+        data: myUser,
+        status: statusCode.success,
+        message: 'משתמש עודכן בהצלחה !! ',
+      };
+    } catch {
+      return {
+        data: undefined,
+        status: statusCode.error,
+        message: 'קרתה בעיה בעדכון משתמש',
+      };
     }
   }
 }

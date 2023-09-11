@@ -57,10 +57,13 @@ export declare class UserService {
         message: string;
     }>;
     getChatUsers(userId: string): Promise<{
-        data: {
+        data: ({
             lastMessageDate: number;
             user: import("src/Schemas/userSchema").User;
-        }[];
+        } | {
+            user: import("src/Schemas/userSchema").User;
+            lastMessageDate?: undefined;
+        })[];
         message: string;
         status: string;
     }>;

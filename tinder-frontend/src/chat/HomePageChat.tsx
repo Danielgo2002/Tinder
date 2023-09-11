@@ -11,7 +11,6 @@ import {
   GridItem,
   List,
   ListItem,
-  Spinner,
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
@@ -34,7 +33,6 @@ const HomePageChat = () => {
     }
   );
 
-  const userChat = users?.data.map((res) => res.user.chats);
 
   const queryClient = useQueryClient();
 

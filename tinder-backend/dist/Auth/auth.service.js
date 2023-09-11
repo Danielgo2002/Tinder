@@ -83,7 +83,7 @@ let AuthService = class AuthService {
             return {
                 data: undefined,
                 status: constants_1.statusCode.error,
-                message: 'משתמש לא נמצא נסה שנית',
+                message: 'משתמש או סיסמא אינם נכונים',
             };
         const access_Token = (await this.accessToken(User.id, User.gmail))
             .access_token;

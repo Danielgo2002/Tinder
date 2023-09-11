@@ -93,7 +93,7 @@ export class AuthService {
       return {
         data: undefined,
         status: statusCode.error,
-        message: 'משתמש לא נמצא נסה שנית',
+        message: 'משתמש או סיסמא אינם נכונים',
       };
 
     const access_Token = (await this.accessToken(User.id, User.gmail))
@@ -161,14 +161,18 @@ export class AuthService {
     const access_Token = await this.accessToken(user.id, user.gmail);
     return access_Token;
   }
+  /**
+   * @description in this createUsers function we use faker librery in order to create fake users and save them on database
+   * @returns route when we call it we create 10 users saved in the database
+   */
 
   async createUsers() {
     const hash = await argon.hash('123456');
 
     for (let index = 0; index < 10; index++) {
-      const first_Name = faker.person.firstName(); 
-      const last_Name = faker.person.lastName(); 
-      const gmail = faker.internet.email(); 
+      const first_Name = faker.person.firstName();
+      const last_Name = faker.person.lastName();
+      const gmail = faker.internet.email();
 
       const gender = faker.person.sex();
 

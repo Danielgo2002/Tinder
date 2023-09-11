@@ -55,17 +55,17 @@ const SignIn = () => {
   const submitData = async (data: SignInData) => {
     const { ...tempData } = data;
 
-    const response = await signInUser(tempData);
+    // const response = await signInUser(tempData);
   };
 
-  const theme = extendTheme({
-    components: {
-      Steps: StepsStyleConfig,
-    },
-  });
-  const { activeStep, nextStep, prevStep } = useSteps({
-    initialStep: 0,
-  });
+  // const theme = extendTheme({
+  //   components: {
+  //     Steps: StepsStyleConfig,
+  //   },
+  // });
+  // const { activeStep, nextStep, prevStep } = useSteps({
+  //   initialStep: 0,
+  // });
 
   const required = {
     value: true,

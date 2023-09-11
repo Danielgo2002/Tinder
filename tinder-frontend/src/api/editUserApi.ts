@@ -1,8 +1,8 @@
 import client from "./interseptors";
 
 export type editUserData = {
-  first_Name: number;
-  last_Name: number;
+  first_Name: string;
+  last_Name: string;
   age: number;
   location: string;
   gender: string;
@@ -11,6 +11,10 @@ export type editUserData = {
 };
 
 export const editUser = async (data: editUserData) => {
-  const res = await client.post("/user/edituser", data);
+  const res = await client.post("/user/edituser", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return res;
 };

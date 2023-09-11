@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+// this function get the heigth of the page and resize the page hiegt to the current heigth
 
 export const useConversationHight = () => {
   const [height, setHeight] = useState(0);
@@ -19,3 +20,4 @@ export const useConversationHight = () => {
 
   return height;
 };
+

@@ -5,25 +5,25 @@ import { Center, Flex, Spinner } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { data: Myuser, isLoading } = useQuery<MyUser>(["Myuser"], GetMyUser);
+  const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
   const navigate = useNavigate();
 
-  if (isLoading) {
-    return (
-      <Center height="90vh">
-        <Flex direction="column" align="center">
-          LOADING...
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="pink.200"
-            size="xl"
-          />
-        </Flex>
-      </Center>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Center height="90vh">
+  //       <Flex direction="column" align="center">
+  //         LOADING...
+  //         <Spinner
+  //           thickness="4px"
+  //           speed="0.65s"
+  //           emptyColor="gray.200"
+  //           color="pink.200"
+  //           size="xl"
+  //         />
+  //       </Flex>
+  //     </Center>
+  //   );
+  // }
 
   return <>{Myuser ? <>{children}</> : <>{navigate("/signin")}</>}</>;
 };

@@ -46,21 +46,18 @@ const Preferences = () => {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
+    
   } = useForm<FormPrefrencesData>({
     resolver: zodResolver(PrefrencesSchema),
   });
-  const { data: Myuser, isLoading } = useQuery<MyUser>(["Myuser"], GetMyUser);
+  const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
-  const { activeStep, nextStep, prevStep } = useSteps({
-    initialStep: 0,
-  });
 
-  const theme = extendTheme({
-    components: {
-      Steps: StepsStyleConfig,
-    },
-  });
+  // const theme = extendTheme({
+  //   components: {
+  //     Steps: StepsStyleConfig,
+  //   },
+  // });
 
   const required = {
     value: true,
@@ -141,11 +138,8 @@ const Preferences = () => {
               <Stack spacing={4}>
                 <FormField label="MinAge" error={errors?.MinAge?.message}>
                   <Input
-                    placeholder={
-                      Myuser && Myuser.preferences.MinAge
-                        ? Myuser.preferences.MinAge.toString()
-                        : "enter number"
-                    }
+                    defaultValue={Myuser?.preferences.MinAge}
+                    placeholder="enter number"
                     focusBorderColor="pink.200"
                     type="number"
                     {...register("MinAge", {
@@ -164,11 +158,8 @@ const Preferences = () => {
                 </FormField>
                 <FormField label="MaxAge" error={errors?.MaxAge?.message}>
                   <Input
-                    placeholder={
-                      Myuser && Myuser.preferences.MaxAge
-                        ? Myuser.preferences.MaxAge.toString()
-                        : "enter number"
-                    }
+                    defaultValue={Myuser?.preferences.MaxAge}
+                    placeholder="enter number"
                     focusBorderColor="pink.200"
                     type="number"
                     {...register("MaxAge", {
@@ -189,12 +180,9 @@ const Preferences = () => {
                 <FormField label="Location" error={errors?.location?.message}>
                   <Select
                     focusBorderColor="pink.200"
-                    placeholder={
-                      Myuser ? Myuser.preferences.location : "enter location"
-                    }
+                    defaultValue={Myuser?.preferences.location}
                     {...register("location", { required })}
                   >
-                    <option value={""}>select location</option>
                     <option>north</option>
                     <option>center</option>
                     <option>south</option>
@@ -203,9 +191,8 @@ const Preferences = () => {
                 <br />
                 <FormField label="Gender" error={errors.gender?.message}>
                   <Select
-                    placeholder={
-                      Myuser ? Myuser.preferences.gender : "enter gender"
-                    }
+                    defaultValue={Myuser?.preferences.gender}
+                    placeholder="enter gender"
                     focusBorderColor="pink.200"
                     {...register("gender", { required })}
                   >

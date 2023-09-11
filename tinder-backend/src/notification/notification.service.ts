@@ -33,7 +33,6 @@ export class NotificationService {
   }
   async deleteNotification(idUser: string) {
     try {
-      console.log('wa');
       const notification = await this.NotificationModel.remove({
         user: idUser,
       });

@@ -20,6 +20,10 @@ import { AuthService } from './auth.service';
 import { JwtRefreshTokenGuard } from './strategy/RefreshToken.guard';
 import { storage } from 'src/utils/upload.service';
 
+/**
+ * @description here i create the authentiocation routes each route get the params 
+ */
+
 @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 @Controller('auth')
 export class AuthController {

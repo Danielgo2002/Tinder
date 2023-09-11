@@ -12,9 +12,6 @@ const Chat = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const {
     data: Myuser,
-    isLoading,
-    isError,
-    refetch,
   } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
   

@@ -46,7 +46,6 @@ const Coinversation: React.FC<{ user: User; show: () => void }> = ({
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [value, setValue] = useState("");
-  const [showText, setShowText] = useState(false);
 
   const messagesRef = useRef<HTMLDivElement>(null);
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);

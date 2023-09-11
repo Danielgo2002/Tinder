@@ -1,5 +1,4 @@
 import { Button } from "@chakra-ui/react";
-import react from "react";
 import { useNavigate } from "react-router-dom";
 
 const NavButtons = () => {

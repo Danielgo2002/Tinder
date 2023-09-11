@@ -1,13 +1,9 @@
-import { BellIcon, ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
-import { MdDelete } from "react-icons/md";
+import { BellIcon, DeleteIcon } from "@chakra-ui/icons";
 
 import {
   Badge,
   Box,
-  Button,
-  Flex,
   IconButton,
-  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -16,12 +12,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {
-  QueryClient,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useState } from "react";
 import {
   deleteNotifications,
   GetNotification,
@@ -29,13 +23,10 @@ import {
 } from "../api/notificationApi";
 
 const NotificationMenue: React.FC = () => {
-  const [note, setNote] = useState();
   const queryClient = useQueryClient();
   const {
     data: userNotifications,
     isLoading,
-    isError,
-    refetch,
   } = useQuery<Notification[]>(["Notifications"], GetNotification);
 
   const { mutateAsync: deleteNotification } = useMutation(deleteNotifications, {
@@ -44,7 +35,6 @@ const NotificationMenue: React.FC = () => {
       queryClient.setQueryData(["Notifications"], []);
     },
   });
-  console.log(userNotifications?.length);
 
   if (isLoading) {
     return <Spinner></Spinner>;

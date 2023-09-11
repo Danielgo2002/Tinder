@@ -6,8 +6,7 @@ import client from "./interseptors";
 
 export async function signUp(data: AuthData) {
   try {
-    const formData = new FormData();
-
+    
 
     const response = await client.post("/auth/signUp", data, {
       headers: {
@@ -18,7 +17,6 @@ export async function signUp(data: AuthData) {
       localStorage.setItem("accessToken", response.data.access_Token);
       localStorage.setItem("refreshToken", response.data.refresh_token);
     }
-    console.log(data);
     return response;
   } catch (error) {
     throw error;

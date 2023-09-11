@@ -51,10 +51,13 @@ export declare class UserController {
         status: string;
     }>;
     getChatUsers(req: any): Promise<{
-        data: {
+        data: ({
             lastMessageDate: number;
             user: import("../Schemas/userSchema").User;
-        }[];
+        } | {
+            user: import("../Schemas/userSchema").User;
+            lastMessageDate?: undefined;
+        })[];
         message: string;
         status: string;
     }>;

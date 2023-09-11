@@ -1,25 +1,21 @@
-import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import {  HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Flex,
   IconButton,
   Image,
-  Text,
   useBreakpointValue,
   useColorMode,
   useColorModeValue,
   Drawer,
   DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import { useLocation } from "react-router-dom";
 import NotificationMenue from "../componnents/notificationMenu";
 import LoginNav from "./LoginNav";
@@ -29,14 +25,11 @@ import NavButtons from "./NavButtons";
 const loginRoutes = ["/", "/signin", "/signup"];
 
 const Nav = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const [display, changeDisplay] = useState("none");
   const location = useLocation();
   const route = location.pathname;
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log(isMobile);
 
   return (
     <Flex

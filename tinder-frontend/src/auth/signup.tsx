@@ -7,21 +7,14 @@ import {
   Flex,
   Heading,
   Input,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
+ 
   Select,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
+ 
   Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { Controller, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { FormField } from "../FormField";
 import { useNavigate } from "react-router-dom";
@@ -79,45 +72,26 @@ function Signup() {
 
     const file = data.file[0];
 
-    const response = await signUpUser({ ...tempData, file });
+    // const response = await signUpUser({ ...tempData, file });
   };
 
-  const theme = extendTheme({
-    components: {
-      Steps: StepsStyleConfig,
-    },
-  });
+  // const theme = extendTheme({
+  //   components: {
+  //     Steps: StepsStyleConfig,
+  //   },
+  // });
 
   const Navigate = useNavigate();
 
-  const { activeStep, nextStep, prevStep } = useSteps({
-    initialStep: 0,
-  });
+  
 
   const required = {
     value: true,
     message: "this field is requierd",
   };
 
-  const [iimage, setImage] = useState();
 
-  function handleFile(event: any) {
-    console.log(event.target);
 
-    setImage(event.target.file);
-  }
-
-  function convertToBase64(e: any) {
-    console.log(e);
-    var render = new FileReader();
-    render.readAsDataURL(e.target.file);
-    render.onload = () => {
-      console.log(render.result);
-    };
-    render.onerror = (error) => {
-      console.log("error", error);
-    };
-  }
 
   useEffect(() => {
     setTimeout(() => {

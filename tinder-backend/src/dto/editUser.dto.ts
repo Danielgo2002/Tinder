@@ -21,6 +21,4 @@ export class editUserDto {
 
   @IsString()
   summery: string;
-
-  
 }

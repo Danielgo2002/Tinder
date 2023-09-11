@@ -1,6 +1,5 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import {
-  Alert,
   Avatar,
   Box,
   Center,
@@ -12,7 +11,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Popover,
   Stack,
   Text,
   useBreakpointValue,
@@ -39,9 +37,6 @@ const Tinder = () => {
 
   const {
     data: users,
-    isLoading,
-    isError,
-    refetch,
   } = useQuery<Users>(["users"], GetFilterUsers);
 
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
@@ -56,7 +51,6 @@ const Tinder = () => {
   const checkMatch = () => {
     if (myUserId) {
       const match = specificUser?.likes.includes(myUserId);
-      // const match = true;
       if (match) {
         onOpen();
       }
@@ -91,13 +85,7 @@ const Tinder = () => {
   });
   const { mutateAsync: Dislike } = useMutation(DislikeUser);
 
-  // if (isLoading) {
-  //   return (
-  //     <>
-  //       <Text> Loading</Text>
-  //     </>
-  //   );
-  // }
+
 
   return (
     <>
