@@ -35,9 +35,7 @@ const Tinder = () => {
   const [message, setMessage] = useState("false");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {
-    data: users,
-  } = useQuery<Users>(["users"], GetFilterUsers);
+  const { data: users } = useQuery<Users>(["users"], GetFilterUsers);
 
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
@@ -85,8 +83,6 @@ const Tinder = () => {
   });
   const { mutateAsync: Dislike } = useMutation(DislikeUser);
 
-
-
   return (
     <>
       <Center h="100%">
@@ -119,19 +115,21 @@ const Tinder = () => {
               <Heading>אין יותר משתמשים כרגע... נסה שנית מאוחר יותר</Heading>
             )}
           </Heading>
-          <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
-            Age: {specificUser?.age}
-          </Text>
+          <Box dir="rtl">
+            <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
+              גיל: {specificUser?.age}
+            </Text>
 
-          <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
-            Gender: {specificUser?.gender}
-          </Text>
-          <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
-            Location: {specificUser?.location}
-          </Text>
-          <Text textAlign={"center"} fontSize={"2xl"} px={3}>
-            {specificUser?.summery}
-          </Text>
+            <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
+              מין: {specificUser?.gender}
+            </Text>
+            <Text fontSize={"2xl"} fontWeight={600} color={"gray.500"} mb={4}>
+              איזור מגורים: {specificUser?.location}
+            </Text>
+            <Text textAlign={"center"} fontSize={"2xl"} px={3}>
+              {specificUser?.summery}
+            </Text>
+          </Box>
 
           <Stack
             mt={5}
@@ -165,7 +163,7 @@ const Tinder = () => {
               }
               fontSize="60px"
               onClick={async () => {
-              checkMatch();
+                checkMatch();
 
                 await Like({ reciverID: reciverId! });
                 setCurrentUser(currentUser + 1);
@@ -175,29 +173,31 @@ const Tinder = () => {
           </Stack>
         </Box>
       </Center>
-      <Modal isOpen={isOpen} onClose={onClose} size={modalSize}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader
-            fontFamily={"body"}
-            fontStyle={"italic"}
-            fontWeight={"extrabold"}
-            fontSize={"3xl"}
-            color={"pink.300"}
-          >
-            It's A Match !!!
-          </ModalHeader>
-          <ModalCloseButton color={"pink.300"} size={"xl"} />
-          <ModalBody
-            fontFamily={"body"}
-            fontStyle={"italic"}
-            fontWeight={"medium"}
-            fontSize={"xl"}
-          >
-            {message}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <Box dir="rtl">
+        <Modal isOpen={isOpen} onClose={onClose} size={modalSize}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader
+              fontFamily={"body"}
+              fontStyle={"italic"}
+              fontWeight={"extrabold"}
+              fontSize={"3xl"}
+              color={"pink.300"}
+            >
+              יש התאמה !!!
+            </ModalHeader>
+            <ModalCloseButton color={"pink.300"} size={"xl"} />
+            <ModalBody
+              fontFamily={"body"}
+              fontStyle={"italic"}
+              fontWeight={"medium"}
+              fontSize={"xl"}
+            >
+              {message}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Box>
     </>
   );
 };

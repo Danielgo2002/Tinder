@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { log } from 'console';
 import { Model } from 'mongoose';
 import { statusCode } from 'src/constants';
 import { blockUserDto } from 'src/dto/blockUser.dto';
@@ -155,7 +154,7 @@ export class UserService {
       if (match) {
         const notification = await this.NotificationModel.create({
           user: recivedUser,
-          content: `You got a new match with ${user.first_Name}`,
+          content: `יש לך התאמה חדשה עם ${user.first_Name}`,
           date: new Date().valueOf(),
         });
         const chat = await this.ChatModel.create({
@@ -178,7 +177,7 @@ export class UserService {
         status: statusCode.success,
         match,
         message: `${
-          match ? `You got a new match with ${recivedUser.first_Name}` : 'wa'
+          match ? `יש לך התאמה חדשה עם ${recivedUser.first_Name}` : 'wa'
         }`,
       };
     } catch (error: any) {
@@ -230,6 +229,7 @@ export class UserService {
   async getChatUsers(userId: string) {
     try {
       const myUser = await this.UserModel.findById(userId);
+
       const users = await this.UserModel.find({
         _id: { $ne: userId },
       }).populate('chats');
@@ -246,11 +246,11 @@ export class UserService {
 
         const user = chat.participants.find((user) => {
           const id = (user as any)._id.toString();
+          return id !== myUser._id.toString();
 
-          if (id !== myUser._id) {
-
-            return user;
-          }
+          // if (id !== myUser._id) {
+          //   return user;
+          // }
         });
         if (message) {
           return { lastMessageDate: message.date, user };
@@ -355,9 +355,6 @@ export class UserService {
     try {
       const myUser = await this.UserModel.findById(userId);
 
-      console.log(myUser.image);
-      console.log(file);
-
       myUser.first_Name = editUserDto.first_Name;
       myUser.last_Name = editUserDto.last_Name;
       myUser.age = editUserDto.age;
@@ -367,8 +364,9 @@ export class UserService {
 
       if (file) {
         myUser.image = file.filename;
+      } else {
+        myUser.image = myUser.image;
       }
-      myUser.image = file.filename;
 
       await myUser.save();
       return {

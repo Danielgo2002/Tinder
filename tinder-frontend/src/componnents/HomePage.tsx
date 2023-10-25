@@ -7,6 +7,7 @@ import {
   Center,
   Flex,
   Spinner,
+  Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import logo from "../assets/idoLogo.jpg";
@@ -30,8 +31,9 @@ const Home = () => {
   if (loading) {
     return (
       <Center height="90vh">
+        <Box>
         <Flex direction="column" align="center">
-          LOADING...
+          טוען...
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -40,6 +42,7 @@ const Home = () => {
             size="xl"
           />
         </Flex>
+        </Box>
       </Center>
     );
   }

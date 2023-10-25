@@ -11,7 +11,7 @@ const LoginNav = () => {
         variant="ghost"
         aria-label="signin"
       >
-        Sign In
+        כניסה
       </Button>
       <Button
         onClick={() => {
@@ -20,7 +20,7 @@ const LoginNav = () => {
         variant="ghost"
         aria-label="signup"
       >
-        Sign Up
+        הרשמה 
       </Button>
 
     </Flex>

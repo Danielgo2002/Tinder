@@ -29,6 +29,8 @@ export class AuthService {
 
   async signUp(signUpDto: signUpDto, file: Express.Multer.File) {
     try {
+      console.log('waaa');
+
       const exsistUser = await this.UserModel.findOne({
         gmail: signUpDto.gmail,
       });
@@ -115,6 +117,7 @@ export class AuthService {
     findUser.preferences = preferences;
 
     await findUser.save();
+
     return {
       data: preferences,
       status: statusCode.success,

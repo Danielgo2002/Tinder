@@ -64,8 +64,8 @@ const EditUser = () => {
   if (loading) {
     return (
       <Center height="90vh">
-        <Flex direction="column" align="center">
-          LOADING...
+        <Flex direction="column" align="center" dir="rtl">
+          טוען...
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -96,13 +96,15 @@ const EditUser = () => {
           spacing={{ base: 8 }}
           overflow="scroll"
         >
+          <Box dir="rtl">
           <form onSubmit={handleSubmit(submitData)}>
             <Heading
               color={"gray.800"}
               lineHeight={1.1}
               fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+              
             >
-              Edit User
+              עריכת פרופיל
               <Text
                 as={"span"}
                 bgGradient="linear(to-r, red.400,pink.400)"
@@ -114,7 +116,7 @@ const EditUser = () => {
             <Box mt={10}>
               <Stack spacing={4}>
                 <FormField
-                  label="First Name"
+                  label="שם"
                   error={errors?.first_Name?.message}
                 >
                   <Input
@@ -126,7 +128,7 @@ const EditUser = () => {
                   />
                 </FormField>
                 <br />
-                <FormField label="Last Name" error={errors?.last_Name?.message}>
+                <FormField label="שם משפחה" error={errors?.last_Name?.message}>
                   <Input
                     defaultValue={Myuser?.last_Name}
                     placeholder="enter last name"
@@ -137,7 +139,7 @@ const EditUser = () => {
                 </FormField>
                 <br />
 
-                <FormField label="Age" error={errors?.age?.message}>
+                <FormField label="גיל" error={errors?.age?.message}>
                   <Input
                     placeholder="enter age"
                     defaultValue={Myuser?.age}
@@ -146,28 +148,28 @@ const EditUser = () => {
                     {...register("age", { required })}
                   />
                 </FormField>
-                <FormField label="Location" error={errors?.location?.message}>
+                <FormField label="איזור מגורים" error={errors?.location?.message}>
                   <Select
                     focusBorderColor="pink.200"
                     defaultValue={Myuser?.location || ""}
                     {...register("location", { required })}
                   >
-                    <option>north</option>
-                    <option>center</option>
-                    <option>south</option>
+                    <option>צפון</option>
+                    <option>מרכז</option>
+                    <option>דרום</option>
                   </Select>
                 </FormField>
-                <FormField label="Gender" error={errors?.gender?.message}>
+                <FormField label="מין" error={errors?.gender?.message}>
                   <Select
                     defaultValue={Myuser?.gender}
                     focusBorderColor="pink.200"
                     {...register("gender", { required })}
                   >
-                    <option>male</option>
-                    <option>female</option>
+                    <option>זכר</option>
+                    <option>נקבה</option>
                   </Select>
                 </FormField>
-                <FormField label="Summery" error={errors?.summery?.message}>
+                <FormField label="ספר/י על עצמך" error={errors?.summery?.message}>
                   <Input
                     placeholder="Enter Summery"
                     defaultValue={Myuser?.summery}
@@ -179,7 +181,7 @@ const EditUser = () => {
                   />{" "}
                 </FormField>
 
-                <FormField label="file">
+                <FormField label="בחר תמונה">
                   <Input
                     focusBorderColor="pink.200"
                     type="file"
@@ -200,10 +202,11 @@ const EditUser = () => {
                   boxShadow: "xl",
                 }}
               >
-                Submit
+                שמור
               </Button>
             </Box>
           </form>
+          </Box>
         </Stack>
       </Container>
       <Blur

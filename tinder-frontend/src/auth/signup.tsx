@@ -7,15 +7,12 @@ import {
   Flex,
   Heading,
   Input,
- 
   Select,
- 
   Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {  useForm } from "react-hook-form";
-import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
+import { useForm } from "react-hook-form";
 import { FormField } from "../FormField";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -54,7 +51,6 @@ function Signup() {
     handleSubmit,
     formState: { errors },
     trigger,
-    control,
   } = useForm<FormAuthData>({});
   const [value, setValue] = React.useState(0);
   const [loading, setLoading] = useState(true);
@@ -72,26 +68,23 @@ function Signup() {
 
     const file = data.file[0];
 
-    // const response = await signUpUser({ ...tempData, file });
+    const response = await signUpUser({ ...tempData, file });
   };
 
-  // const theme = extendTheme({
-  //   components: {
-  //     Steps: StepsStyleConfig,
-  //   },
-  // });
-
+  const theme = extendTheme({
+    textStyles: {
+      biggerAndBolder: {
+        fontSize: '20px', // change this to your desired size
+        fontWeight: 'bold', // makes the text bolder
+      },
+    },
+  })
   const Navigate = useNavigate();
-
-  
 
   const required = {
     value: true,
     message: "this field is requierd",
   };
-
-
-
 
   useEffect(() => {
     setTimeout(() => {
@@ -103,7 +96,7 @@ function Signup() {
     return (
       <Center height="90vh">
         <Flex direction="column" align="center">
-          LOADING...
+          טוען
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -135,143 +128,154 @@ function Signup() {
           spacing={{ base: 8 }}
           overflow="scroll"
         >
-          <form onSubmit={handleSubmit(submitData)}>
-            <Heading
-              color={"gray.800"}
-              lineHeight={1.1}
-              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-            >
-              Sign Up
-              <Text
-                as={"span"}
-                bgGradient="linear(to-r, red.400,pink.400)"
-                bgClip="text"
-              >
-                !
-              </Text>
-            </Heading>
-            <Box mt={10}>
-              <Stack spacing={4}>
-                <FormField label="Gmail" error={errors?.gmail?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="email"
-                    {...register("gmail", { required })}
-                  />
-                  {errors.gmail && (
-                    <Text color="red">{errors.gmail.message}</Text>
-                  )}
-                </FormField>
-                <br />
-                <FormField label="Password" error={errors?.password?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="password"
-                    {...register("password", { required })}
-                  />
-                </FormField>
-                <br />
+          <div dir="rtl">
+            
+              <form onSubmit={handleSubmit(submitData)}>
+                <Heading
+                  color={"gray.800"}
+                  lineHeight={1.1}
+                  fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+                >
+                  הרשמה
+                  <Text
+                    as={"span"}
+                    bgGradient="linear(to-r, red.400,pink.400)"
+                    bgClip="text"
+                  >
+                    !
+                  </Text>
+                </Heading>
+                <Box mt={10}>
+                  <Stack spacing={4} >
+                    <FormField  label="אימיייל"  error={errors?.gmail?.message} >
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="email"
+                        {...register("gmail", { required })}
+                      />
+                      {errors.gmail && (
+                        <Text color="red">{errors.gmail.message}</Text>
+                      )}
+                    </FormField>
+                    <br />
+                    <FormField label="סיסמא" error={errors?.password?.message}>
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="password"
+                        {...register("password", { required })}
+                      />
+                    </FormField>
+                    <br />
 
-                <FormField
-                  label="Confirm Password"
-                  error={errors?.confirmPassword?.message}
-                >
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="password"
-                    {...register("confirmPassword", { required })}
-                  />
-                </FormField>
-                <FormField
-                  label="First Name"
-                  error={errors?.first_Name?.message}
-                >
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="text"
-                    {...register("first_Name", { required })}
-                  />
-                </FormField>
-                <FormField label="Last Name" error={errors?.last_Name?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="text"
-                    {...register("last_Name", { required })}
-                  />
-                </FormField>
-                <FormField label="Age" error={errors?.age?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="number"
-                    {...register("age", {
-                      valueAsNumber: true,
-                      required,
-                      min: {
-                        value: 18,
-                        message: "You must be at least 18 years old",
-                      },
-                      max: {
-                        value: 99,
-                        message: "You must be less than 99 years old",
-                      },
-                    })}
-                  />{" "}
-                </FormField>
-                <FormField label="Location" error={errors?.location?.message}>
-                  <Select
-                    focusBorderColor="pink.200"
-                    placeholder="Select area"
-                    {...register("location", { required })}
+                    <FormField
+                      label="אשר סיסמא"
+                      error={errors?.confirmPassword?.message}
+                    >
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="password"
+                        {...register("confirmPassword", { required })}
+                      />
+                    </FormField>
+                    <FormField label="שם" error={errors?.first_Name?.message}>
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="text"
+                        {...register("first_Name", { required })}
+                      />
+                    </FormField>
+                    <FormField
+                      label="שם משפחה"
+                      error={errors?.last_Name?.message}
+                    >
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="text"
+                        {...register("last_Name", { required })}
+                      />
+                    </FormField>
+                    <FormField label="גיל" error={errors?.age?.message}>
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="number"
+                        {...register("age", {
+                          valueAsNumber: true,
+                          required,
+                          min: {
+                            value: 18,
+                            message: "אופס , גילך חייב להיות 18 ומעלה",
+                          },
+                          max: {
+                            value: 99,
+                            message: "אופס , גילך חייב להיות מתחת ל 99",
+                          },
+                        })}
+                      />{" "}
+                    </FormField>
+                    <FormField
+                      label="איזור מגורים"
+                      error={errors?.location?.message}
+                    >
+                      <Select
+                        focusBorderColor="pink.200"
+                        placeholder="בחר איזור"
+                        {...register("location", { required })}
+                      >
+                        <option>צפון</option>
+                        <option>מרכז</option>
+                        <option>דרום</option>
+                      </Select>
+                    </FormField>
+                    <FormField label="מין" error={errors?.gender?.message}>
+                      <Select
+                        placeholder="בחר מין"
+                        focusBorderColor="pink.200"
+                        {...register("gender", { required })}
+                      >
+                        <option>זכר</option>
+                        <option>נקבה</option>
+                      </Select>
+                    </FormField>
+                    <FormField
+                      label="ספר/י על עצמך"
+                      error={errors?.summery?.message}
+                    >
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="text"
+                        {...register("summery", { required })}
+                      />
+                    </FormField>
+                    <FormField label="בחר תמונה">
+                      <Input
+                        focusBorderColor="pink.200"
+                        type="file"
+                        {...register("file")}
+                      />
+                    </FormField>
+                  </Stack>
+                  <br />
+                  
+                  <Button
+                    type="submit"
+                    fontFamily={"heading"}
+                    mt={8}
+                    w={"full"}
+                    bgGradient="linear(to-r, red.400,pink.400)"
+                    color={"white"}
+                    _hover={{
+                      bgGradient: "linear(to-r, red.400,pink.400)",
+                      boxShadow: "xl",
+                    }}
                   >
-                    <option>north</option>
-                    <option>center</option>
-                    <option>south</option>
-                  </Select>
-                </FormField>
-                <FormField label="Gender" error={errors?.gender?.message}>
-                  <Select
-                    placeholder="Select gender"
-                    focusBorderColor="pink.200"
-                    {...register("gender", { required })}
-                  >
-                    <option>male</option>
-                    <option>female</option>
-                  </Select>
-                </FormField>
-                <FormField label="Summery" error={errors?.summery?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="text"
-                    {...register("summery", { required })}
-                  />
-                </FormField>
-                <FormField label="file">
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="file"
-                    {...register("file")}
-                  />
-                </FormField>
-              </Stack>
-              <br />
-              <Button
-                type="submit"
-                fontFamily={"heading"}
-                mt={8}
-                w={"full"}
-                bgGradient="linear(to-r, red.400,pink.400)"
-                color={"white"}
-                _hover={{
-                  bgGradient: "linear(to-r, red.400,pink.400)",
-                  boxShadow: "xl",
-                }}
-              >
-                Submit
-              </Button>
-            </Box>
-          </form>
+                    סיימתי
+                  </Button>
+                </Box>
+              </form>
+          </div>
         </Stack>
       </Container>
+
       <Blur
         position={"fixed"}
         top={5}

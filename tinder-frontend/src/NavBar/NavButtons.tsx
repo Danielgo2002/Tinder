@@ -21,7 +21,7 @@ const NavButtons = () => {
         colorScheme={"pink"}
         w="100%"
       >
-        Let's Meet!
+        בוא נכיר
       </Button>
       <Button
         onClick={() => {
@@ -34,7 +34,7 @@ const NavButtons = () => {
 
         w="100%"
       >
-        My Page
+        דף הבית
       </Button>
       <Button
         onClick={() => {
@@ -47,7 +47,7 @@ const NavButtons = () => {
 
         w="100%"
       >
-        My Chats
+        הצ׳אטים שלי
       </Button>
       <Button
         onClick={logout}
@@ -58,7 +58,7 @@ const NavButtons = () => {
 
         w="100%"
       >
-        Log Out
+        התנתק
       </Button>
     </>
   );

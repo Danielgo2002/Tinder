@@ -6,13 +6,13 @@ export enum ageRange {
 }
 
 export enum location {
-  NORTH = 'north',
-  CENTER = 'center',
-  SOUTH = 'south',
+  NORTH = 'צפון',
+  CENTER = 'מרכז',
+  SOUTH = 'דרום',
 }
 
 export enum gender {
-  MALE = 'male',
-  FEMALE = 'female',
-  OTHER = 'other',
+  MALE = 'זכר',
+  FEMALE = 'נקבה',
+  OTHER = 'אחר',
 }

@@ -4,6 +4,7 @@ import { ResponseUsers, User, Users } from "../api/Tinder";
 import { useState } from "react";
 import {
   Avatar,
+  Box,
   Center,
   Divider,
   Flex,
@@ -32,7 +33,9 @@ const HomePageChat = () => {
       },
     }
   );
+  console.log(users);
 
+  console.log(currentUser);
 
   const queryClient = useQueryClient();
 
@@ -43,11 +46,13 @@ const HomePageChat = () => {
   if (isLoading || currentUser == undefined) {
     return (
       <Center height="90vh">
+        <Box dir="rtl">
         <Flex direction="column" align="center">
           <Text fontSize={"3xl"} fontWeight={""} mb={2}>
-            No Chats Avalible 🙂
+            אין צ׳אטים זמינים 🙂
           </Text>
         </Flex>
+        </Box>
       </Center>
     );
   }

@@ -11,12 +11,10 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { GetMyUser, MyUser } from "../api/Tinder";
 import { withProtectedRoute } from "../hocs/ProtectedRoute";
 
 const MePage = () => {
-
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
 
   const user = Myuser;
@@ -25,12 +23,11 @@ const MePage = () => {
   console.log(user?.image);
 
   const imageSize = useBreakpointValue({ base: "120px", md: "300px" });
-  const textsize = useBreakpointValue({ base: "20px", md: "25px" });
+  const textsize = useBreakpointValue({ base: "17px", md: "25px" });
   const headingSize = useBreakpointValue({ base: "md", md: "2xl" });
   const space = useBreakpointValue({ base: "5", md: "48" });
-  const Buttonspace = useBreakpointValue({ base: "10", md: "96" });
+  const Buttonspace = useBreakpointValue({ base: "10", md: "80" });
   const Buttonsize = useBreakpointValue({ base: "md", md: "lg" });
-
 
   return (
     <Center
@@ -66,48 +63,44 @@ const MePage = () => {
           />
         </Flex>
 
-        <Box p={8}>
+        <Box p={8} dir="rtl">
           <Stack direction={"row"} justify={"center"} spacing={space}>
             <Stack spacing={0} align={"center"}>
               <Heading size={headingSize} color={"blackAlpha.700"}>
-                About You:
+                הפרופיל שלי :
               </Heading>
               <br />
               <Text fontSize={textsize} color={"gray.500"}>
                 {" "}
-                Age : {user?.age}
+                גיל : {user?.age}
               </Text>
               <br />
               <Text fontSize={textsize} color={"gray.500"}>
-                Location : {user?.location}
+                איזור מגורים : {user?.location}
               </Text>
               <br />
               <Text fontSize={textsize} color={"gray.500"}>
-                gender : {user?.gender}
+                מין : {user?.gender}
               </Text>
             </Stack>
 
             <Stack spacing={0} align={"center"}>
               <Heading color={"blackAlpha.700"} size={headingSize}>
-                Your Prefrences:
+                העדפות שלי :
               </Heading>
               <br />
               <Text fontSize={textsize} color={"gray.500"}>
                 {" "}
-                MinAge : {userPref?.MinAge}
+                טווח גילאים : {userPref?.MinAge} - {userPref?.MaxAge}
+              </Text>
+              <br />
+
+              <Text fontSize={textsize} color={"gray.500"}>
+                איזור מגורים : {userPref?.location}
               </Text>
               <br />
               <Text fontSize={textsize} color={"gray.500"}>
-                {" "}
-                MaxAge : {userPref?.MaxAge}
-              </Text>
-              <br />
-              <Text fontSize={textsize} color={"gray.500"}>
-                Location : {userPref?.location}
-              </Text>
-              <br />
-              <Text fontSize={textsize} color={"gray.500"}>
-                gender : {userPref?.gender}
+                מין : {userPref?.gender}
               </Text>
               <br />
               <br />
@@ -129,8 +122,7 @@ const MePage = () => {
                   window.location.href = "/editUser";
                 }}
               >
-                Edit User!
-              </Button>
+                עריכת פרופיל                 </Button>
               <Button
                 bgGradient="linear(to-r, red.400,pink.400)"
                 color={"white"}
@@ -144,7 +136,7 @@ const MePage = () => {
                   window.location.href = "/Preferences";
                 }}
               >
-                Change prefrences
+                שנה/י העדפות
               </Button>
             </Stack>
           </Stack>

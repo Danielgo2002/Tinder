@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Container,
-  extendTheme,
   Flex,
   Heading,
   Icon,
@@ -14,7 +13,6 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,17 +53,8 @@ const SignIn = () => {
   const submitData = async (data: SignInData) => {
     const { ...tempData } = data;
 
-    // const response = await signInUser(tempData);
+    const response = await signInUser(tempData);
   };
-
-  // const theme = extendTheme({
-  //   components: {
-  //     Steps: StepsStyleConfig,
-  //   },
-  // });
-  // const { activeStep, nextStep, prevStep } = useSteps({
-  //   initialStep: 0,
-  // });
 
   const required = {
     value: true,
@@ -82,7 +71,7 @@ const SignIn = () => {
     return (
       <Center height="90vh">
         <Flex direction="column" align="center">
-          LOADING...
+          טוען
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -112,61 +101,65 @@ const SignIn = () => {
           w="100%"
           spacing={{ base: 8 }}
         >
-          <form onSubmit={handleSubmit(submitData)}>
-            <Stack spacing={4}>
-              <Heading
-                color={"gray.800"}
-                lineHeight={1.1}
-                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-              >
-                Sign In
-                <Text
-                  as={"span"}
-                  bgGradient="linear(to-r, red.400,pink.400)"
-                  bgClip="text"
-                >
-                  !
-                </Text>
-              </Heading>
-            </Stack>
-            <Box mt={10}>
+          <div dir="rtl">
+            <form onSubmit={handleSubmit(submitData)}>
               <Stack spacing={4}>
-                <FormField label="Gmail" error={errors?.gmail?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="email"
-                    {...register("gmail", { required })}
-                  />
-                  {errors.gmail && (
-                    <Text color="red">{errors.gmail.message}</Text>
-                  )}
-                </FormField>
-                <br />
-                <FormField label="Password" error={errors?.password?.message}>
-                  <Input
-                    focusBorderColor="pink.200"
-                    type="password"
-                    {...register("password", { required })}
-                  />
-                </FormField>
+                <Heading
+                  color={"gray.800"}
+                  lineHeight={1.1}
+                  fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+                >
+                  כניסה
+                  <Text
+                    as={"span"}
+                    bgGradient="linear(to-r, red.400,pink.400)"
+                    bgClip="text"
+                  >
+                    !
+                  </Text>
+                </Heading>
               </Stack>
-              <br />
-              <Button
-                type="submit"
-                fontFamily={"heading"}
-                mt={8}
-                w={"full"}
-                bgGradient="linear(to-r, red.400,pink.400)"
-                color={"white"}
-                _hover={{
-                  bgGradient: "linear(to-r, red.400,pink.400)",
-                  boxShadow: "xl",
-                }}
-              >
-                Submit
-              </Button>
-            </Box>
-          </form>
+              <Box mt={10}>
+                <Stack spacing={4}>
+                  <FormField label="אימייל" error={errors?.gmail?.message}>
+                    <Input
+                      focusBorderColor="pink.200"
+                      type="email"
+                      placeholder="הכנס כתובת אימייל"
+                      {...register("gmail", { required })}
+                    />
+                    {errors.gmail && (
+                      <Text color="red">{errors.gmail.message}</Text>
+                    )}
+                  </FormField>
+                  <br />
+                  <FormField label="סיסמא" error={errors?.password?.message}>
+                    <Input
+                      focusBorderColor="pink.200"
+                      type="password"
+                      placeholder="הכנס סיסמא"
+                      {...register("password", { required })}
+                    />
+                  </FormField>
+                </Stack>
+                <br />
+                <Button
+                  type="submit"
+                  fontFamily={"heading"}
+                  mt={8}
+                  w={"full"}
+                  bgGradient="linear(to-r, red.400,pink.400)"
+                  color={"white"}
+                  _hover={{
+                    bgGradient: "linear(to-r, red.400,pink.400)",
+                    boxShadow: "xl",
+                  }}
+                >
+                  כניסה לחשבון 
+                </Button>
+              </Box>
+            </form>
+          </div>
         </Stack>
       </Container>
       <Blur

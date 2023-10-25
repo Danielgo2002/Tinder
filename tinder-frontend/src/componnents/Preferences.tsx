@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Container,
-  extendTheme,
   Flex,
   Heading,
   Input,
@@ -14,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { StepsStyleConfig, useSteps } from "chakra-ui-steps";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -46,18 +44,10 @@ const Preferences = () => {
     register,
     handleSubmit,
     formState: { errors },
-    
   } = useForm<FormPrefrencesData>({
     resolver: zodResolver(PrefrencesSchema),
   });
   const { data: Myuser } = useQuery<MyUser>(["Myuser"], GetMyUser);
-
-
-  // const theme = extendTheme({
-  //   components: {
-  //     Steps: StepsStyleConfig,
-  //   },
-  // });
 
   const required = {
     value: true,
@@ -84,16 +74,18 @@ const Preferences = () => {
   if (loading) {
     return (
       <Center height="90vh">
-        <Flex direction="column" align="center">
-          LOADING...
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="pink.200"
-            size="xl"
-          />
-        </Flex>
+        <Box>
+          <Flex direction="column" align="center">
+            טוען...
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="pink.200"
+              size="xl"
+            />
+          </Flex>
+        </Box>
       </Center>
     );
   }
@@ -117,108 +109,118 @@ const Preferences = () => {
           w="100%"
           spacing={{ base: 8 }}
         >
-          <form onSubmit={handleSubmit(submitData)}>
-            <Stack spacing={4}>
-              <Heading
-                color={"gray.800"}
-                lineHeight={1.1}
-                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-              >
-                Add Preferences
-                <Text
-                  as={"span"}
-                  bgGradient="linear(to-r, red.400,pink.400)"
-                  bgClip="text"
-                >
-                  !
-                </Text>
-              </Heading>
-            </Stack>
-            <Box mt={10}>
+          <Box dir="rtl">
+            <form onSubmit={handleSubmit(submitData)}>
               <Stack spacing={4}>
-                <FormField label="MinAge" error={errors?.MinAge?.message}>
-                  <Input
-                    defaultValue={Myuser?.preferences.MinAge}
-                    placeholder="enter number"
-                    focusBorderColor="pink.200"
-                    type="number"
-                    {...register("MinAge", {
-                      valueAsNumber: true,
-                      required,
-                      min: {
-                        value: 18,
-                        message: "Age must be more then 18",
-                      },
-                      max: {
-                        value: 99,
-                        message: "Age must be less then 18",
-                      },
-                    })}
-                  />
-                </FormField>
-                <FormField label="MaxAge" error={errors?.MaxAge?.message}>
-                  <Input
-                    defaultValue={Myuser?.preferences.MaxAge}
-                    placeholder="enter number"
-                    focusBorderColor="pink.200"
-                    type="number"
-                    {...register("MaxAge", {
-                      valueAsNumber: true,
-                      required,
-                      min: {
-                        value: 18,
-                        message: "Age must be more then 18",
-                      },
-                      max: {
-                        value: 99,
-                        message: "Age must be less then 18",
-                      },
-                    })}
-                  />
-                </FormField>
-                <br />
-                <FormField label="Location" error={errors?.location?.message}>
-                  <Select
-                    focusBorderColor="pink.200"
-                    defaultValue={Myuser?.preferences.location}
-                    {...register("location", { required })}
+                <Heading
+                  color={"gray.800"}
+                  lineHeight={1.1}
+                  fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+                >
+                  הכנס העדפות
+                  <Text
+                    as={"span"}
+                    bgGradient="linear(to-r, red.400,pink.400)"
+                    bgClip="text"
                   >
-                    <option>north</option>
-                    <option>center</option>
-                    <option>south</option>
-                  </Select>
-                </FormField>
-                <br />
-                <FormField label="Gender" error={errors.gender?.message}>
-                  <Select
-                    defaultValue={Myuser?.preferences.gender}
-                    placeholder="enter gender"
-                    focusBorderColor="pink.200"
-                    {...register("gender", { required })}
-                  >
-                    <option value={""}>select gender</option>
-                    <option>male</option>
-                    <option>female</option>
-                  </Select>
-                </FormField>
+                    !
+                  </Text>
+                </Heading>
               </Stack>
-              <br />
-              <Button
-                type="submit"
-                fontFamily={"heading"}
-                mt={8}
-                w={"full"}
-                bgGradient="linear(to-r, red.400,pink.400)"
-                color={"white"}
-                _hover={{
-                  bgGradient: "linear(to-r, red.400,pink.400)",
-                  boxShadow: "xl",
-                }}
-              >
-                Submit
-              </Button>
-            </Box>
-          </form>
+              <Box mt={10}>
+                <Stack spacing={4}>
+                  <FormField
+                    label="גיל מינימלי"
+                    error={errors?.MinAge?.message}
+                  >
+                    <Input
+                      defaultValue={Myuser?.preferences.MinAge}
+                      placeholder="הכנס מספר"
+                      focusBorderColor="pink.200"
+                      type="number"
+                      {...register("MinAge", {
+                        valueAsNumber: true,
+                        required,
+                        min: {
+                          value: 18,
+                          message: "גילך חייב להיות מעל 18",
+                        },
+                        max: {
+                          value: 99,
+                          message: "גילך חייב להיות מתחת ל 99",
+                        },
+                      })}
+                    />
+                  </FormField>
+                  <FormField
+                    label="גיל מקסימלי"
+                    error={errors?.MaxAge?.message}
+                  >
+                    <Input
+                      defaultValue={Myuser?.preferences.MaxAge}
+                      placeholder="הכנס מספר"
+                      focusBorderColor="pink.200"
+                      type="number"
+                      {...register("MaxAge", {
+                        valueAsNumber: true,
+                        required,
+                        min: {
+                          value: 18,
+                          message: "גילך חייב להיות מעל 18",
+                        },
+                        max: {
+                          value: 99,
+                          message: "גילך חייב להיות מתחת ל 99",
+                        },
+                      })}
+                    />
+                  </FormField>
+                  <br />
+                  <FormField
+                    label="איזור מגורים"
+                    error={errors?.location?.message}
+                  >
+                    <Select
+                      focusBorderColor="pink.200"
+                      defaultValue={Myuser?.preferences.location}
+                      {...register("location", { required })}
+                    >
+                      <option>צפון</option>
+                      <option>מרכז</option>
+                      <option>דרום</option>
+                    </Select>
+                  </FormField>
+                  <br />
+                  <FormField label="מין" error={errors.gender?.message}>
+                    <Select
+                      defaultValue={Myuser?.preferences.gender}
+                      placeholder="בחר מין"
+                      focusBorderColor="pink.200"
+                      {...register("gender", { required })}
+                    >
+                      <option>זכר</option>
+                      <option>נקבה</option>
+                    </Select>
+                  </FormField>
+                </Stack>
+                <br />
+                <Button
+                  type="submit"
+                  fontFamily={"heading"}
+                  mt={8}
+                  w={"full"}
+                  bgGradient="linear(to-r, red.400,pink.400)"
+                  color={"white"}
+                  _hover={{
+                    bgGradient: "linear(to-r, red.400,pink.400)",
+                    boxShadow: "xl",
+                  }}
+                >
+                  שמור
+                </Button>
+              </Box>
+            </form>
+          </Box>
         </Stack>
       </Container>
       <Blur
